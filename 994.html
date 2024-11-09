@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>Linux 系统日常巡检脚本 &middot; Blowfish</title>
+  <meta name="title" content="Linux 系统日常巡检脚本 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/994.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/994.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="Linux 系统日常巡检脚本">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-16T03:57:45+08:00">
+    <meta property="article:modified_time" content="2020-03-16T03:57:45+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux 系统日常巡检脚本">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "Linux 系统日常巡检脚本",
+    "headline": "Linux 系统日常巡检脚本",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/994.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-03-16T03:57:45\u002b08:00",
+    "datePublished": "2020-03-16T03:57:45\u002b08:00",
+    
+    "dateModified": "2020-03-16T03:57:45\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "2257"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      Linux 系统日常巡检脚本
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-03-16T03:57:45&#43;08:00">16 March 2020</time><span class="px-2 text-primary-500">&middot;</span><span>2257 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">11 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>Linux 系统日常巡检脚本，巡检内容包含了，磁盘，内存 cpu 进程 文件更改 用户登录等一系列的操作 直接用就行了</p>
+<p>报告以邮件发送到邮箱 在log下生成巡检报告。</p>
+<pre class="brush:bash;toolbar:false">#!/bin/bash
+# @Author: HanWei
+# @Date:   2020-03-16 09:56:57
+# @Last Modified by:   HanWei
+# @Last Modified time: 2020-03-16 11:06:31
+# @E-mail: han_wei_95@163.com
+#!/bin/bash
+#主机信息每日巡检
+ 
+IPADDR=$(ifconfig eth0|grep 'inet addr'|awk -F '[ :]' '{print $13}')
+#环境变量PATH没设好，在cron里执行时有很多命令会找不到
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+source /etc/profile
+ 
+[ $(id -u) -gt 0 ] && echo "请用root用户执行此脚本！" && exit 1
+centosVersion=$(awk '{print $(NF-1)}' /etc/redhat-release)
+VERSION="2020-03-16"
+ 
+#日志相关
+PROGPATH=`echo $0 | sed -e 's,[\\/][^\\/][^\\/]*$,,'`
+[ -f $PROGPATH ] && PROGPATH="."
+LOGPATH="$PROGPATH/log"
+[ -e $LOGPATH ] || mkdir $LOGPATH
+RESULTFILE="$LOGPATH/HostDailyCheck-$IPADDR-`date +%Y%m%d`.txt"
+ 
+ 
+#定义报表的全局变量
+report_DateTime="" #日期 ok
+report_Hostname="" #主机名 ok
+report_OSRelease="" #发行版本 ok
+report_Kernel="" #内核 ok
+report_Language="" #语言/编码 ok
+report_LastReboot="" #最近启动时间 ok
+report_Uptime="" #运行时间（天） ok
+report_CPUs="" #CPU数量 ok
+report_CPUType="" #CPU类型 ok
+report_Arch="" #CPU架构 ok
+report_MemTotal="" #内存总容量(MB) ok
+report_MemFree="" #内存剩余(MB) ok
+report_MemUsedPercent="" #内存使用率% ok
+report_DiskTotal="" #硬盘总容量(GB) ok
+report_DiskFree="" #硬盘剩余(GB) ok
+report_DiskUsedPercent="" #硬盘使用率% ok
+report_InodeTotal="" #Inode总量 ok
+report_InodeFree="" #Inode剩余 ok
+report_InodeUsedPercent="" #Inode使用率 ok
+report_IP="" #IP地址 ok
+report_MAC="" #MAC地址 ok
+report_Gateway="" #默认网关 ok
+report_DNS="" #DNS ok
+report_Listen="" #监听 ok
+report_Selinux="" #Selinux ok
+report_Firewall="" #防火墙 ok
+report_USERs="" #用户 ok
+report_USEREmptyPassword="" #空密码用户 ok
+report_USERTheSameUID="" #相同ID的用户 ok 
+report_PasswordExpiry="" #密码过期（天） ok
+report_RootUser="" #root用户 ok
+report_Sudoers="" #sudo授权 ok
+report_SSHAuthorized="" #SSH信任主机 ok
+report_SSHDProtocolVersion="" #SSH协议版本 ok
+report_SSHDPermitRootLogin="" #允许root远程登录 ok
+report_DefunctProsess="" #僵尸进程数量 ok
+report_SelfInitiatedService="" #自启动服务数量 ok
+report_SelfInitiatedProgram="" #自启动程序数量 ok
+report_RuningService="" #运行中服务数 ok
+report_Crontab="" #计划任务数 ok
+report_Syslog="" #日志服务 ok
+report_SNMP="" #SNMP OK
+report_NTP="" #NTP ok
+report_JDK="" #JDK版本 ok
+function version(){
+echo ""
+echo ""
+echo "系统巡检脚本：Version $VERSION"
+}
+ 
+function getCpuStatus(){
+echo ""
+echo ""
+echo "############################ CPU检查 #############################"
+Physical_CPUs=$(grep "physical id" /proc/cpuinfo| sort | uniq | wc -l)
+Virt_CPUs=$(grep "processor" /proc/cpuinfo | wc -l)
+CPU_Kernels=$(grep "cores" /proc/cpuinfo|uniq| awk -F ': ' '{print $2}')
+CPU_Type=$(grep "model name" /proc/cpuinfo | awk -F ': ' '{print $2}' | sort | uniq)
+CPU_Arch=$(uname -m)
+echo "物理CPU个数:$Physical_CPUs"
+echo "逻辑CPU个数:$Virt_CPUs"
+echo "每CPU核心数:$CPU_Kernels"
+echo " CPU型号:$CPU_Type"
+echo " CPU架构:$CPU_Arch"
+#报表信息
+report_CPUs=$Virt_CPUs #CPU数量
+report_CPUType=$CPU_Type #CPU类型
+report_Arch=$CPU_Arch #CPU架构
+}
+ 
+function getMemStatus(){
+echo ""
+echo ""
+echo "############################ 内存检查 ############################"
+if [[ $centosVersion &lt; 7 ]];then
+free -mo
+else
+free -h
+fi
+#报表信息
+MemTotal=$(grep MemTotal /proc/meminfo| awk '{print $2}') #KB
+MemFree=$(grep MemFree /proc/meminfo| awk '{print $2}') #KB
+let MemUsed=MemTotal-MemFree
+MemPercent=$(awk "BEGIN {if($MemTotal==0){printf 100}else{printf \"%.2f\",$MemUsed*100/$MemTotal}}")
+report_MemTotal="$((MemTotal/1024))""MB" #内存总容量(MB)
+report_MemFree="$((MemFree/1024))""MB" #内存剩余(MB)
+report_MemUsedPercent="$(awk "BEGIN {if($MemTotal==0){printf 100}else{printf \"%.2f\",$MemUsed*100/$MemTotal}}")""%" #内存使用率%
+}
+function getDiskStatus(){
+echo ""
+echo ""
+echo "############################ 磁盘检查 ############################"
+df -hiP | sed 's/Mounted on/Mounted/'&gt; /tmp/inode
+df -hTP | sed 's/Mounted on/Mounted/'&gt; /tmp/disk 
+join /tmp/disk /tmp/inode | awk '{print $1,$2,"|",$3,$4,$5,$6,"|",$8,$9,$10,$11,"|",$12}'| column -t
+#报表信息
+diskdata=$(df -TP | sed '1d' | awk '$2!="tmpfs"{print}') #KB
+disktotal=$(echo "$diskdata" | awk '{total+=$3}END{print total}') #KB
+diskused=$(echo "$diskdata" | awk '{total+=$4}END{print total}') #KB
+diskfree=$((disktotal-diskused)) #KB
+diskusedpercent=$(echo $disktotal $diskused | awk '{if($1==0){printf 100}else{printf "%.2f",$2*100/$1}}') 
+inodedata=$(df -iTP | sed '1d' | awk '$2!="tmpfs"{print}')
+inodetotal=$(echo "$inodedata" | awk '{total+=$3}END{print total}')
+inodeused=$(echo "$inodedata" | awk '{total+=$4}END{print total}')
+inodefree=$((inodetotal-inodeused))
+inodeusedpercent=$(echo $inodetotal $inodeused | awk '{if($1==0){printf 100}else{printf "%.2f",$2*100/$1}}')
+report_DiskTotal=$((disktotal/1024/1024))"GB" #硬盘总容量(GB)
+report_DiskFree=$((diskfree/1024/1024))"GB" #硬盘剩余(GB)
+report_DiskUsedPercent="$diskusedpercent""%" #硬盘使用率%
+report_InodeTotal=$((inodetotal/1000))"K" #Inode总量
+report_InodeFree=$((inodefree/1000))"K" #Inode剩余
+report_InodeUsedPercent="$inodeusedpercent""%" #Inode使用率%
+ 
+}
+ 
+function getSystemStatus(){
+echo ""
+echo ""
+echo "############################ 系统检查 ############################"
+if [ -e /etc/sysconfig/i18n ];then
+default_LANG="$(grep "LANG=" /etc/sysconfig/i18n | grep -v "^#" | awk -F '"' '{print $2}')"
+else
+default_LANG=$LANG
+fi
+export LANG="en_US.UTF-8"
+Release=$(cat /etc/redhat-release 2&gt;/dev/null)
+Kernel=$(uname -r)
+OS=$(uname -o)
+Hostname=$(uname -n)
+SELinux=$(/usr/sbin/sestatus | grep "SELinux status: " | awk '{print $3}')
+LastReboot=$(who -b | awk '{print $3,$4}')
+uptime=$(uptime | sed 's/.*up \([^,]*\), .*/\1/')
+echo " 系统：$OS"
+echo " 发行版本：$Release"
+echo " 内核：$Kernel"
+echo " 主机名：$Hostname"
+echo " SELinux：$SELinux"
+echo "语言/编码：$default_LANG"
+echo " 当前时间：$(date +'%F %T')"
+echo " 最后启动：$LastReboot"
+echo " 运行时间：$uptime"
+#报表信息
+report_DateTime=$(date +"%F %T") #日期
+report_Hostname="$Hostname" #主机名
+report_OSRelease="$Release" #发行版本
+report_Kernel="$Kernel" #内核
+report_Language="$default_LANG" #语言/编码
+report_LastReboot="$LastReboot" #最近启动时间
+report_Uptime="$uptime" #运行时间（天）
+report_Selinux="$SELinux"
+export LANG="$default_LANG"
+ 
+}
+ 
+function getServiceStatus(){
+echo ""
+echo ""
+echo "############################ 服务检查 ############################"
+echo ""
+if [[ $centosVersion &gt; 7 ]];then
+conf=$(systemctl list-unit-files --type=service --state=enabled --no-pager | grep "enabled")
+process=$(systemctl list-units --type=service --state=running --no-pager | grep ".service")
+#报表信息
+report_SelfInitiatedService="$(echo "$conf" | wc -l)" #自启动服务数量
+report_RuningService="$(echo "$process" | wc -l)" #运行中服务数量
+else
+conf=$(/sbin/chkconfig | grep -E ":on|:启用")
+process=$(/sbin/service --status-all 2&gt;/dev/null | grep -E "is running|正在运行")
+#报表信息
+report_SelfInitiatedService="$(echo "$conf" | wc -l)" #自启动服务数量
+report_RuningService="$(echo "$process" | wc -l)" #运行中服务数量
+fi
+echo "服务配置"
+echo "--------"
+echo "$conf" | column -t
+echo ""
+echo "正在运行的服务"
+echo "--------------"
+echo "$process"
+ 
+}
+ 
+ 
+function getAutoStartStatus(){
+echo ""
+echo ""
+echo "############################ 自启动检查 ##########################"
+conf=$(grep -v "^#" /etc/rc.d/rc.local| sed '/^$/d')
+echo "$conf"
+#报表信息
+report_SelfInitiatedProgram="$(echo $conf | wc -l)" #自启动程序数量
+}
+ 
+function getLoginStatus(){
+echo ""
+echo ""
+echo "############################ 登录检查 ############################"
+last | head
+}
+ 
+function getNetworkStatus(){
+echo ""
+echo ""
+echo "############################ 网络检查 ############################"
+if [[ $centosVersion &lt; 7 ]];then
+/sbin/ifconfig -a | grep -v packets | grep -v collisions | grep -v inet6
+else
+#ip a
+for i in $(ip link | grep BROADCAST | awk -F: '{print $2}');do ip add show $i | grep -E "BROADCAST|global"| awk '{print $2}' | tr '\n' ' ' ;echo "" ;done
+fi
+GATEWAY=$(ip route | grep default | awk '{print $3}')
+DNS=$(grep nameserver /etc/resolv.conf| grep -v "#" | awk '{print $2}' | tr '\n' ',' | sed 's/,$//')
+echo ""
+echo "网关：$GATEWAY "
+echo " DNS：$DNS"
+#报表信息
+IP=$(ip -f inet addr | grep -v 127.0.0.1 | grep inet | awk '{print $NF,$2}' | tr '\n' ',' | sed 's/,$//')
+MAC=$(ip link | grep -v "LOOPBACK\|loopback" | awk '{print $2}' | sed 'N;s/\n//' | tr '\n' ',' | sed 's/,$//')
+report_IP="$IP" #IP地址
+report_MAC=$MAC #MAC地址
+report_Gateway="$GATEWAY" #默认网关
+report_DNS="$DNS" #DNS
+}
+ 
+function getListenStatus(){
+echo ""
+echo ""
+echo "############################ 监听检查 ############################"
+TCPListen=$(ss -ntul | column -t)
+echo "$TCPListen"
+#报表信息
+report_Listen="$(echo "$TCPListen"| sed '1d' | awk '/tcp/ {print $5}' | awk -F: '{print $NF}' | sort | uniq | wc -l)"
+}
+ 
+function getCronStatus(){
+echo ""
+echo ""
+echo "############################ 计划任务检查 ########################"
+Crontab=0
+for shell in $(grep -v "/sbin/nologin" /etc/shells);do
+for user in $(grep "$shell" /etc/passwd| awk -F: '{print $1}');do
+crontab -l -u $user &gt;/dev/null 2&gt;&1
+status=$?
+if [ $status -eq 0 ];then
+echo "$user"
+echo "--------"
+crontab -l -u $user
+let Crontab=Crontab+$(crontab -l -u $user | wc -l)
+echo ""
+fi
+done
+done
+#计划任务
+find /etc/cron* -type f | xargs -i ls -l {} | column -t
+let Crontab=Crontab+$(find /etc/cron* -type f | wc -l)
+#报表信息
+report_Crontab="$Crontab" #计划任务数
+}
+function getHowLongAgo(){
+# 计算一个时间戳离现在有多久了
+datetime="$*"
+[ -z "$datetime" ] && echo "错误的参数：getHowLongAgo() $*"
+Timestamp=$(date +%s -d "$datetime") #转化为时间戳
+Now_Timestamp=$(date +%s)
+Difference_Timestamp=$(($Now_Timestamp-$Timestamp))
+days=0;hours=0;minutes=0;
+sec_in_day=$((60*60*24));
+sec_in_hour=$((60*60));
+sec_in_minute=60
+while (( $(($Difference_Timestamp-$sec_in_day)) &gt; 1 ))
+do
+let Difference_Timestamp=Difference_Timestamp-sec_in_day
+let days++
+done
+while (( $(($Difference_Timestamp-$sec_in_hour)) &gt; 1 ))
+do
+let Difference_Timestamp=Difference_Timestamp-sec_in_hour
+let hours++
+done
+echo "$days 天 $hours 小时前"
+}
+ 
+function getUserLastLogin(){
+# 获取用户最近一次登录的时间，含年份
+# 很遗憾last命令不支持显示年份，只有"last -t YYYYMMDDHHMMSS"表示某个时间之间的登录，我
+# 们只能用最笨的方法了，对比今天之前和今年元旦之前（或者去年之前和前年之前……）某个用户
+# 登录次数，如果登录统计次数有变化，则说明最近一次登录是今年。
+username=$1
+: ${username:="`whoami`"}
+thisYear=$(date +%Y)
+oldesYear=$(last | tail -n1 | awk '{print $NF}')
+while(( $thisYear &gt;= $oldesYear));do
+loginBeforeToday=$(last $username | grep $username | wc -l)
+loginBeforeNewYearsDayOfThisYear=$(last $username -t $thisYear"0101000000" | grep $username | wc -l)
+if [ $loginBeforeToday -eq 0 ];then
+echo "从未登录过"
+break
+elif [ $loginBeforeToday -gt $loginBeforeNewYearsDayOfThisYear ];then
+lastDateTime=$(last -i $username | head -n1 | awk '{for(i=4;i&lt;(NF-2);i++)printf"%s ",$i}')" $thisYear" #格式如: Sat Nov 2 20:33 2015
+lastDateTime=$(date "+%Y-%m-%d %H:%M:%S" -d "$lastDateTime")
+echo "$lastDateTime"
+break
+else
+thisYear=$((thisYear-1))
+fi
+done
+ 
+}
+ 
+function getUserStatus(){
+echo ""
+echo ""
+echo "############################ 用户检查 ############################"
+#/etc/passwd 最后修改时间
+pwdfile="$(cat /etc/passwd)"
+Modify=$(stat /etc/passwd | grep Modify | tr '.' ' ' | awk '{print $2,$3}')
+ 
+echo "/etc/passwd 最后修改时间：$Modify ($(getHowLongAgo $Modify))"
+echo ""
+echo "特权用户"
+echo "--------"
+RootUser=""
+for user in $(echo "$pwdfile" | awk -F: '{print $1}');do
+if [ $(id -u $user) -eq 0 ];then
+echo "$user"
+RootUser="$RootUser,$user"
+fi
+done
+echo ""
+echo "用户列表"
+echo "--------"
+USERs=0
+echo "$(
+echo "用户名 UID GID HOME SHELL 最后一次登录"
+for shell in $(grep -v "/sbin/nologin" /etc/shells);do
+for username in $(grep "$shell" /etc/passwd| awk -F: '{print $1}');do
+userLastLogin="$(getUserLastLogin $username)"
+echo "$pwdfile" | grep -w "$username" |grep -w "$shell"| awk -F: -v lastlogin="$(echo "$userLastLogin" | tr ' ' '_')" '{print $1,$3,$4,$6,$7,lastlogin}'
+done
+let USERs=USERs+$(echo "$pwdfile" | grep "$shell"| wc -l)
+done
+)" | column -t
+echo ""
+echo "空密码用户"
+echo "----------"
+USEREmptyPassword=""
+for shell in $(grep -v "/sbin/nologin" /etc/shells);do
+for user in $(echo "$pwdfile" | grep "$shell" | cut -d: -f1);do
+r=$(awk -F: '$2=="!!"{print $1}' /etc/shadow | grep -w $user)
+if [ ! -z $r ];then
+echo $r
+USEREmptyPassword="$USEREmptyPassword,"$r
+fi
+done 
+done
+echo ""
+echo "相同ID的用户"
+echo "------------"
+USERTheSameUID=""
+UIDs=$(cut -d: -f3 /etc/passwd | sort | uniq -c | awk '$1&gt;1{print $2}')
+for uid in $UIDs;do
+echo -n "$uid";
+USERTheSameUID="$uid"
+r=$(awk -F: 'ORS="";$3=='"$uid"'{print ":",$1}' /etc/passwd)
+echo "$r"
+echo ""
+USERTheSameUID="$USERTheSameUID $r,"
+done
+#报表信息
+report_USERs="$USERs" #用户
+report_USEREmptyPassword=$(echo $USEREmptyPassword | sed 's/^,//') 
+report_USERTheSameUID=$(echo $USERTheSameUID | sed 's/,$//') 
+report_RootUser=$(echo $RootUser | sed 's/^,//') #特权用户
+}
+ 
+ 
+function getPasswordStatus {
+echo ""
+echo ""
+echo "############################ 密码检查 ############################"
+pwdfile="$(cat /etc/passwd)"
+echo ""
+echo "密码过期检查"
+echo "------------"
+result=""
+for shell in $(grep -v "/sbin/nologin" /etc/shells);do
+for user in $(echo "$pwdfile" | grep "$shell" | cut -d: -f1);do
+get_expiry_date=$(/usr/bin/chage -l $user | grep 'Password expires' | cut -d: -f2)
+if [[ $get_expiry_date = ' never' || $get_expiry_date = 'never' ]];then
+printf "%-15s 永不过期\n" $user
+result="$result,$user:never"
+else
+password_expiry_date=$(date -d "$get_expiry_date" "+%s")
+current_date=$(date "+%s")
+diff=$(($password_expiry_date-$current_date))
+let DAYS=$(($diff/(60*60*24)))
+printf "%-15s %s天后过期\n" $user $DAYS
+result="$result,$user:$DAYS days"
+fi
+done
+done
+report_PasswordExpiry=$(echo $result | sed 's/^,//')
+ 
+echo ""
+echo "密码策略检查"
+echo "------------"
+grep -v "#" /etc/login.defs | grep -E "PASS_MAX_DAYS|PASS_MIN_DAYS|PASS_MIN_LEN|PASS_WARN_AGE"
+ 
+ 
+}
+ 
+function getSudoersStatus(){
+echo ""
+echo ""
+echo "############################ Sudoers检查 #########################"
+conf=$(grep -v "^#" /etc/sudoers| grep -v "^Defaults" | sed '/^$/d')
+echo "$conf"
+echo ""
+#报表信息
+report_Sudoers="$(echo $conf | wc -l)"
+}
+ 
+function getInstalledStatus(){
+echo ""
+echo ""
+echo "############################ 软件检查 ############################"
+rpm -qa --last | head | column -t 
+}
+ 
+function getProcessStatus(){
+echo ""
+echo ""
+echo "############################ 进程检查 ############################"
+if [ $(ps -ef | grep defunct | grep -v grep | wc -l) -ge 1 ];then
+echo ""
+echo "僵尸进程";
+echo "--------"
+ps -ef | head -n1
+ps -ef | grep defunct | grep -v grep
+fi
+echo ""
+echo "内存占用TOP10"
+echo "-------------"
+echo -e "PID %MEM RSS COMMAND
+$(ps aux | awk '{print $2, $4, $6, $11}' | sort -k3rn | head -n 10 )"| column -t 
+echo ""
+echo "CPU占用TOP10"
+echo "------------"
+top b -n1 | head -17 | tail -11
+#报表信息
+report_DefunctProsess="$(ps -ef | grep defunct | grep -v grep|wc -l)"
+}
+ 
+function getJDKStatus(){
+echo ""
+echo ""
+echo "############################ JDK检查 #############################"
+java -version 2&gt;/dev/null
+if [ $? -eq 0 ];then
+java -version 2&gt;&1
+fi
+echo "JAVA_HOME=\"$JAVA_HOME\""
+#报表信息
+report_JDK="$(java -version 2&gt;&1 | grep version | awk '{print $1,$3}' | tr -d '"')"
+}
+function getSyslogStatus(){
+echo ""
+echo ""
+echo "############################ syslog检查 ##########################"
+echo "服务状态：$(getState rsyslog)"
+echo ""
+echo "/etc/rsyslog.conf"
+echo "-----------------"
+cat /etc/rsyslog.conf 2&gt;/dev/null | grep -v "^#" | grep -v "^\\$" | sed '/^$/d' | column -t
+#报表信息
+report_Syslog="$(getState rsyslog)"
+}
+function getFirewallStatus(){
+echo ""
+echo ""
+echo "############################ 防火墙检查 ##########################"
+#防火墙状态，策略等
+if [[ $centosVersion &lt; 7 ]];then
+/etc/init.d/iptables status &gt;/dev/null 2&gt;&1
+status=$?
+if [ $status -eq 0 ];then
+s="active"
+elif [ $status -eq 3 ];then
+s="inactive"
+elif [ $status -eq 4 ];then
+s="permission denied"
+else
+s="unknown"
+fi
+else
+s="$(getState iptables)"
+fi
+echo "iptables: $s"
+echo ""
+echo "/etc/sysconfig/iptables"
+echo "-----------------------"
+cat /etc/sysconfig/iptables 2&gt;/dev/null
+#报表信息
+report_Firewall="$s"
+}
+ 
+function getSNMPStatus(){
+#SNMP服务状态，配置等
+echo ""
+echo ""
+echo "############################ SNMP检查 ############################"
+status="$(getState snmpd)"
+echo "服务状态：$status"
+echo ""
+if [ -e /etc/snmp/snmpd.conf ];then
+echo "/etc/snmp/snmpd.conf"
+echo "--------------------"
+cat /etc/snmp/snmpd.conf 2&gt;/dev/null | grep -v "^#" | sed '/^$/d'
+fi
+#报表信息
+report_SNMP="$(getState snmpd)"
+}
+ 
+ 
+ 
+function getState(){
+if [[ $centosVersion &lt; 7 ]];then
+if [ -e "/etc/init.d/$1" ];then
+if [ `/etc/init.d/$1 status 2&gt;/dev/null | grep -E "is running|正在运行" | wc -l` -ge 1 ];then
+r="active"
+else
+r="inactive"
+fi
+else
+r="unknown"
+fi
+else
+#CentOS 7+
+r="$(systemctl is-active $1 2&gt;&1)"
+fi
+echo "$r"
+}
+ 
+function getSSHStatus(){
+#SSHD服务状态，配置,受信任主机等
+echo ""
+echo ""
+echo "############################ SSH检查 #############################"
+#检查受信任主机
+pwdfile="$(cat /etc/passwd)"
+echo "服务状态：$(getState sshd)"
+Protocol_Version=$(cat /etc/ssh/sshd_config | grep Protocol | awk '{print $2}')
+echo "SSH协议版本：$Protocol_Version"
+echo ""
+echo "信任主机"
+echo "--------"
+authorized=0
+for user in $(echo "$pwdfile" | grep /bin/bash | awk -F: '{print $1}');do
+authorize_file=$(echo "$pwdfile" | grep -w $user | awk -F: '{printf $6"/.ssh/authorized_keys"}')
+authorized_host=$(cat $authorize_file 2&gt;/dev/null | awk '{print $3}' | tr '\n' ',' | sed 's/,$//')
+if [ ! -z $authorized_host ];then
+echo "$user 授权 \"$authorized_host\" 无密码访问"
+fi
+let authorized=authorized+$(cat $authorize_file 2&gt;/dev/null | awk '{print $3}'|wc -l)
+done
+ 
+echo ""
+echo "是否允许ROOT远程登录"
+echo "--------------------"
+config=$(cat /etc/ssh/sshd_config | grep PermitRootLogin)
+firstChar=${config:0:1}
+if [ $firstChar == "#" ];then
+PermitRootLogin="yes" #默认是允许ROOT远程登录的
+else
+PermitRootLogin=$(echo $config | awk '{print $2}')
+fi
+echo "PermitRootLogin $PermitRootLogin"
+ 
+echo ""
+echo "/etc/ssh/sshd_config"
+echo "--------------------"
+cat /etc/ssh/sshd_config | grep -v "^#" | sed '/^$/d'
+ 
+#报表信息
+report_SSHAuthorized="$authorized" #SSH信任主机
+report_SSHDProtocolVersion="$Protocol_Version" #SSH协议版本
+report_SSHDPermitRootLogin="$PermitRootLogin" #允许root远程登录
+}
+function getNTPStatus(){
+#NTP服务状态，当前时间，配置等
+echo ""
+echo ""
+echo "############################ NTP检查 #############################"
+if [ -e /etc/ntp.conf ];then
+echo "服务状态：$(getState ntpd)"
+echo ""
+echo "/etc/ntp.conf"
+echo "-------------"
+cat /etc/ntp.conf 2&gt;/dev/null | grep -v "^#" | sed '/^$/d'
+fi
+#报表信息
+report_NTP="$(getState ntpd)"
+}
+ 
+ 
+function uploadHostDailyCheckReport(){
+json="{
+\"DateTime\":\"$report_DateTime\",
+\"Hostname\":\"$report_Hostname\",
+\"OSRelease\":\"$report_OSRelease\",
+\"Kernel\":\"$report_Kernel\",
+\"Language\":\"$report_Language\",
+\"LastReboot\":\"$report_LastReboot\",
+\"Uptime\":\"$report_Uptime\",
+\"CPUs\":\"$report_CPUs\",
+\"CPUType\":\"$report_CPUType\",
+\"Arch\":\"$report_Arch\",
+\"MemTotal\":\"$report_MemTotal\",
+\"MemFree\":\"$report_MemFree\",
+\"MemUsedPercent\":\"$report_MemUsedPercent\",
+\"DiskTotal\":\"$report_DiskTotal\",
+\"DiskFree\":\"$report_DiskFree\",
+\"DiskUsedPercent\":\"$report_DiskUsedPercent\",
+\"InodeTotal\":\"$report_InodeTotal\",
+\"InodeFree\":\"$report_InodeFree\",
+\"InodeUsedPercent\":\"$report_InodeUsedPercent\",
+\"IP\":\"$report_IP\",
+\"MAC\":\"$report_MAC\",
+\"Gateway\":\"$report_Gateway\",
+\"DNS\":\"$report_DNS\",
+\"Listen\":\"$report_Listen\",
+\"Selinux\":\"$report_Selinux\",
+\"Firewall\":\"$report_Firewall\",
+\"USERs\":\"$report_USERs\",
+\"USEREmptyPassword\":\"$report_USEREmptyPassword\",
+\"USERTheSameUID\":\"$report_USERTheSameUID\",
+\"PasswordExpiry\":\"$report_PasswordExpiry\",
+\"RootUser\":\"$report_RootUser\",
+\"Sudoers\":\"$report_Sudoers\",
+\"SSHAuthorized\":\"$report_SSHAuthorized\",
+\"SSHDProtocolVersion\":\"$report_SSHDProtocolVersion\",
+\"SSHDPermitRootLogin\":\"$report_SSHDPermitRootLogin\",
+\"DefunctProsess\":\"$report_DefunctProsess\",
+\"SelfInitiatedService\":\"$report_SelfInitiatedService\",
+\"SelfInitiatedProgram\":\"$report_SelfInitiatedProgram\",
+\"RuningService\":\"$report_RuningService\",
+\"Crontab\":\"$report_Crontab\",
+\"Syslog\":\"$report_Syslog\",
+\"SNMP\":\"$report_SNMP\",
+\"NTP\":\"$report_NTP\",
+\"JDK\":\"$report_JDK\"
+}"
+#echo "$json" 
+curl -l -H "Content-type: application/json" -X POST -d "$json" "$uploadHostDailyCheckReportApi" 2&gt;/dev/null
+}
+
+function getchage_file_24h()
+{
+echo "############################ 文件检查 #############################"
+    check2=$(find / -name '*.sh' -mtime -1)
+check21=$(find / -name '*.asp' -mtime -1)
+check22=$(find / -name '*.php' -mtime -1)
+check23=$(find / -name '*.aspx' -mtime -1)
+check24=$(find / -name '*.jsp' -mtime -1)
+check25=$(find / -name '*.html' -mtime -1)
+check26=$(find / -name '*.htm' -mtime -1)
+check9=$(find / -name core -exec ls -l {} \;)
+check10=$(cat /etc/crontab)
+check12=$(ls -alt /usr/bin | head -10)
+cat &lt;&lt;EOF
+
+############################查看所有被修改过的文件返回最近24小时内的############################
+${check2}
+${check21}
+${check22}
+${check23}
+${check24}
+${check25}
+${check26}
+${line}
+ 
+############################检查定时文件的完整性############################
+${check10}
+${line}
+
+############################查看系统命令是否被替换############################
+${check12}
+${line}
+EOF
+}
+ 
+function check(){
+version
+getSystemStatus
+getCpuStatus
+getMemStatus
+getDiskStatus
+getNetworkStatus
+getListenStatus
+getProcessStatus
+getServiceStatus
+getAutoStartStatus
+getLoginStatus
+getCronStatus
+getUserStatus
+getPasswordStatus
+getSudoersStatus
+getJDKStatus
+getFirewallStatus
+getSSHStatus
+getSyslogStatus
+getSNMPStatus
+getNTPStatus
+getInstalledStatus
+getchage_file_24h
+}
+ 
+ 
+#执行检查并保存检查结果
+check &gt; $RESULTFILE
+ 
+echo "检查结果：$RESULTFILE"
+echo -e "`date "+%Y-%m-%d %H:%M:%S"` 阿里云PHP企业平台巡检报告"  | mail -a $RESULTFILE -s "阿里云PHP企业平台巡检报告" h@163.com</pre>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-03-16-linux-系统日常巡检脚本.md"
+        var oid_likes = "likes_posts\/2020-03-16-linux-系统日常巡检脚本.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/992.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >怎么配置mail邮箱地址 实用脚本</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-16T03:49:29&#43;08:00">16 March 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/1023.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >安装jenkins</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-17T05:07:37&#43;08:00">17 March 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hyper-V on My New Hugo Site</title><link>https://example.org/tags/hyper-v/</link><description>Recent content in Hyper-V on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 27 May 2020 04:25:10 +0800</lastBuildDate><atom:link href="https://example.org/tags/hyper-v/index.xml" rel="self" type="application/rss+xml"/><item><title>Hyper-V虚拟机固定IP地址且能上网</title><link>https://example.org/2603.html</link><pubDate>Wed, 27 May 2020 04:25:10 +0800</pubDate><guid>https://example.org/2603.html</guid><description>&lt;h1 id="hyper-v虚拟机固定ip地址">Hyper-V虚拟机固定IP地址&lt;/h1>
+&lt;p>最近在用虚拟机做实验，一会在家一会在公司的，网络环境老是变化，感觉挺烦的，写个文档记录下&lt;br>
+针对网上的一些教程说明：&lt;br>
+网上说的配置虚拟机ip地址为固定的ip地址的时候全部都是说： 打开控制面板，进入网络与共享中心，更改适配器的设置。找到刚才创建的虚拟机交换机。右键属性，修改IP地址。IP地址随你喜好，我这里用的IP:192.168.137.1，子网:255.255.255.0&lt;/p>
+&lt;p>说这里我用的IP地址是。。。。。是个头啊？？？小白喜欢设置成192.168.11.*？？？然后呢，按照你的教程去发现虽然xshell能连接上虚拟机了，但是却死活都上不了网！！！！嗝屁了，死活不成功，&lt;/p>
+&lt;p>说明一下，如果你即想根据你的心情来固定虚拟机的IP地址，又想让他能够上互联网，虚拟机内网ip必须设置成192.168.137.0网段的，想换别的网段就更改注册表去！！！！&lt;/p>
+&lt;p>至于为什么是必须是137.0网段的，这是因为这是微软默认的一条NAT转发规则，当然你也可以改变转发规则！&lt;/p>
+&lt;h2 id="需求">需求&lt;/h2>
+&lt;h3 id="需求一">需求一：&lt;/h3>
+&lt;p>不管物理机的网络如何变化，必须保证虚拟机的IP地址不变&lt;/p>
+&lt;h3 id="需求二">需求二：&lt;/h3>
+&lt;p>物理机能访问虚拟机，虚拟机之间可以互相通信&lt;/p>
+&lt;h3 id="需求三">需求三：&lt;/h3>
+&lt;p>无论物理机的网络环境怎么变化，虚拟机可以连接到外网&lt;/p>
+&lt;h3 id="需求四">需求四：&lt;/h3>
+&lt;p>无论物理机的网络环境怎么变化，虚拟机可以连接到外网并且保证虚拟机的IP地址不变&lt;/p>
+&lt;h2 id="先来重点实现需求一">先来重点实现需求一：&lt;/h2>
+&lt;p>1.按照图片步骤操作&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+创建虚拟交换机&lt;br>
+这里有三个种类的虚拟机&lt;/p>
+&lt;h2 id="具体每个虚拟交换机作用是啥">具体每个虚拟交换机作用是啥？&lt;/h2>
+&lt;ol>
+&lt;li>外部： 虚拟交换机部署完成后，虚拟机和宿主机连接到同一个虚拟交换机。虚拟机与宿主机获取同一网段的IP地址，与宿主机所在的网络中的其他计算机通信，每台虚拟机等同于宿主机所在网络的宿主机&lt;/li>
+&lt;/ol>
+&lt;p>选择此类虚拟交换机后虚拟机的ip地址和物理机的ip地址是同一个网段，变了网络环境后虚拟机的IP自然就发生了变化，起不到固定ip的作用&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>此类虚拟机只能在虚拟机间通信使用&lt;/p>
+&lt;p>2.接着固定IP地址：找到刚刚创建的虚拟交换机的名称网卡，将网卡IP地址填写为手动获取，IP地址根据自己喜好来就行，但是这里根据自己的喜好来的话是上不互联网的,上面有介绍到。如图是我的&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+3.固定虚拟机的IP地址的时候到了，过于简单，随便说说就行了&lt;br>
+登录虚拟机修改配置文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>修改下面部分&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>重启网卡：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>到这里需求一实现了&lt;/p></description></item></channel></rss>

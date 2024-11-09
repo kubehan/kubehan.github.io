@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SHELL on My New Hugo Site</title><link>https://example.org/categories/shell/</link><description>Recent content in SHELL on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 18 May 2023 10:11:20 +0800</lastBuildDate><atom:link href="https://example.org/categories/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>ELK安装部署脚本及MySQL主从同步监控脚本</title><link>https://example.org/3292.html</link><pubDate>Thu, 18 May 2023 10:11:20 +0800</pubDate><guid>https://example.org/3292.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>指定路径，查找指定关键词 shell脚本</title><link>https://example.org/3168.html</link><pubDate>Fri, 15 Jan 2021 03:40:12 +0800</pubDate><guid>https://example.org/3168.html</guid><description>&lt;p>脚本功能：&lt;br>
+输入要查找的关键词内容及路径。批量查找处理，并打印结果文件路径&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>批量导出k8s集群pod运行的镜像脚本</title><link>https://example.org/3167.html</link><pubDate>Fri, 15 Jan 2021 03:34:12 +0800</pubDate><guid>https://example.org/3167.html</guid><description>&lt;p>批量导出k8s集群pod运行的镜像脚本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>直接执行脚本就可以导出镜像&lt;/p></description></item><item><title>Linux高并发服务器内核优化</title><link>https://example.org/3025.html</link><pubDate>Wed, 21 Oct 2020 11:43:27 +0800</pubDate><guid>https://example.org/3025.html</guid><description>&lt;p>Linux高并发服务器内核优化&lt;br>
+性能调优要根据自己的情况逐渐调整，往往结合系统监控和性能压力测试一起进行。不可不调，不可乱调。&lt;br>
+你可以在https://www.kernel.org/doc/html/latest/admin-guide/sysctl/index.html 官方去看也有文档&lt;/p>
+&lt;p>性能调优有两个原则：遵从由上之下，木板补板的原则。性能调优遵循由上至下的原则。业务逻辑-&amp;gt;缓存服务器-&amp;gt;调度器-&amp;gt;网络容器-&amp;gt;中间件-&amp;gt;NOSQL-&amp;gt;SQL-&amp;gt;存储-&amp;gt;网络-&amp;gt;硬件-&amp;gt;操作系统-&amp;gt;内核。往往在业务层、和缓存策略、网络容器、中间件的优化效果最是明显。层级越高效果越好。&lt;br>
+通用内核优化参数&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>MySQL数据库安装完美版</title><link>https://example.org/2928.html</link><pubDate>Mon, 28 Sep 2020 02:46:31 +0800</pubDate><guid>https://example.org/2928.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>Linux 下定时重启Tomcat的shell脚本--通用</title><link>https://example.org/2888.html</link><pubDate>Thu, 17 Sep 2020 05:45:08 +0800</pubDate><guid>https://example.org/2888.html</guid><description>&lt;h1 id="linux-下定时重启tomcat的shell脚本--通用">Linux 下定时重启Tomcat的shell脚本&amp;ndash;通用&lt;/h1>
+&lt;p>脚本使用说明：&lt;br>
+如果没有把JAVA_HOME放到环境变量的话需要取消注释&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>不然直接修改tomcat所在路径即可&lt;br>
+脚本执行原理：&lt;br>
+优先使用shutdown命令关闭Tomcat&lt;br>
+用shutdown命令关闭失败，准备kill进程&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item></channel></rss>

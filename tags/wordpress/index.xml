@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Wordpress on My New Hugo Site</title><link>https://example.org/tags/wordpress/</link><description>Recent content in Wordpress on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 10 Mar 2020 09:56:52 +0800</lastBuildDate><atom:link href="https://example.org/tags/wordpress/index.xml" rel="self" type="application/rss+xml"/><item><title>密码保护：网站优化</title><link>https://example.org/1335.html</link><pubDate>Tue, 10 Mar 2020 09:56:52 +0800</pubDate><guid>https://example.org/1335.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>WordPress 给网站添加备案号</title><link>https://example.org/623.html</link><pubDate>Thu, 05 Mar 2020 08:29:48 +0800</pubDate><guid>https://example.org/623.html</guid><description>&lt;h1 id="wordpress-给网站添加备案号">WordPress 给网站添加备案号&lt;/h1>
+&lt;p>这几天在网上搜了好多添加备案信息的，一堆不靠谱的，这里记录一下我的实际成果&lt;/p>
+&lt;p>找到WordPress后台–&amp;gt;外观–&amp;gt;主题编辑器–&amp;gt;footer.php 添加&lt;/p>
+&lt;p>备案号：蜀ICP备&lt;!-- raw HTML omitted -->122号-1&lt;!-- raw HTML omitted -->&lt;br>
+1&lt;br>
+在哪个位置添加呢？？？？&lt;br>
+访问你的网站然后F12查看 代码找到节点，然后在后台 ctrl+F5 在footer.php里面搜索对应的节点 添加到后面即可&lt;br>
+这里我的是&lt;/p>
+&lt;p>复制上面的添加部分 把这里的信息变更为你的刷新后就行了&lt;br>
+—————————————&lt;br>
+原文链接：https://blog.csdn.net/qq_42568611/article/details/104677536&lt;/p></description></item></channel></rss>

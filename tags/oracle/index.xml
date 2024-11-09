@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Oracle on My New Hugo Site</title><link>https://example.org/tags/oracle/</link><description>Recent content in Oracle on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 27 Apr 2020 06:21:05 +0800</lastBuildDate><atom:link href="https://example.org/tags/oracle/index.xml" rel="self" type="application/rss+xml"/><item><title>Oracle数据导入导出</title><link>https://example.org/2330.html</link><pubDate>Mon, 27 Apr 2020 06:21:05 +0800</pubDate><guid>https://example.org/2330.html</guid><description>&lt;p>这几天遇到个oracle数据库需要导出导导入的问题；记录一下步骤&lt;br>
+windows下导出脚本，也可以做备份脚本：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="导入步骤记录">导入步骤记录：&lt;/h4>
+&lt;p>一开始没有注意导入数据库数据时数据库的字符集问题，导致问题一堆&lt;br>
+查看数据库字符集：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="客户端字符集">客户端字符集：&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="会话字符集vnls_parameters">会话字符集（v$nls_parameters）&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="数据导入">数据导入&lt;/h4>
+&lt;p>需要先建立表空间及授权用户&lt;br>
+我这里备份有建表sql语句所以只执行sql就ok了&lt;/p>
+&lt;h4 id="执行sql语句">执行sql语句：&lt;/h4>
+&lt;p>登录数据库：&lt;br>
+sqlplus system/密码&lt;br>
+登录数据库后输入：&lt;br>
+@sql脚本绝对路径即可执行&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>imp 用户名/密码@库名 full=y file=dmp绝对路径 ignore=y&lt;/p></description></item></channel></rss>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Shell on My New Hugo Site</title><link>https://example.org/tags/shell/</link><description>Recent content in Shell on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 13 Mar 2020 01:53:25 +0800</lastBuildDate><atom:link href="https://example.org/tags/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell脚本统计网站访问信息---邮件报告管用</title><link>https://example.org/979.html</link><pubDate>Fri, 13 Mar 2020 01:53:25 +0800</pubDate><guid>https://example.org/979.html</guid><description>&lt;p>这里介绍了shell脚本实现的网站日志分析统计，可以统计9种数据，可以用来统计每天的访问日志，并发送到电子邮箱，方便每天了解网站情况。需要的朋友可以参考下&lt;/p>
+&lt;p>脚本统计了：&lt;br>
+1、总访问量&lt;br>
+2、总带宽&lt;br>
+3、独立访客量&lt;br>
+4、访问IP统计&lt;br>
+5、访问url统计&lt;br>
+6、来源统计&lt;br>
+7、404统计&lt;br>
+8、搜索引擎访问统计(谷歌，百度)&lt;br>
+9、搜索引擎来源统计(谷歌，百度)&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>shell脚本监控ssl证书到期时间</title><link>https://example.org/1334.html</link><pubDate>Tue, 10 Mar 2020 09:50:47 +0800</pubDate><guid>https://example.org/1334.html</guid><description>&lt;p>网站的证书需要监控起来避免证书过期影响业务&lt;/p>
+&lt;p>shell脚本监控ssl证书到期时间&lt;/p>
+&lt;p>#!/bin/bash&lt;/p>
+&lt;p># @Author: HanWei&lt;/p>
+&lt;p># @Date:   2020-03-09 15:50:59&lt;/p>
+&lt;p># @Last Modified by:   HanWei&lt;/p>
+&lt;p># @Last Modified time: 2020-03-10 17:49:51&lt;/p>
+&lt;p># @E-mail: han_wei_95@163.com&lt;/p>
+&lt;p>#!/bin/bash&lt;/p>
+&lt;p>################ Version Info ##################&lt;/p>
+&lt;p># Version:     1.0&lt;/p>
+&lt;p># Attention:   通过域名获取证书的过期时间&lt;/p>
+&lt;p>################################################&lt;/p>
+&lt;p>#      1.通过域名获取证书的过期时间&lt;/p>
+&lt;p>################################################&lt;/p>
+&lt;p>#需求： 两个文件，一个存放域名信息，一个是检测脚本 domain_ssl.info文件存放域名:端口 &lt;a href="https://www.baidu.com">www.baidu.com&lt;/a>:443   check.sh为执行检测脚本 &lt;/p>
+&lt;p># 加载环境变量&lt;/p>
+&lt;p>. /etc/profile&lt;/p>
+&lt;p>. ~/.bash_profile&lt;/p>
+&lt;p>. /etc/bashrc&lt;/p>
+&lt;p># 脚本所在目录即脚本名称&lt;/p>
+&lt;p>script_dir=$( cd &amp;ldquo;$( dirname &amp;ldquo;$0&amp;rdquo;  )&amp;rdquo; &amp;amp;&amp;amp; pwd )&lt;/p>
+&lt;p>script_name=$(basename ${0})&lt;/p>
+&lt;p>readFile=&amp;quot;${script_dir}/domain_ssl.info&amp;quot;&lt;/p>
+&lt;p>grep -v &amp;lsquo;^#&amp;rsquo; ${readFile} | while read line;do # 读取存储了需要监测的域名的文件&lt;/p></description></item><item><title>Shell语句之case判断模板</title><link>https://example.org/456.html</link><pubDate>Tue, 03 Mar 2020 09:54:57 +0800</pubDate><guid>https://example.org/456.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>使用随机密码来设置密码及固定字符加密密码</title><link>https://example.org/454.html</link><pubDate>Tue, 03 Mar 2020 09:49:09 +0800</pubDate><guid>https://example.org/454.html</guid><description>&lt;p>使用随机密码来设置密码及固定字符加密密码&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item></channel></rss>

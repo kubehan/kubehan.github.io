@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jenkins+Gitlab CI/CD on My New Hugo Site</title><link>https://example.org/categories/jenkins+gitlab-ci/cd/</link><description>Recent content in Jenkins+Gitlab CI/CD on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 02 Nov 2020 01:40:11 +0800</lastBuildDate><atom:link href="https://example.org/categories/jenkins+gitlab-ci/cd/index.xml" rel="self" type="application/rss+xml"/><item><title>Jenkins密码忘记重置方法</title><link>https://example.org/3067.html</link><pubDate>Mon, 02 Nov 2020 01:40:11 +0800</pubDate><guid>https://example.org/3067.html</guid><description>&lt;p>Jenkins密码忘记分两种情况。&lt;br>
+一、刚开始安装Jenkins，没有修改过密码&lt;br>
+找回：直接找initialAdminPassword，安装初始密码保存在此文件中，具体路径因人而异，可使用find命令查找文件查看，&lt;br>
+二、密码之前修改过，但是再次登录时候忘记自己修改的密码了&lt;br>
+找回：&lt;br>
+1、删除Jenkins目录下config.xml文件中下面代码，并保存文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>2.重启Jenkins服务；&lt;/p>
+&lt;p>3.进入首页&amp;gt;“系统管理”&amp;gt;“Configure Global Security”；&lt;/p>
+&lt;p>4.勾选“启用安全”；&lt;/p>
+&lt;p>5.点选“Jenkins专有用户数据库”，并点击“保存”；&lt;/p>
+&lt;p>6.重新点击首页&amp;gt;“系统管理”,发现此时出现“管理用户”；&lt;/p>
+&lt;p>7.点击进入展示“用户列表”；&lt;/p>
+&lt;p>8.点击右侧进入修改密码页面，修改后即可重新登录&lt;/p></description></item><item><title>Jenkins 相关配置笔记记录</title><link>https://example.org/3068.html</link><pubDate>Fri, 02 Oct 2020 01:51:05 +0800</pubDate><guid>https://example.org/3068.html</guid><description>&lt;ol>
+&lt;li>
+&lt;p>jenkins初始密码存放：
+&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->find / -name initialAdminPassword
+cat /var/lib/jenkins/secrets/initialAdminPassword&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Jenkins密码忘记修改文件1.&lt;br>
+删除Jenkins目录下config.xml文件中部分代码，并保存文件。&lt;br>
+文件路径位于&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->{}.jenkins/config.xml&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改工作空间目录&lt;br>
+位于系统管理-&amp;mdash;》高级-&amp;mdash;-》空间目录配置&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+2、也可以在安装时配置环境变量指定&lt;br>
+在profile文件添加以下变量后在开始安装jenkins&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->export JENKINS_HOME=/data/jenkins_data/&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>安装jenkins</title><link>https://example.org/1023.html</link><pubDate>Tue, 17 Mar 2020 05:07:37 +0800</pubDate><guid>https://example.org/1023.html</guid><description>&lt;p>&lt;!-- raw HTML omitted -->安装&lt;!-- raw HTML omitted -->jenkins&lt;/p>
+&lt;p>Jenkins&lt;!-- raw HTML omitted -->的&lt;!-- raw HTML omitted -->war&lt;!-- raw HTML omitted -->包安装下载地址&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;a href="https://updates.jenkins-ci.org/download/war/">&lt;a href="https://updates.jenkins-ci.org/download/war/">https://updates.jenkins-ci.org/download/war/&lt;/a>&lt;/a>&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->这里采用&lt;!-- raw HTML omitted -->docker&lt;!-- raw HTML omitted -->的方式来运行&lt;!-- raw HTML omitted -->docker&lt;/p>
+&lt;p>docker pull Jenkins&lt;/p>
+&lt;p>mkdir /home/jenkins          &lt;!-- raw HTML omitted -->创建文件夹&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>ls -nd jenkins/                  &lt;!-- raw HTML omitted -->查看文件权限&lt;!-- raw HTML omitted -->&lt;/p></description></item></channel></rss>

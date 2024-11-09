@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on My New Hugo Site</title><link>https://example.org/tags/windows/</link><description>Recent content in Windows on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 20 Mar 2020 07:46:56 +0800</lastBuildDate><atom:link href="https://example.org/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux下apache日志分析与状态查看方法</title><link>https://example.org/1070.html</link><pubDate>Fri, 20 Mar 2020 07:46:56 +0800</pubDate><guid>https://example.org/1070.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;p&amp;gt;
+ 10,&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;查看日志中出现&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;100&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;次以上的&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;IP&amp;lt;br /&amp;gt; cat access_log |cut -d ' ' -f 1 |sort |uniq -c | awk '{if ($1 &amp;gt; 100) print $0}'&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;｜&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;sort -nr |less&amp;lt;/span&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p style=&amp;quot;text-align:left;line-height:30px&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;11,&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;查看最近访问量最高的文件&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;&amp;lt;br /&amp;gt; cat access_log |tail -10000|awk '{print $7}'|sort|uniq -c|sort -nr|less&amp;lt;/p&amp;gt; 
+ 
+ &amp;lt;p&amp;gt;
+ 12,&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;查看日志中访问超过&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;100&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;次的页面&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;&amp;lt;br /&amp;gt; cat access_log | cut -d ' ' -f 7 | sort |uniq -c | awk '{if ($1 &amp;gt; 100) print $0}' | less&amp;lt;/span&amp;gt;
+ &amp;lt;/p&amp;gt;
+ 
+ &amp;lt;p style=&amp;quot;text-align:left;line-height:30px&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;13,&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;列出传输时间超过&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt; 30 &amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;秒的文件&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;&amp;lt;br /&amp;gt; cat access_log|awk '($NF &amp;gt; 30){print $7}'|sort -n|uniq -c|sort -nr|head -20&amp;lt;/span&amp;gt;
+ &amp;lt;/p&amp;gt;
+ 
+ &amp;lt;p style=&amp;quot;text-align:left;line-height:30px&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;14,&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;列出最最耗时的页面&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;超过&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;60&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;秒的&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:宋体;color:#222222&amp;quot;&amp;gt;的以及对应页面发生次数&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size:14px;font-family:&amp;amp;#39;Tahoma&amp;amp;#39;,sans-serif;color:#222222&amp;quot;&amp;gt;&amp;lt;br /&amp;gt; cat access_log |awk '($NF &amp;gt; 60 &amp;amp;&amp;amp; $7~//.php/){print $7}'|sort -n|uniq -c|sort -nr|head -100&amp;lt;/span&amp;gt;
+ &amp;lt;/p&amp;gt;
+ 
+ &amp;lt;p&amp;gt;
+ &amp;amp;nbsp;
+ &amp;lt;/p&amp;gt;
+ 
+ &amp;lt;p&amp;gt;
+ &amp;lt;/p&amp;gt;&lt;/code>&lt;/pre></description></item><item><title>解决安装系统时遇到的0x80300024错误</title><link>https://example.org/1059.html</link><pubDate>Fri, 20 Mar 2020 01:38:06 +0800</pubDate><guid>https://example.org/1059.html</guid><description>&lt;p>&lt;!-- raw HTML omitted -->解决安装系统时遇到的0x80300024错误&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->我的电脑是一个固态+一个机械硬盘，要把系统装在固态上，结果碰到了0x80300024错误。网上一个大兄弟说要把固态给格式化就能解决，我屁颠屁颠的就照做了，结果原系统没了，这个错误还在&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>其实解决办法很简单，只需要将硬盘启动顺序&lt;/p>
+&lt;p>这样就完美解决了&lt;/p></description></item><item><title>解决Cisco v屁n不能自动重连问题</title><link>https://example.org/1048.html</link><pubDate>Thu, 19 Mar 2020 09:24:48 +0800</pubDate><guid>https://example.org/1048.html</guid><description>&lt;p>经过整理，发现网上流传的思科VPN自动重连问题一堆一堆，90%都是抄抄抄，全部一样的&lt;/p>
+&lt;p>关键的是还解决不了实际问题，经过我的整理，整理出来亲自试用成功的文档&lt;/p>
+&lt;p>配合软件的使用那叫一个爽！&lt;/p>
+&lt;p>完全自动化：需要开机启动请把快捷方式放到  WIN+R 输入shell:startup弹出来的路径里面 我的是这个C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup&lt;/p>
+&lt;p>检测脚本：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>使用方法网盘里面有全套服务&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>网盘提取&lt;/p>
+&lt;p>链接：https://pan.baidu.com/s/1QnbjQX9gg5OM6CakByaG4w&lt;/p>
+&lt;p>提取码：aiim&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->求改进&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>解决安装系统显示为gpt分区</title><link>https://example.org/1037.html</link><pubDate>Wed, 18 Mar 2020 05:49:20 +0800</pubDate><guid>https://example.org/1037.html</guid><description>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->网上的答案多数是这样的&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->从光盘或U盘引导启动，按Shift+F10调出命令提示符界面&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->1. 输入 “&lt;!-- raw HTML omitted -->diskpart&lt;!-- raw HTML omitted -->”，然后按Enter；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->2. 输入 “&lt;!-- raw HTML omitted -->list disk&lt;!-- raw HTML omitted -->”，此时可以看到硬盘编号：0,1,2,3&amp;hellip;&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->3. 输入 ”&lt;!-- raw HTML omitted -->select disk x&lt;!-- raw HTML omitted -->”（x是硬盘编号，即你要分区的硬盘；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->4. 输入 “&lt;!-- raw HTML omitted -->clean&lt;!-- raw HTML omitted -->” 清除该硬盘上的所有分区（包括所有数据，请务必确认此硬盘上没有需要的数据 ）；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->5. 输入 ”&lt;!-- raw HTML omitted -->convert gpt&lt;!-- raw HTML omitted -->” 将该硬盘转换成GPT分区表；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->6. 输入 “&lt;!-- raw HTML omitted -->create partition efi size=xxx&lt;!-- raw HTML omitted -->”（xxx是分区大小，以MB为单位，Microsoft默认是100MB，Mac默认是200MB，可适当增大，例如512MB）；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->7. 输入 ”&lt;!-- raw HTML omitted -->create partition msr size=xxx&lt;!-- raw HTML omitted -->”（msr是Microsoft保留分区，默认是128MB，可适当增大，例如512MB）；&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->8. 输入 “&lt;!-- raw HTML omitted -->create partition primary size=xxx&lt;!-- raw HTML omitted -->”开始创建C盘。&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>Windows计划任务执行结果代码字面意思</title><link>https://example.org/1026.html</link><pubDate>Tue, 17 Mar 2020 09:43:09 +0800</pubDate><guid>https://example.org/1026.html</guid><description>&lt;p>&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->类别：Windows&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0或0x0：操作成功完成。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->1或0x1：调用了错误的函数或调用了未知的函数。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->2或0x2：找不到文件。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->10或0xa：环境不正确。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41300：任务准备在下一个计划的时间运行。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41301：任务当前正在运行。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41302：任务已禁用。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41303：任务尚未运行。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41304：没有为该任务安排任何运行。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x41306：任务终止。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x8004130F：凭据已损坏（*）&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x8004131F：此任务的实例已在运行。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x80070002：基本上类似文件不可用（2147942402）&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0x800704DD：服务不可用（是否选中了“仅在用户登录后才运行”？）&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0xC000013A：应用程序由于CTRL + C而终止。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->0xC06D007E：未知软件异常。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>Window 命令添加修改用户密码</title><link>https://example.org/451.html</link><pubDate>Tue, 03 Mar 2020 06:16:12 +0800</pubDate><guid>https://example.org/451.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;p>查看用户：net users&lt;/p>
+&lt;p>修改用户密码：net users username passwd&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>添加用户：net users username passwd /add&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>清除用户密码：net users username *&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title>Curl命令超级详解</title><link>https://example.org/139.html</link><pubDate>Tue, 18 Feb 2020 05:05:04 +0800</pubDate><guid>https://example.org/139.html</guid><description>&lt;h1 id="curl命令超级详解">Curl命令超级详解&lt;/h1>
+&lt;p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称url为下载工具。&lt;/p>
+&lt;p>语法：# curl [option] [url]&lt;/p>
+&lt;p>常见参数：&lt;/p>
+&lt;p>-A/&amp;ndash;user-agent &lt;!-- raw HTML omitted --> 设置用户代理发送给服务器&lt;/p>
+&lt;p>-b/&amp;ndash;cookie &amp;lt;name=string/file&amp;gt; cookie字符串或文件读取位置&lt;/p>
+&lt;p>-c/&amp;ndash;cookie-jar &lt;!-- raw HTML omitted --> 操作结束后把cookie写入到这个文件中&lt;/p>
+&lt;p>-C/&amp;ndash;continue-at &lt;!-- raw HTML omitted --> 断点续转&lt;/p>
+&lt;p>-D/&amp;ndash;dump-header &lt;!-- raw HTML omitted --> 把header信息写入到该文件中&lt;/p>
+&lt;p>-e/&amp;ndash;referer 来源网址&lt;/p>
+&lt;p>-f/&amp;ndash;fail 连接失败时不显示http错误&lt;/p>
+&lt;p>-o/&amp;ndash;output 把输出写到该文件中&lt;/p>
+&lt;p>-O/&amp;ndash;remote-name 把输出写到该文件中，保留远程文件的文件名&lt;/p>
+&lt;p>-r/&amp;ndash;range &lt;!-- raw HTML omitted --> 检索来自HTTP/1.1或FTP服务器字节范围&lt;/p>
+&lt;p>-s/&amp;ndash;silent 静音模式。不输出任何东西&lt;/p>
+&lt;p>-T/&amp;ndash;upload-file &lt;!-- raw HTML omitted --> 上传文件&lt;/p>
+&lt;p>-u/&amp;ndash;user &amp;lt;user[:password]&amp;gt; 设置服务器的用户和密码&lt;/p>
+&lt;p>-w/&amp;ndash;write-out [format] 什么输出完成后&lt;/p>
+&lt;p>-x/&amp;ndash;proxy &amp;lt;host[:port]&amp;gt; 在给定的端口上使用HTTP代理&lt;/p></description></item></channel></rss>

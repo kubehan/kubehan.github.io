@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>等保测评 on My New Hugo Site</title><link>https://example.org/categories/%E7%AD%89%E4%BF%9D%E6%B5%8B%E8%AF%84/</link><description>Recent content in 等保测评 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 01 Dec 2021 10:12:36 +0800</lastBuildDate><atom:link href="https://example.org/categories/%E7%AD%89%E4%BF%9D%E6%B5%8B%E8%AF%84/index.xml" rel="self" type="application/rss+xml"/><item><title>Nginx安全配置之请求头配置</title><link>https://example.org/3214.html</link><pubDate>Wed, 01 Dec 2021 10:12:36 +0800</pubDate><guid>https://example.org/3214.html</guid><description>&lt;h1 id="nginx安全配置之请求头配置">Nginx安全配置之请求头配置&lt;/h1>
+&lt;h5 id="隐藏版本号">隐藏版本号&lt;/h5>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h5 id="header头设置">Header头设置&lt;/h5>
+&lt;p>通过以下设置可有效防止XSS攻击&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>X-Frame-Options：&lt;/strong> 响应头表示是否允许浏览器加载frame等属性，有三个配置&lt;code>DENY&lt;/code>禁止任何网页被嵌入,&lt;code>SAMEORIGIN&lt;/code>只允许本网站的嵌套,&lt;code>ALLOW-FROM&lt;/code>允许指定地址的嵌套&lt;/p>
+&lt;p>&lt;strong>X-XSS-Protection：&lt;/strong> 表示启用XSS过滤（禁用过滤为&lt;code>X-XSS-Protection: 0&lt;/code>），&lt;code>mode=block&lt;/code>表示若检查到XSS攻击则停止渲染页面&lt;/p>
+&lt;p>&lt;strong>X-Content-Type-Options：&lt;/strong> 响应头用来指定浏览器对未指定或错误指定&lt;code>Content-Type&lt;/code>资源真正类型的猜测行为，nosniff 表示不允许任何猜测&lt;/p>
+&lt;p>在通常的请求响应中，浏览器会根据&lt;code>Content-Type&lt;/code>来分辨响应的类型，但当响应类型未指定或错误指定时，浏览会尝试启用MIME-sniffing来猜测资源的响应类型，这是非常危险的&lt;/p>
+&lt;p>例如一个.jpg的图片文件被恶意嵌入了可执行的js代码，在开启资源类型猜测的情况下，浏览器将执行嵌入的js代码，可能会有意想不到的后果&lt;/p>
+&lt;p>另外还有几个关于请求头的安全配置需要注意&lt;/p>
+&lt;p>&lt;strong>Content-Security-Policy：&lt;/strong> 定义页面可以加载哪些资源，&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>上边的配置会限制所有的外部资源，都只能从当前域名加载，其中&lt;code>default-src&lt;/code>定义针对所有类型资源的默认加载策略，&lt;code>self&lt;/code>允许来自相同来源的内容&lt;/p>
+&lt;p>&lt;strong>Strict-Transport-Security：&lt;/strong> 会告诉浏览器用HTTPS协议代替HTTP来访问目标站点&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>上边的配置表示当用户第一次访问后，会返回一个包含了&lt;code>Strict-Transport-Security&lt;/code>响应头的字段，这个字段会告诉浏览器，在接下来的31536000秒内，当前网站的所有请求都使用https协议访问，参数&lt;code>includeSubDomains&lt;/code>是可选的，表示所有子域名也将采用同样的规则&lt;/p>
+&lt;h3 id="x-frame-options响应头">&lt;strong>X-Frame-Options响应头&lt;/strong>&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;p>使用X-Frame-Options有三个值&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>配置案例&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="x-content-type-options响应头">&lt;strong>X-Content-Type-Options响应头&lt;/strong>&lt;/h3>
+&lt;p>解释：&lt;/p></description></item><item><title>Apache基线检查</title><link>https://example.org/3082.html</link><pubDate>Sun, 25 Oct 2020 00:41:55 +0800</pubDate><guid>https://example.org/3082.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>门户网站安全维护手册</title><link>https://example.org/2785.html</link><pubDate>Sat, 24 Oct 2020 02:47:32 +0800</pubDate><guid>https://example.org/2785.html</guid><description>&lt;p>门户网站安全维护手册&lt;/p>
+&lt;p>常见网站安全问题及解决方法&lt;/p>
+&lt;p>记录常见网站加固方法&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title>【威胁分析】揭秘！WannaRen勒索病毒背后，一条恶意软件分发产业链</title><link>https://example.org/2155.html</link><pubDate>Thu, 09 Apr 2020 00:26:32 +0800</pubDate><guid>https://example.org/2155.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px; border-color: #d8d8d8; word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;color: #000000; font-size: 14px; font-family: 微软雅黑, 'Microsoft YaHei';&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;WannaRen、勒索软件、kms&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px; border-color: #d8d8d8; word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;1.0&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->1&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>编译安装openssh新版本编译安装openssh新版本</title><link>https://example.org/1901.html</link><pubDate>Wed, 25 Mar 2020 10:00:06 +0800</pubDate><guid>https://example.org/1901.html</guid><description>&lt;p>reference1: &lt;a href="https://blog.csdn.net/qq_33684555/article/details/81872110">https://blog.csdn.net/qq_33684555/article/details/81872110&lt;/a>&lt;/p>
+&lt;p>reference2: &lt;a href="http://www.cnblogs.com/xiaochina/p/7486073.html">http://www.cnblogs.com/xiaochina/p/7486073.html&lt;/a>&lt;/p>
+&lt;p>reference3: &lt;a href="https://blog.csdn.net/bytxl/article/details/46639073">https://blog.csdn.net/bytxl/article/details/46639073&lt;/a>&lt;/p>
+&lt;p>reference4: &lt;a href="https://www.cnblogs.com/xshrim/p/6472679.html">https://www.cnblogs.com/xshrim/p/6472679.html&lt;/a> -&amp;gt; 含有zlib编译&lt;/p>
+&lt;p>reference5: &lt;a href="https://www.linuxidc.com/Linux/2011-10/45739p2.htm">https://www.linuxidc.com/Linux/2011-10/45739p2.htm&lt;/a> -&amp;gt; 定义了sshd_config文件中的配置&lt;/p>
+&lt;p>OpenSSH（OpenBSD Secure Shell）是OpenBSD计划组所维护的一套用于安全访问远程计算机的连接工具。该工具是SSH协议的开源实现，支持对所有的传输进行加密，可有效阻止窃听、连接劫持以及其他网络级的攻击。&lt;br>
+OpenSSH中的scp client实用程序存在安全漏洞，该漏洞源于程序错误的验证了对象名称。攻击者可利用该漏洞覆盖文件。&lt;br>
+最近公司发现OPENSSH有防护漏洞, 需要给7.9版本的openssh安装补丁, 故网上收集资料, 融合自己的理解, 写出此文, 有任何问题请指正.&lt;/p>
+&lt;p>&lt;strong>注意: 编译安装openssh新版本之前, 最好先安装telnet服务, 万一sshd服务被你操作挂了, 还有替代的telnet服务可以提供远程连接, 笔者就是在安装过程中遇到过此问题, 最后拖了两天时间, 各种找领导, 然后登录堡垒机直接操作Centos虚拟机, 才解决问题!!!&lt;/strong>&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="1-基础环境准备">1. 基础环境准备&lt;/h2>
+&lt;p>首先去openssh官网下载openssh.tar.gz最新版本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>注意要下载p1版本, 此版为编译安装包!!&lt;/strong>&lt;/p>
+&lt;p>在安装之前先记下sshd.pid路径, 因为在启动文件sshd中要更改此路径&lt;/p>
+&lt;p>将安装包先传入服务器中&lt;/p>
+&lt;p>卸载现有版本openssh: &lt;code>rpm -e --nodeps $(rpm -qa | grep openssh)&lt;/code>&lt;/p>
+&lt;p>删除/etc/ssh/下所有文件, 在卸载完openssh后此路径下文件不会删除, 需手动删除&lt;/p></description></item></channel></rss>

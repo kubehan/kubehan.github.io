@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nginx on My New Hugo Site</title><link>https://example.org/categories/nginx/</link><description>Recent content in Nginx on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 02 Dec 2021 01:24:13 +0800</lastBuildDate><atom:link href="https://example.org/categories/nginx/index.xml" rel="self" type="application/rss+xml"/><item><title>Nginx版-HTTP响应头安全策略</title><link>https://example.org/3215.html</link><pubDate>Thu, 02 Dec 2021 01:24:13 +0800</pubDate><guid>https://example.org/3215.html</guid><description>&lt;h1 id="http响应头安全策略">HTTP响应头安全策略&lt;/h1>
+&lt;h2 id="全部配置如下可能有遗漏">全部配置如下（可能有遗漏）&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="content-security-policy">Content-Security-Policy&lt;/h3>
+&lt;p>应对漏洞：XSS攻击&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>配置策略：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>每个限制选项可以设置以下几种值，这些值就构成了白名单&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="x-content-type-options">X-Content-Type-Options&lt;/h3>
+&lt;p>约定资源的响应头，屏蔽内容嗅探攻击。&lt;/p>
+&lt;p>应对漏洞：内容嗅探攻击&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="x-xss-protection">X-XSS-Protection&lt;/h3>
+&lt;p>开启浏览器XSS防护(原理不明，待研究.好像是浏览器自己有个filter，能过滤xss攻击脚本)。开启后不会影响业务，无特殊情况，建议开启。&lt;/p>
+&lt;p>应对漏洞：XSS攻击&lt;/p>
+&lt;p>配置参数：&lt;/p>
+&lt;pre>&lt;code>X-XSS-Protection: 0 关闭防护
+X-XSS-Protection: 1 开启防护
+X-XSS-Protection: 1; mode=block 开启防护 如果被攻击，阻止脚本执行。
+
+nginx配置：add_header X-XSS-Protection &amp;quot;1; mode=block&amp;quot;;
+&lt;/code>&lt;/pre>
+&lt;h3 id="x-frame-options">X-Frame-Options&lt;/h3>
+&lt;p>开个此属性，控制页面是否可以用于ifream中，如果使用，是什么范围。也可以通过这个控制来避免自己的资源页面被其他页面引用。&lt;/p></description></item><item><title>Nginx安全配置之请求头配置</title><link>https://example.org/3214.html</link><pubDate>Wed, 01 Dec 2021 10:12:36 +0800</pubDate><guid>https://example.org/3214.html</guid><description>&lt;h1 id="nginx安全配置之请求头配置">Nginx安全配置之请求头配置&lt;/h1>
+&lt;h5 id="隐藏版本号">隐藏版本号&lt;/h5>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h5 id="header头设置">Header头设置&lt;/h5>
+&lt;p>通过以下设置可有效防止XSS攻击&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>X-Frame-Options：&lt;/strong> 响应头表示是否允许浏览器加载frame等属性，有三个配置&lt;code>DENY&lt;/code>禁止任何网页被嵌入,&lt;code>SAMEORIGIN&lt;/code>只允许本网站的嵌套,&lt;code>ALLOW-FROM&lt;/code>允许指定地址的嵌套&lt;/p>
+&lt;p>&lt;strong>X-XSS-Protection：&lt;/strong> 表示启用XSS过滤（禁用过滤为&lt;code>X-XSS-Protection: 0&lt;/code>），&lt;code>mode=block&lt;/code>表示若检查到XSS攻击则停止渲染页面&lt;/p>
+&lt;p>&lt;strong>X-Content-Type-Options：&lt;/strong> 响应头用来指定浏览器对未指定或错误指定&lt;code>Content-Type&lt;/code>资源真正类型的猜测行为，nosniff 表示不允许任何猜测&lt;/p>
+&lt;p>在通常的请求响应中，浏览器会根据&lt;code>Content-Type&lt;/code>来分辨响应的类型，但当响应类型未指定或错误指定时，浏览会尝试启用MIME-sniffing来猜测资源的响应类型，这是非常危险的&lt;/p>
+&lt;p>例如一个.jpg的图片文件被恶意嵌入了可执行的js代码，在开启资源类型猜测的情况下，浏览器将执行嵌入的js代码，可能会有意想不到的后果&lt;/p>
+&lt;p>另外还有几个关于请求头的安全配置需要注意&lt;/p>
+&lt;p>&lt;strong>Content-Security-Policy：&lt;/strong> 定义页面可以加载哪些资源，&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>上边的配置会限制所有的外部资源，都只能从当前域名加载，其中&lt;code>default-src&lt;/code>定义针对所有类型资源的默认加载策略，&lt;code>self&lt;/code>允许来自相同来源的内容&lt;/p>
+&lt;p>&lt;strong>Strict-Transport-Security：&lt;/strong> 会告诉浏览器用HTTPS协议代替HTTP来访问目标站点&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>上边的配置表示当用户第一次访问后，会返回一个包含了&lt;code>Strict-Transport-Security&lt;/code>响应头的字段，这个字段会告诉浏览器，在接下来的31536000秒内，当前网站的所有请求都使用https协议访问，参数&lt;code>includeSubDomains&lt;/code>是可选的，表示所有子域名也将采用同样的规则&lt;/p>
+&lt;h3 id="x-frame-options响应头">&lt;strong>X-Frame-Options响应头&lt;/strong>&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;p>使用X-Frame-Options有三个值&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>配置案例&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="x-content-type-options响应头">&lt;strong>X-Content-Type-Options响应头&lt;/strong>&lt;/h3>
+&lt;p>解释：&lt;/p></description></item><item><title>shtml格式的网页打开乱码，排版错误---Nginx配置ssi</title><link>https://example.org/3065.html</link><pubDate>Fri, 30 Oct 2020 04:00:35 +0800</pubDate><guid>https://example.org/3065.html</guid><description>&lt;h1 id="shtml格式的网页打开乱码排版错误---nginx配置ssi">shtml格式的网页打开乱码，排版错误-&amp;ndash;Nginx配置ssi&lt;/h1>
+&lt;p>今天上线一套网站，他的网页形式是shtml格式的，等Nginx Tomcat全部部署完毕后，发现打开网页是乱码的。排版也特别不正常，&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+网上找了相关资料后得出下文，特此记录&lt;/p>
+&lt;h2 id="ssi简介">SSI简介&lt;/h2>
+&lt;p>Server Side Include ： 服务器端嵌入&lt;/p>
+&lt;p>原理 ： 将内容发送到浏览器之前，可以使用“服务器端包含 (SSI）”指令将文本、图形或应用程序信息包含到网页中。因为包含 SSI 指令的文件要求特殊处理，所以必须为所有 SSI 文件赋予 SSI文件扩展名。默认扩展名是 .stm、.shtm 和 .shtml&lt;/p>
+&lt;p>主要有以下几种用用途：&lt;/p>
+&lt;ol>
+&lt;li>显示服务器端环境变量&amp;lt;#echo&amp;gt;&lt;/li>
+&lt;li>将文本内容直接插入到文档中&amp;lt;#include&amp;gt;&lt;/li>
+&lt;li>显示WEB文档相关信息&amp;lt;#flastmod #fsize&amp;gt; （如文件制作日期/大小等）&lt;/li>
+&lt;li>直接执行服务器上的各种程序&amp;lt;#exec&amp;gt;(如CGI或其他可执行程序）&lt;/li>
+&lt;li>设置SSI信息显示格式&amp;lt;#config&amp;gt;；（如文件制作日期/大小显示方式） 高级SSI&lt;!-- raw HTML omitted -->；可设置变量使用if条件语句。&lt;/li>
+&lt;/ol>
+&lt;h2 id="为什么用ssi">为什么用SSI？&lt;/h2>
+&lt;ol>
+&lt;li>一个登录用户在页面访问的时候如何充分利用 cache?&lt;/li>
+&lt;li>页面静态化的一个大问题是登录用户访问页面如何静态化。例如首页，大部分的页面内容需要缓存但是用户登录后的个人信息是动态信息，不能缓存。那么如何解决这个&amp;quot;页面部分缓存&amp;quot;问题？&lt;/li>
+&lt;li>现有的方案是利用 SSI - Server Side include 。&lt;/li>
+&lt;li>这里最关键的就是静态文件可以包含一个动态的网页的 URL 。&lt;/li>
+&lt;/ol>
+&lt;h2 id="nginx-如何开启-ssi">Nginx 如何开启 SSI&lt;/h2>
+&lt;p>首先找到你的nginx配置文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>加入如下代码&lt;br>
+1、开启shtml后缀的文件名支持ssi&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>2、开启html后缀的文件名支持ssi&lt;/p></description></item><item><title>logrotate日志切割压缩Nginx Tomcat Redis</title><link>https://example.org/2574.html</link><pubDate>Thu, 14 May 2020 02:53:06 +0800</pubDate><guid>https://example.org/2574.html</guid><description>&lt;h1 id="logrotate日志切割压缩nginx-tomcat-redis">logrotate日志切割压缩Nginx Tomcat Redis&lt;/h1>
+&lt;p>使用背景情况&lt;/p>
+&lt;p>运维中日志处理是一个超级常见的任务，可能会经常性的挑取日志内容，比如天级的日志或者是周级，也或者是具体时段的，但是，如果日志两很大时候，日志过滤变得会很繁琐，还会造成空间浪费，资源浪费，特推出日志切割软件进行切割日志，&lt;/p>
+&lt;h2 id="一logrotate介绍">&lt;strong>一、logrotate介绍&lt;/strong>&lt;/h2>
+&lt;p>​ logrotate软件是一个日志管理工具，用于非分隔日志，删除旧的日志文件，并创建新的日志文件，起到“转储作用”，可以为系统节省磁盘空间。一般centos系统已经自带安装好了。&lt;br>
+​ logrotate是基于crontab运行的，其脚本是/etc/cron.daily/logtotate，日志轮转是系统自发完成的，实际运行时，logrotate会调用配置文件/etc/logrotate.conf。每日任务执行，可以在/etc/logrotate.d目录里放置自定义好的配置文件，其中文件也会被 logrotate 读取。指明每个日志文件的特定规则。/var/lib/logrotate.status中默认记录logrotate上次轮询日志文件的时间&lt;/p>
+&lt;h2 id="二安装logrotate">二、安装logrotate&lt;/h2>
+&lt;p>一般系统都默认安装了，如果没有安装用yum安装一下就可以了&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="三使用案例">三、使用案例&lt;/h2>
+&lt;h4 id="31切割tomcat的catalinaout">3.1切割Tomcat的Catalina.out&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>如果等不及cron自动执行日志轮转，想手动强制切割日志，需要加-f参数；不过正式执行前最好通过Debug选项来验证一下（-d参数），这对调试也很重要&lt;/p>
+&lt;p>执行方式&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="32-redis-日志备份压缩">3.2 &lt;strong>redis 日志备份压缩&lt;/strong>&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="33-nginx日志切割">3.3 nginx日志切割&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="34-php-fpm日志的配置实例">3.4 PHP-FPM日志的配置实例&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="四参数说明">四、参数说明&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;th style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 说明
+&amp;lt;/th&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 启用压缩，指的是轮替后的旧日志，这里默认用的是gzip压缩的
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 以gzip -9的模式压缩
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 解压日志，默认是gunzip
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 每天轮替选项
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 轮替的日志文件会附加上一个短横线和YYYYMMDD格式的时间戳
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 将以前的日志文件压缩推迟到下一次轮替
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 即使日志文件是空的也轮替
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 将轮替后的文件发送到指定E-mail地址
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 用于还在打开中的日志文件，把当前日志备份并截断，开始轮替
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 向邮件发送轮替文件/轮替后历史文件（默认）
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 一个月轮替一次
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 如果在logrotate.conf中启用了压缩，这里是做不用压缩的参数
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 不发送邮件到任何地址
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 如果日志时空的就不轮替
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 轮替后日志文件放入指定的目录，必须和当前日志文件在同一个文件系统
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 在做完轮替后的命令，两个关键字必须单独成行，使用的操作在2者之间相当于分组“{}”，注意的使用外部指令时要用绝对路径
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 在做轮替前的命令,同上
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 轮替最多保留之前的数据几次，超出的将被删除或邮件接收，设为0则不保存
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 当日志增长到指定大小的时候开始轮替，它不会考虑
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 轮替文件名基于这个数字。 例如，指定0时，原日志文件轮替的备份文件以.0为扩展名，如果指定9，就直接从.9开始跳过0-8 然后再继续向后轮替rotate指定的次数。
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 如果当前的星期几比上次轮替的星期几少，或者过了一个多星期，就会发生轮替通常是在每周的第一天轮替，如果logrotate不是每天运行的，会在第一次有机会时进行轮替。
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 如果当前年份不同于上次轮替的年份，则进行日志轮替
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 在轮替动作之后，postrotate脚本执行之前，立即使用刚轮替的日志文件名创建日志文件。 MODE 指定日志文件的权限(0660之类) OWNER 指定日志文件的属主 GROUP 指定日志文件的属组
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;text-align: center;&amp;quot;&amp;gt;
+ 日志文件可在轮替后使用指定的EXT扩展名。如果使用压缩，通常EXT后还会加上压缩文件的扩展名，通常是.gz。例如想把mylog.foo轮转为mylog.1.foo.gz而不是mylog.foo.1.gz
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted --></description></item></channel></rss>

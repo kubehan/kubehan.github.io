@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>MySQL分布式架构 &middot; Blowfish</title>
+  <meta name="title" content="MySQL分布式架构 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/1909.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/1909.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="MySQL分布式架构">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-25T10:01:47+08:00">
+    <meta property="article:modified_time" content="2020-03-25T10:01:47+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MySQL分布式架构">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "MySQL分布式架构",
+    "headline": "MySQL分布式架构",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/1909.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-03-25T10:01:47\u002b08:00",
+    "datePublished": "2020-03-25T10:01:47\u002b08:00",
+    
+    "dateModified": "2020-03-25T10:01:47\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1499"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      MySQL分布式架构
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-03-25T10:01:47&#43;08:00">25 March 2020</time><span class="px-2 text-primary-500">&middot;</span><span>1499 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          
+
+<h2 class="relative group">1. 结构图 
+    <div id="1-%E7%BB%93%E6%9E%84%E5%9B%BE" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%E7%BB%93%E6%9E%84%E5%9B%BE" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<div class="image-package">
+  <div class="image-container" style="max-width: 700px; max-height: 414px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;753&quot; data-height=&quot;414&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-cdcd166f2eb2eb2040ab6b06b5913c7a.png&quot; alt=&quot;13-MySQL分布式架构13-MySQL分布式架构&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    image.png
+  </div>
+</div>
+
+
+<h2 class="relative group">2. MyCAT基础架构准备 
+    <div id="2-mycat%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84%E5%87%86%E5%A4%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-mycat%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84%E5%87%86%E5%A4%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h4 class="relative group">1.环境准备： 
+    <div id="1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<p>两台虚拟机 db01 db02<br>
+每台创建四个mysql实例：3307 3308 3309 3310</p>
+
+
+<h4 class="relative group">2.节点主从规划 
+    <div id="2%E8%8A%82%E7%82%B9%E4%B8%BB%E4%BB%8E%E8%A7%84%E5%88%92" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E8%8A%82%E7%82%B9%E4%B8%BB%E4%BB%8E%E8%A7%84%E5%88%92" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+
+
+<h6 class="relative group">箭头指向谁是主库 
+    <div id="%E7%AE%AD%E5%A4%B4%E6%8C%87%E5%90%91%E8%B0%81%E6%98%AF%E4%B8%BB%E5%BA%93" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E7%AE%AD%E5%A4%B4%E6%8C%87%E5%90%91%E8%B0%81%E6%98%AF%E4%B8%BB%E5%BA%93" aria-label="Anchor">#</a>
+    </span>        
+    
+</h6>
+<pre><code>以3307为主库，3309为从库，搭建主从复制关系
+10.0.0.51:3307    &lt;-----&gt;  10.0.0.52:3307
+10.0.0.51:3309    ------&gt;  10.0.0.51:3307
+10.0.0.52:3309    ------&gt;  10.0.0.52:3307
+
+以3308为主库，3310为从库，搭建主从复制关系
+10.0.0.52:3308  &lt;-----&gt;    10.0.0.51:3308
+10.0.0.52:3310  -----&gt;     10.0.0.52:3308
+10.0.0.51:3310  -----&gt;     10.0.0.51:3308
+</code></pre>
+
+
+<h4 class="relative group">3.分片规划 
+    <div id="3%E5%88%86%E7%89%87%E8%A7%84%E5%88%92" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3%E5%88%86%E7%89%87%E8%A7%84%E5%88%92" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>shard1：
+    Master：10.0.0.51:3307
+    slave1：10.0.0.51:3309
+    Standby Master：10.0.0.52:3307
+    slave2：10.0.0.52:3309
+shard2：
+    Master：10.0.0.52:3308
+    slave1：10.0.0.52:3310
+    Standby Master：10.0.0.2. MyCAT基础架构准备
+</code></pre>
+
+
+<h4 class="relative group">4.开始配置 
+    <div id="4%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AE" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AE" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+
+
+<h6 class="relative group">shard1 
+    <div id="shard1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#shard1" aria-label="Anchor">#</a>
+    </span>        
+    
+</h6>
+<ul>
+<li>
+<p>1.配置3307库为双主模式</p>
+<p>10.0.0.51:3307 &lt;&mdash;&ndash;&gt; 10.0.0.52:3307
+db02
+mysql  -S /data/3307/mysql.sock -e &ldquo;grant replication slave on <em>.</em> to repl@&lsquo;10.0.0.%&rsquo; identified by &lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3307/mysql.sock -e &ldquo;grant all  on <em>.</em> to root@&lsquo;10.0.0.%&rsquo; identified by &lsquo;123&rsquo;  with grant option;&rdquo;
+db01
+mysql  -S /data/3307/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.52&rsquo;, MASTER_PORT=3307, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3307/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3307/mysql.sock -e &ldquo;show slave statusG&rdquo;
+db02
+mysql  -S /data/3307/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.51&rsquo;, MASTER_PORT=3307, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3307/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3307/mysql.sock -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+<li>
+<p>2.配置db01的3309为3307的从库</p>
+<p>10.0.0.51:3309 &mdash;&mdash;&gt; 10.0.0.51:3307
+db01
+mysql  -S /data/3309/mysql.sock  -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.51&rsquo;, MASTER_PORT=3307, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3309/mysql.sock  -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3309/mysql.sock  -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+<li>
+<p>3.配置db02的3309为3307的从库</p>
+<p>10.0.0.52:3309 &mdash;&mdash;&gt; 10.0.0.52:3307
+db02
+mysql  -S /data/3309/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.52&rsquo;, MASTER_PORT=3307, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3309/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3309/mysql.sock -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+</ul>
+
+
+<h6 class="relative group">shard2 
+    <div id="shard2" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#shard2" aria-label="Anchor">#</a>
+    </span>        
+    
+</h6>
+<ul>
+<li>
+<p>1.配置3308数据库为双主模式</p>
+<p>10.0.0.52:3308 &lt;&mdash;&ndash;&gt; 10.0.0.51:3308
+db01
+mysql  -S /data/3308/mysql.sock -e &ldquo;grant replication slave on <em>.</em> to repl@&lsquo;10.0.0.%&rsquo; identified by &lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3308/mysql.sock -e &ldquo;grant all  on <em>.</em> to root@&lsquo;10.0.0.%&rsquo; identified by &lsquo;123&rsquo;  with grant option;&rdquo;
+db02
+mysql  -S /data/3308/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.51&rsquo;, MASTER_PORT=3308, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3308/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3308/mysql.sock -e &ldquo;show slave statusG&rdquo;
+db01
+mysql  -S /data/3308/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.52&rsquo;, MASTER_PORT=3308, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3308/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3308/mysql.sock -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+<li>
+<p>2.配置db02的3310为3308的从库</p>
+<p>10.0.0.52:3310 &mdash;&ndash;&gt; 10.0.0.52:3308
+db02
+mysql  -S /data/3310/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.52&rsquo;, MASTER_PORT=3308, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3310/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3310/mysql.sock -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+<li>
+<p>3.配置db01的3310为3308的从库</p>
+<p>10.0.0.51:3310 &mdash;&ndash;&gt; 10.0.0.51:3308
+db01
+mysql  -S /data/3310/mysql.sock -e &ldquo;CHANGE MASTER TO MASTER_HOST=&lsquo;10.0.0.51&rsquo;, MASTER_PORT=3308, MASTER_AUTO_POSITION=1, MASTER_USER=&lsquo;repl&rsquo;, MASTER_PASSWORD=&lsquo;123&rsquo;;&rdquo;
+mysql  -S /data/3310/mysql.sock -e &ldquo;start slave;&rdquo;
+mysql  -S /data/3310/mysql.sock -e &ldquo;show slave statusG&rdquo;</p>
+</li>
+</ul>
+
+
+<h4 class="relative group">5.检测主从状态 
+    <div id="5%E6%A3%80%E6%B5%8B%E4%B8%BB%E4%BB%8E%E7%8A%B6%E6%80%81" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#5%E6%A3%80%E6%B5%8B%E4%B8%BB%E4%BB%8E%E7%8A%B6%E6%80%81" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>mysql -S /data/3307/mysql.sock -e &quot;show slave statusG&quot;|grep Yes
+mysql -S /data/3308/mysql.sock -e &quot;show slave statusG&quot;|grep Yes
+mysql -S /data/3309/mysql.sock -e &quot;show slave statusG&quot;|grep Yes
+mysql -S /data/3310/mysql.sock -e &quot;show slave statusG&quot;|grep Yes
+</code></pre>
+<blockquote>
+<p>注：如果中间出现错误，执行以下命令,重新配置主从关系<br>
+mysql -S /data/3307/mysql.sock -e &ldquo;stop slave; reset slave all;&rdquo;<br>
+mysql -S /data/3308/mysql.sock -e &ldquo;stop slave; reset slave all;&rdquo;<br>
+mysql -S /data/3309/mysql.sock -e &ldquo;stop slave; reset slave all;&rdquo;<br>
+mysql -S /data/3310/mysql.sock -e &ldquo;stop slave; reset slave all;&rdquo;</p>
+</blockquote>
+
+
+<h2 class="relative group">3. MyCAT安装 
+    <div id="3-mycat%E5%AE%89%E8%A3%85" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-mycat%E5%AE%89%E8%A3%85" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h5 class="relative group">1.预先安装Java运行环境 
+    <div id="1%E9%A2%84%E5%85%88%E5%AE%89%E8%A3%85java%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E9%A2%84%E5%85%88%E5%AE%89%E8%A3%85java%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>yum install -y java
+</code></pre>
+
+
+<h5 class="relative group">2.下载 
+    <div id="2%E4%B8%8B%E8%BD%BD" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E4%B8%8B%E8%BD%BD" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<p>软件包名称： Mycat-server-xxxxx.linux.tar.gz<br>
+下载地址： <a href="http://mycat.io/" target="_blank">http://mycat.io/</a></p>
+
+
+<h5 class="relative group">3.解压文件 
+    <div id="3%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>tar xf Mycat-server-1.6.5-release-20180122220033-linux.tar.gz
+mv mycat/ /usr/local/
+</code></pre>
+
+
+<h5 class="relative group">4.软件目录结构 
+    <div id="4%E8%BD%AF%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4%E8%BD%AF%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>[root@db01 mycat]# ls
+bin  catlet  conf  lib  logs  version.txt
+</code></pre>
+
+
+<h5 class="relative group">5.启动和连接 
+    <div id="5%E5%90%AF%E5%8A%A8%E5%92%8C%E8%BF%9E%E6%8E%A5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#5%E5%90%AF%E5%8A%A8%E5%92%8C%E8%BF%9E%E6%8E%A5" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<ul>
+<li>
+<p>配置环境变量</p>
+<p>vim /etc/profile
+export PATH=/usr/local/mycat/bin:$PATH
+source /etc/profile</p>
+</li>
+<li>
+<p>启动</p>
+<p>mycat start</p>
+</li>
+<li>
+<p>连接mycat</p>
+<p>mysql -uroot -p123456 -h 127.0.0.1 -P8066</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">4. 配置文件介绍 
+    <div id="4-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h5 class="relative group">1.logs目录 
+    <div id="1logs%E7%9B%AE%E5%BD%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1logs%E7%9B%AE%E5%BD%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>wrapper.log       ----&gt;mycat启动日志
+mycat.log         ----&gt;mycat详细工作日志
+</code></pre>
+
+
+<h5 class="relative group">2.conf目录 
+    <div id="2conf%E7%9B%AE%E5%BD%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2conf%E7%9B%AE%E5%BD%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>schema.xml      
+主配置文件（读写分离、高可用、分布式策略定制、节点控制）
+
+server.xml
+mycat软件本身相关的配置
+
+rule.xml 
+分片规则配置文件,记录分片规则列表、使用方法等
+</code></pre>
+
+
+<h2 class="relative group">5.应用前环境准备 
+    <div id="5%E5%BA%94%E7%94%A8%E5%89%8D%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#5%E5%BA%94%E7%94%A8%E5%89%8D%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h5 class="relative group">1.用户创建及数据库导入 
+    <div id="1%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%BC%E5%85%A5" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%BC%E5%85%A5" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>db01:
+mysql -S /data/3307/mysql.sock 
+grant all on *.* to root@'10.0.0.%' identified by '123';
+source /root/world.sql
+
+mysql -S /data/3308/mysql.sock 
+grant all on *.* to root@'10.0.0.%' identified by '123';
+source /root/world.sql
+</code></pre>
+
+
+<h5 class="relative group">2.配置文件处理 
+    <div id="2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>[root@db01 conf]# vim schema.xml 
+&lt;schema name=&quot;TESTDB&quot;  dataNode=&quot;sh1&quot;&gt; 
+&lt;/schema&gt;  
+        &lt;dataNode name=&quot;sh1&quot; dataHost=&quot;oldguo1&quot; database= &quot;world&quot; /&gt;    
+        &lt;dataHost name=&quot;oldguo1&quot;
+        &lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt; 
+                        &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt; 
+        &lt;/writeHost&gt; 
+        &lt;/dataHost&gt;         
+&lt;/mycat:schema&gt;
+</code></pre>
+
+
+<h2 class="relative group">6. 读写分离结构配置 
+    <div id="6-%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%BB%93%E6%9E%84%E9%85%8D%E7%BD%AE" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#6-%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%BB%93%E6%9E%84%E9%85%8D%E7%BD%AE" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<ul>
+<li>
+<p>编写读写分离配置文件</p>
+<p>vim schema.xml</p>
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">  
+<p>&lt;mycat:schema xmlns:mycat=&ldquo;<a href="http://io.mycat/%22%3e" target="_blank">http://io.mycat/"></a>
+<schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="sh1">
+</schema><br>
+<dataNode name="sh1" dataHost="oldguo1" database= "world" />      <br>
+<dataHost name="oldguo1" maxCon="1000" minCon="10" balance="1"  writeType="0" dbType="mysql"  dbDriver="native" switchType="1"> <br>
+<heartbeat>select user()</heartbeat><br>
+<writeHost host="db1" url="10.0.0.51:3307" user="root" password="123">
+<readHost host="db2" url="10.0.0.51:3309" user="root" password="123" />
+</writeHost>
+</dataHost><br>
+&lt;/mycat:schema&gt;</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">7.测试一主一从的读写分离 
+    <div id="7%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%BB%E4%B8%80%E4%BB%8E%E7%9A%84%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#7%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%BB%E4%B8%80%E4%BB%8E%E7%9A%84%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h5 class="relative group">1.重启mycat 
+    <div id="1%E9%87%8D%E5%90%AFmycat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E9%87%8D%E5%90%AFmycat" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>mycat restart
+</code></pre>
+
+
+<h5 class="relative group">2.读写分离测试 
+    <div id="2%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%B5%8B%E8%AF%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%B5%8B%E8%AF%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>mysql -uroot -p -h 127.0.0.1 -P8066
+select @@server_id;
+
+begin;
+select @@server_id;
+commit;
+</code></pre>
+<blockquote>
+<p>总结：<br>
+以上案例实现了1主1从的读写分离功能，写操作落到主库，读操作落到从库.如果主库宕机，从库不能在继续提供服务了</p>
+</blockquote>
+
+
+<h2 class="relative group">8. 配置读写分离及高可用 
+    <div id="8-%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8F%8A%E9%AB%98%E5%8F%AF%E7%94%A8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#8-%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8F%8A%E9%AB%98%E5%8F%AF%E7%94%A8" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h5 class="relative group">1.编写读写分离及高可用配置文件 
+    <div id="1%E7%BC%96%E5%86%99%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8F%8A%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E7%BC%96%E5%86%99%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E5%8F%8A%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>[root@db01 conf]# vim schema.xml
+&lt;?xml version=&quot;1.0&quot;?&gt;  
+&lt;!DOCTYPE mycat:schema SYSTEM &quot;schema.dtd&quot;&gt;  
+&lt;mycat:schema xmlns:mycat=&quot;http://io.mycat/&quot;&gt;
+&lt;schema name=&quot;TESTDB&quot; checkSQLschema=&quot;false&quot; sqlMaxLimit=&quot;100&quot; dataNode=&quot;sh1&quot;&gt; 
+&lt;/schema&gt;  
+    &lt;dataNode name=&quot;sh1&quot; dataHost=&quot;oldguo1&quot; database= &quot;world&quot; /&gt;  
+    &lt;dataHost name=&quot;oldguo1&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;1&quot;  writeType=&quot;0&quot; dbType=&quot;mysql&quot;  dbDriver=&quot;native&quot; switchType=&quot;1&quot;&gt; 
+        &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;  
+    &lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt; 
+            &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt; 
+    &lt;/writeHost&gt; 
+    &lt;writeHost host=&quot;db3&quot; url=&quot;10.0.0.52:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt; 
+            &lt;readHost host=&quot;db4&quot; url=&quot;10.0.0.52:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt; 
+    &lt;/writeHost&gt;        
+    &lt;/dataHost&gt;  
+&lt;/mycat:schema&gt;
+</code></pre>
+
+
+<h5 class="relative group">2.配置文件介绍 
+    <div id="2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<p>真正的 writehost：负责写操作的writehost<br>
+standby writeHost ：和readhost一样，只提供读服务<br>
+当写节点宕机后，后面跟的readhost也不提供服务，这时候standby的writehost就提供写服务，<br>
+后面跟的readhost提供读服务</p>
+
+
+<h5 class="relative group">3.测试： 
+    <div id="3%E6%B5%8B%E8%AF%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3%E6%B5%8B%E8%AF%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h5>
+<pre><code>mycat restart
+mysql -uroot -p123456 -h 127.0.0.1 -P 8066
+
+读写分离测试
+mysql -uroot -p -h 127.0.0.1 -P8066
+select @@server_id;
+
+begin;
+select @@server_id;
+commit;
+
+对db01 3307节点进行关闭和启动,测试读写操作
+</code></pre>
+
+
+<h2 class="relative group">9. 配置中的属性介绍: 
+    <div id="9-%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E4%BB%8B%E7%BB%8D" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#9-%E9%85%8D%E7%BD%AE%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E4%BB%8B%E7%BB%8D" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+
+
+<h4 class="relative group">1.balance属性 
+    <div id="1balance%E5%B1%9E%E6%80%A7" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1balance%E5%B1%9E%E6%80%A7" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>负载均衡类型，目前的取值有3种：<br>
+1.balance=&ldquo;0&rdquo;, 不开启读写分离机制，所有读操作都发送到当前可用的writeHost上<br>
+2.balance=&ldquo;1&rdquo;,全部的readHost与standby writeHost参与select语句的负载均衡，简单的说,当双主双从模式(M1-&gt;S1，M2-&gt;S2，并且M1与 M2互为主备)，正常情况下，M2,S1,S2都参与select语句的负载均衡<br>
+3.balance=&ldquo;2&rdquo;，所有读操作都随机的在writeHost、readhost上分发</li>
+</ul>
+
+
+<h4 class="relative group">2.writeType属性 
+    <div id="2writetype%E5%B1%9E%E6%80%A7" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2writetype%E5%B1%9E%E6%80%A7" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>负载均衡类型，目前的取值有2种：<br>
+1.writeType=&ldquo;0&rdquo;, 所有写操作发送到配置的第一个writeHost，第一个挂了切到还生存的第二个writeHost，重新启动后已切换后的为主，切换记录在配置文件中:dnindex.properties<br>
+2.writeType=“1”，所有写操作都随机的发送到配置的writeHost，但不推荐使用</li>
+</ul>
+
+
+<h4 class="relative group">3.switchType属性 
+    <div id="3switchtype%E5%B1%9E%E6%80%A7" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3switchtype%E5%B1%9E%E6%80%A7" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>-1   表示不自动切换 
+ 1   默认值，自动切换 
+ 2   基于MySQL主从同步的状态决定是否切换 ，心跳语句为 show slave status
+</code></pre>
+<ul>
+<li>
+<p>datahost其他配置</p>
+<dataHost name="localhost1" maxCon="1000" minCon="10" balance="1"  writeType="0" dbType="mysql"  dbDriver="native" switchType="1"> 
+<p>maxCon=&ldquo;1000&rdquo;：最大的并发连接数
+minCon=&ldquo;10&rdquo; ：mycat在启动之后，会在后端节点上自动开启的连接线程</p>
+<p>tempReadHostAvailable=&ldquo;1&rdquo;
+这个一主一从时（1个writehost，1个readhost时），可以开启这个参数，如果2个writehost，2个readhost时
+<heartbeat>select user()</heartbeat>  监测心跳</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">10.垂直分表 
+    <div id="10%E5%9E%82%E7%9B%B4%E5%88%86%E8%A1%A8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#10%E5%9E%82%E7%9B%B4%E5%88%86%E8%A1%A8" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<ul>
+<li>
+<p>编写配置文件</p>
+<p>vim schema.xml</p>
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<p>&lt;mycat:schema xmlns:mycat=&ldquo;<a href="http://io.mycat/%22%3e" target="_blank">http://io.mycat/"></a>
+<schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="sh1">
+<table name="user" dataNode="sh1"/>
+<table name="order_t" dataNode="sh2"/>
+</schema>
+<dataNode name="sh1" dataHost="oldguo1" database= "taobao" />
+<dataNode name="sh2" dataHost="oldguo2" database= "taobao" /></p>
+<pre><code>&lt;dataHost name=&quot;oldguo1&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;1&quot;  writeType=&quot;0&quot; dbType=&quot;mysql&quot;  dbDriver=&quot;native&quot; switchType=&quot;1&quot;&gt;
+    &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;
+&lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;writeHost host=&quot;db3&quot; url=&quot;10.0.0.52:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db4&quot; url=&quot;10.0.0.52:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;/dataHost&gt;
+
+&lt;dataHost name=&quot;oldguo2&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;1&quot;  writeType=&quot;0&quot; dbType=&quot;mysql&quot;  dbDriver=&quot;native&quot; switchType=&quot;1&quot;&gt;
+    &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;
+&lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3308&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3310&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;writeHost host=&quot;db3&quot; url=&quot;10.0.0.52:3308&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db4&quot; url=&quot;10.0.0.52:3310&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;/dataHost&gt;
+</code></pre>
+<p>&lt;/mycat:schema&gt;</p>
+</li>
+<li>
+<p>创建测试库和表:</p>
+<p>mysql -S /data/3307/mysql.sock -e &ldquo;create database taobao charset utf8;&rdquo;
+mysql -S /data/3308/mysql.sock -e &ldquo;create database taobao charset utf8;&rdquo;
+mysql -S /data/3307/mysql.sock -e &ldquo;use taobao;create table user(id int,name varchar(20))&rdquo;;
+mysql -S /data/3308/mysql.sock -e &ldquo;use taobao;create table order_t(id int,name varchar(20))&rdquo;</p>
+</li>
+<li>
+<p>重启测试 :</p>
+<p>mycat restart
+mysql -uroot -p -h 127.0.0.1 -P8066</p>
+<p>use  TESTDB ;
+mysql&gt; insert into order_t(id,name) values(1,&lsquo;c&rsquo;);
+mysql&gt; insert into order_t(id,name) values(2,&rsquo;d&rsquo;);
+mysql&gt; insert into user(id,name) values(1,&lsquo;a&rsquo;);
+mysql&gt; insert into user(id,name) values(2,&lsquo;b&rsquo;);</p>
+</li>
+<li>
+<p>分别登陆后端主节点查看数据</p>
+<p>mysql -S /data/3307/mysql.sock -e &ldquo;select * from taobao.user&rdquo;
+mysql -S /data/3308/mysql.sock -e &ldquo;select * from taobao.order_t&rdquo;</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">11. MyCAT核心特性——分片（水平拆分） 
+    <div id="11-mycat%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7%E5%88%86%E7%89%87%E6%B0%B4%E5%B9%B3%E6%8B%86%E5%88%86" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#11-mycat%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7%E5%88%86%E7%89%87%E6%B0%B4%E5%B9%B3%E6%8B%86%E5%88%86" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<ul>
+<li>分片：对一个&quot;bigtable&rdquo;，比如说t3表<br>
+(1)行数非常多，800w<br>
+(2)访问非常频繁</li>
+<li>分片的目的：<br>
+（1）将大数据量进行分布存储<br>
+（2）提供均衡的访问路由</li>
+<li>分片策略：<br>
+范围 range<br>
+取模 mod<br>
+枚举<br>
+哈希 hash<br>
+时间 流水</li>
+</ul>
+<p>优化关联查询<br>
+全局表<br>
+ER分片</p>
+
+
+<h2 class="relative group">12 .范围分片 
+    <div id="12-%E8%8C%83%E5%9B%B4%E5%88%86%E7%89%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#12-%E8%8C%83%E5%9B%B4%E5%88%86%E7%89%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>比如说t3表<br>
+(1)行数非常多，2000w（1-1000w:sh1 1000w-2000w:sh2）<br>
+(2)访问非常频繁，用户访问较离散</p>
+
+
+<h4 class="relative group">1.修改配置文件 
+    <div id="1%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>
+<p>schema文件</p>
+<p>vim schema.xml</p>
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<p>&lt;mycat:schema xmlns:mycat=&ldquo;<a href="http://io.mycat/%22%3e" target="_blank">http://io.mycat/"></a>
+<schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="sh1">
+<table name="t3" dataNode="sh1,sh2" rule="auto-sharding-long" />
+</schema>
+<dataNode name="sh1" dataHost="oldguo1" database= "taobao" />
+<dataNode name="sh2" dataHost="oldguo2" database= "taobao" /></p>
+<pre><code>&lt;dataHost name=&quot;oldguo1&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;1&quot;  writeType=&quot;0&quot; dbType=&quot;mysql&quot;  dbDriver=&quot;native&quot; switchType=&quot;1&quot;&gt;
+    &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;
+&lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;writeHost host=&quot;db3&quot; url=&quot;10.0.0.52:3307&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db4&quot; url=&quot;10.0.0.52:3309&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;/dataHost&gt;
+
+&lt;dataHost name=&quot;oldguo2&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;1&quot;  writeType=&quot;0&quot; dbType=&quot;mysql&quot;  dbDriver=&quot;native&quot; switchType=&quot;1&quot;&gt;
+    &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;
+&lt;writeHost host=&quot;db1&quot; url=&quot;10.0.0.51:3308&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db2&quot; url=&quot;10.0.0.51:3310&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;writeHost host=&quot;db3&quot; url=&quot;10.0.0.52:3308&quot; user=&quot;root&quot; password=&quot;123&quot;&gt;
+        &lt;readHost host=&quot;db4&quot; url=&quot;10.0.0.52:3310&quot; user=&quot;root&quot; password=&quot;123&quot; /&gt;
+&lt;/writeHost&gt;
+&lt;/dataHost&gt;
+</code></pre>
+<p>&lt;/mycat:schema&gt;</p>
+</li>
+<li>
+<p>rule文件</p>
+<p>vim rule.xml
+<tableRule name="auto-sharding-long">
+<rule>
+<columns>id</columns>
+<algorithm>rang-long</algorithm>
+</rule></p>
+<p><function name="rang-long"
+class="io.mycat.route.function.AutoPartitionByLong">
+<property name="mapFile">autopartition-long.txt</property>
+</function></p>
+</li>
+<li>
+<p>autopartition-long.txt文件</p>
+<p>vim autopartition-long.txt
+0-10=0
+10-20=1</p>
+</li>
+</ul>
+
+
+<h4 class="relative group">2.创建测试 
+    <div id="2%E5%88%9B%E5%BB%BA%E6%B5%8B%E8%AF%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E5%88%9B%E5%BB%BA%E6%B5%8B%E8%AF%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>mysql -S /data/3307/mysql.sock -e &quot;use taobao;create table t3 (id int not null primary key auto_increment,name varchar(20) not null);&quot;
+
+mysql -S /data/3308/mysql.sock  -e &quot;use taobao;create table t3 (id int not null primary key auto_increment,name varchar(20) not null);&quot;
+</code></pre>
+
+
+<h4 class="relative group">3.测试 
+    <div id="3%E6%B5%8B%E8%AF%95-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3%E6%B5%8B%E8%AF%95-1" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>重启mycat
+mycat restart
+mysql -uroot -p123456 -h 127.0.0.1 -P 8066
+insert into t3(id,name) values(1,'a');
+insert into t3(id,name) values(2,'b');
+insert into t3(id,name) values(3,'c');
+insert into t3(id,name) values(4,'d');
+insert into t3(id,name) values(11,'aa');
+insert into t3(id,name) values(12,'bb');
+insert into t3(id,name) values(13,'cc');
+insert into t3(id,name) values(14,'dd');
+insert into t3(id,name) values(10,'ddd');
+</code></pre>
+<p>分别登陆后端主节点查看数据</p>
+<pre><code>mysql -S /data/3307/mysql.sock -e &quot;select * from taobao.t3&quot;
+mysql -S /data/3308/mysql.sock -e &quot;select * from taobao.t3&quot;
+</code></pre>
+
+
+<h2 class="relative group">13. 取模分片（mod-long）： 
+    <div id="13-%E5%8F%96%E6%A8%A1%E5%88%86%E7%89%87mod-long" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#13-%E5%8F%96%E6%A8%A1%E5%88%86%E7%89%87mod-long" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>取余分片方式：分片键（一个列）与节点数量进行取余，得到余数，将数据写入对应节点</p>
+
+
+<h4 class="relative group">修改配置文件 
+    <div id="%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>
+<p>schema配置</p>
+<p>vim schema.xml</p>
+<table name="t4" dataNode="sh1,sh2" rule="mod-long" />
+</li>
+</ul>
+<p>rule配置</p>
+<pre><code>vim rule.xml
+&lt;property name=&quot;count&quot;&gt;2&lt;/property&gt;
+</code></pre>
+
+
+<h4 class="relative group">准备测试环境 
+    <div id="%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>
+<p>创建测试表</p>
+<p>mysql -S /data/3307/mysql.sock -e &ldquo;use taobao;create table t4 (id int not null primary key auto_increment,name varchar(20) not null);&rdquo;
+mysql -S /data/3308/mysql.sock -e &ldquo;use taobao;create table t4 (id int not null primary key auto_increment,name varchar(20) not null);&rdquo;</p>
+</li>
+<li>
+<p>重启mycat</p>
+<p>mycat restart</p>
+</li>
+<li>
+<p>测试</p>
+<p>mysql -uroot -p123456 -h10.0.0.52 -P8066</p>
+<p>use TESTDB
+insert into t4(id,name) values(1,&lsquo;a&rsquo;);
+insert into t4(id,name) values(2,&lsquo;b&rsquo;);
+insert into t4(id,name) values(3,&lsquo;c&rsquo;);
+insert into t4(id,name) values(4,&rsquo;d&rsquo;);</p>
+</li>
+<li>
+<p>分别登录后端节点查询数据</p>
+<p>mysql -S /data/3307/mysql.sock
+use taobao
+select * from t4;</p>
+<p>mysql -S /data/3308/mysql.sock
+use taobao
+select * from t4;</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">14. 枚举分片 
+    <div id="14-%E6%9E%9A%E4%B8%BE%E5%88%86%E7%89%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#14-%E6%9E%9A%E4%B8%BE%E5%88%86%E7%89%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>t5 表<br>
+id name telnum<br>
+1 bj 1212<br>
+2 sh 22222<br>
+3 bj 3333<br>
+4 sh 44444<br>
+5 bj 5555</p>
+<p>sharding-by-intfile</p>
+
+
+<h4 class="relative group">修改配置文件 
+    <div id="%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-1" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>
+<p>schema配置</p>
+<p>vim schema.xml</p>
+<table name="t5" dataNode="sh1,sh2" rule="sharding-by-intfile" />
+</li>
+<li>
+<p>rule配置</p>
+<p>vim rule.xml
+<tableRule name="sharding-by-intfile">
+<rule> <columns>name</columns>
+<algorithm>hash-int</algorithm>
+</rule>
+</tableRule></p>
+<function name="hash-int" class="org.opencloudb.route.function.PartitionByFileMap"> 
+<property name="mapFile">partition-hash-int.txt</property> 
+  <property name="type">1</property>
+                <property name="defaultNode">0</property>
+</function> 
+</li>
+<li>
+<p>partition-hash-int.txt 配置</p>
+<p>bj=0
+sh=1
+DEFAULT_NODE=1</p>
+</li>
+</ul>
+<p>columns 标识将要分片的表字段，algorithm 分片函数， 其中分片函数配置中，mapFile标识配置文件名称</p>
+
+
+<h4 class="relative group">2.准备测试环境 
+    <div id="2%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>
+<p>准备数据</p>
+<p>mysql -S /data/3307/mysql.sock -e &ldquo;use taobao;create table t5 (id int not null primary key auto_increment,name varchar(20) not null);&rdquo;</p>
+<p>mysql -S /data/3308/mysql.sock -e &ldquo;use taobao;create table t5 (id int not null primary key auto_increment,name varchar(20) not null);&rdquo;</p>
+</li>
+<li>
+<p>重启mycat</p>
+<p>mycat restart
+mysql -uroot -p123456 -h10.0.0.51 -P8066
+use TESTDB
+insert into t5(id,name) values(1,&lsquo;bj&rsquo;);
+insert into t5(id,name) values(2,&lsquo;sh&rsquo;);
+insert into t5(id,name) values(3,&lsquo;bj&rsquo;);
+insert into t5(id,name) values(4,&lsquo;sh&rsquo;);
+insert into t5(id,name) values(5,&rsquo;tj&rsquo;);</p>
+</li>
+</ul>
+
+
+<h2 class="relative group">15 . Mycat全局表 
+    <div id="15--mycat%E5%85%A8%E5%B1%80%E8%A1%A8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#15--mycat%E5%85%A8%E5%B1%80%E8%A1%A8" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>a b c d<br>
+join<br>
+t</p>
+<p>select t1.name ,t.x from t1<br>
+join t<br>
+select t2.name ,t.x from t2<br>
+join t<br>
+select t3.name ,t.x from t3<br>
+join t</p>
+<p>使用场景：<br>
+如果你的业务中有些数据类似于数据字典，比如配置文件的配置，<br>
+常用业务的配置或者数据量不大很少变动的表，这些表往往不是特别大，<br>
+而且大部分的业务场景都会用到，那么这种表适合于Mycat全局表，无须对数据进行切分，<br>
+要在所有的分片上保存一份数据即可，Mycat 在Join操作中，业务表与全局表进行Join聚合会优先选择相同分片内的全局表join，<br>
+避免跨库Join，在进行数据插入操作时，mycat将把数据分发到全局表对应的所有分片执行，在进行数据读取时候将会随机获取一个节点读取数据。</p>
+
+
+<h4 class="relative group">1.修改配置 
+    <div id="1%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>vim schema.xml 
+&lt;table name=&quot;t_area&quot; primaryKey=&quot;id&quot;  type=&quot;global&quot; dataNode=&quot;sh1,sh2&quot; /&gt; 
+</code></pre>
+
+
+<h4 class="relative group">2.后端数据准备 
+    <div id="2%E5%90%8E%E7%AB%AF%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2%E5%90%8E%E7%AB%AF%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>mysql -S /data/3307/mysql.sock 
+use taobao
+create table t_area (id int not null primary key auto_increment,name varchar(20) not null);
+
+mysql -S /data/3308/mysql.sock 
+use taobao
+create table t_area  (id int not null primary key auto_increment,name varchar(20) not null);
+</code></pre>
+
+
+<h4 class="relative group">3.重启mycat 
+    <div id="3%E9%87%8D%E5%90%AFmycat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3%E9%87%8D%E5%90%AFmycat" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>mycat restart 
+</code></pre>
+
+
+<h4 class="relative group">4.测试 
+    <div id="4%E6%B5%8B%E8%AF%95" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4%E6%B5%8B%E8%AF%95" aria-label="Anchor">#</a>
+    </span>        
+    
+</h4>
+<pre><code>mysql -uroot -p123456 -h10.0.0.52 -P8066
+
+use TESTDB
+insert into t_area(id,name) values(1,'a');
+insert into t_area(id,name) values(2,'b');
+insert into t_area(id,name) values(3,'c');
+insert into t_area(id,name) values(4,'d');
+</code></pre>
+
+
+<h2 class="relative group">16. E-R分片 
+    <div id="16-e-r%E5%88%86%E7%89%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#16-e-r%E5%88%86%E7%89%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>A<br>
+join<br>
+B<br>
+为了防止跨分片join，可以使用E-R模式<br>
+A join B<br>
+on a.xx=b.yy<br>
+join C<br>
+on A.id=C.id</p>
+<table name="A" dataNode="sh1,sh2" rule="mod-long">  
+<childTable name="B" joinKey="yy" parentKey="xx" />  
+</table>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-03-25-mysql分布式架构13-mysql分布式架构.md"
+        var oid_likes = "likes_posts\/2020-03-25-mysql分布式架构13-mysql分布式架构.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/1901.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >编译安装openssh新版本编译安装openssh新版本</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-25T10:00:06&#43;08:00">25 March 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/1918.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >故障转移群集故障怎么修复</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-25T23:18:56&#43;08:00">25 March 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>K8s基础概念 on My New Hugo Site</title><link>https://example.org/categories/k8s%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</link><description>Recent content in K8s基础概念 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 03 Aug 2020 02:47:02 +0800</lastBuildDate><atom:link href="https://example.org/categories/k8s%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/index.xml" rel="self" type="application/rss+xml"/><item><title>使用Kubeadm快速搭建一个k8s集群---【v1.18】</title><link>https://example.org/2663.html</link><pubDate>Mon, 03 Aug 2020 02:47:02 +0800</pubDate><guid>https://example.org/2663.html</guid><description>&lt;p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。&lt;/p>
+&lt;p>这个工具能通过两条指令完成一个kubernetes集群的部署：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="1-安装要求">1. 安装要求&lt;/h2>
+&lt;p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：&lt;/p>
+&lt;ul>
+&lt;li>一台或多台机器，操作系统 CentOS7.x-86_x64&lt;/li>
+&lt;li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多&lt;/li>
+&lt;li>集群中所有机器之间网络互通&lt;/li>
+&lt;li>可以访问外网，需要拉取镜像&lt;/li>
+&lt;li>禁止swap分区&lt;/li>
+&lt;/ul>
+&lt;h2 id="2-准备环境">2. 准备环境&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>角色&lt;/th>
+ &lt;th>IP&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>k8s-master&lt;/td>
+ &lt;td>192.168.31.61&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>k8s-node1&lt;/td>
+ &lt;td>192.168.31.62&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>k8s-node2&lt;/td>
+ &lt;td>192.168.31.63&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="3-所有节点安装dockerkubeadmkubelet">3. 所有节点安装Docker/kubeadm/kubelet&lt;/h2>
+&lt;p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。&lt;/p>
+&lt;h3 id="31-安装docker">3.1 安装Docker&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="32-添加阿里云yum软件源">3.2 添加阿里云YUM软件源&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>ubuntu系统配置源并安装：&lt;/p></description></item><item><title>三年之久的 etcd3 数据不一致 bug 分析</title><link>https://example.org/2368.html</link><pubDate>Mon, 27 Apr 2020 11:52:02 +0800</pubDate><guid>https://example.org/2368.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->众所周知，etcd 本身是一个强一致性的 KV 存储，在写操作成功的情况下，两次读请求不应该读取到不一样的数据。怀着不信邪的态度，我们通过 etcdctl 直接查询了 etcd 集群状态和&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->集群数据，返回结果显示 3 个节点状态都正常，且 RaftIndex 一致，观察 etcd 的日志也并未发现报错信息，唯一可疑的地方是 3 个节点的 dbsize 差别较大。接着，&lt;!-- raw HTML omitted -->我们又将 client 访问的 endpoint 指定为不同节点地址来查询每个节点的 key 的数量&lt;!-- raw HTML omitted -->，结果发现 3 个节点返回的 key 的数量不一致，甚至两个不同节点上 Key 的数量差最大可达到几千！而直接通过 etcdctl 查询刚才创建的 Pod，发现访问某些 endpoint 能够查询到该 pod，而访问其他 endpoint 则查不到。至此，基本可以确定 etcd 集群的节点之间确实存在数据不一致现象。&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>Kubernetes主机和容器的监控方案</title><link>https://example.org/2019.html</link><pubDate>Fri, 27 Mar 2020 09:55:48 +0800</pubDate><guid>https://example.org/2019.html</guid><description>&lt;blockquote>
+&lt;p>&lt;strong>摘要&lt;/strong>：随着Docker容器云的广泛应用，大量的业务软件运行在容器中，这使得对docker容器的监控越来越重要。传统的监控系统大多数是针对物理机或者虚拟机设计的，而容器的特点不同与传统的物理机或者虚拟机，如果还是采用传统的监控系统，则会增加监控复杂程度，那么如何对容器进行监控呢？&lt;/p>
+&lt;/blockquote>
+&lt;p>大家晚上好，今天很高兴能在这里和大家一起交流和分享在工作中的一些经验和总结。都知道监控在运维体系乃至产品的整个生命中期都是重要的一个环节，针对不同的应用场景，监控方案也会有很大的不同。本次就和大家分享一下我在开发我们公司新产品ufleet的监控模块时的一些技术总结，如果有错误的地方，欢迎大家指出。主要内容有:&lt;/p>
+&lt;p>1.数据的采集方式&lt;/p>
+&lt;p>2.监控原理&lt;/p>
+&lt;p>3.容器的监控方案&lt;/p>
+&lt;p>4.kubernetes上的主机和容器的监控&lt;/p>
+&lt;p>5.监控工具的对比&lt;/p>
+&lt;p>一个完整的监控体系包括：采集数据、分析存储数据、展示数据、告警以及自动化处理、监控工具自身的安全机制，接下来会对数据的采集和监控原理深入讲解，其他部分会在一些架构中穿插讲解。&lt;/p>
+&lt;h2 id="一-数据的采集方式">一 、数据的采集方式&lt;/h2>
+&lt;p>1.命令行方式。比如在linux系统上使用top，vmstat，netstat写一些shell脚本进行数据的采集，再把数据存储在文本文件中进行处理。&lt;/p>
+&lt;p>2.嵌入式。通过在进程中运行agent的方式获取应用的状态。如目前的APM产品都是通过将监控工具嵌入到应用内部进行数据采集。&lt;/p>
+&lt;p>3.主动输出。提前在应用中埋点，应用主动上报。比如一些应用系统的业务状态，可以通过在日志中主动输出状态用于采集。&lt;/p>
+&lt;p>4.旁路式。通过外部获取的方式采集数据。比如对网站url的探测，模拟业务的报文 ，对服务器的ping，流量的监控。可以通过在交换机上将流量进行端口复制，将源始流量复制到另一个端口后再进行处理，这样这业务系统是完全没有侵入。&lt;/p>
+&lt;p>5.远程接入。通过对应用进程接口调用获取应用的状态。比如使用JMX的方式连接到java进程中，对进程的状态进行采集。&lt;/p>
+&lt;p>6.入侵式。不同于嵌入式，入侵式的agent是独立运行的进程，而不是运行在进程中。这个目前监控工具比较常用的方式，比如zabbix，在主机上运行一个进程进行相关数据的采集。&lt;/p>
+&lt;h2 id="二监控原理">二、监控原理&lt;/h2>
+&lt;p>具体监控指标总结如下：&lt;/p>
+&lt;ul>
+&lt;li>首先是容器本身资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机的资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机上容器镜像情况，名字，大小，版本。&lt;/li>
+&lt;/ul>
+&lt;h3 id="1主机的监控">1.主机的监控&lt;/h3>
+&lt;p>&lt;strong>（1）Cpu数据&lt;/strong>&lt;/p>
+&lt;p>使用top命令可以查看当前cpu使用情况，源文件来自/proc/stat&lt;/p>
+&lt;p>采样两个足够短的时间间隔的Cpu快照，分别记作t1,t2，其中t1、t2的结构均为：&lt;/p>
+&lt;p>(user、nice、system、idle、iowait、irq、softirq、stealstolen、guest)的9元组;&lt;/p>
+&lt;p>a) 计算总的Cpu时间片totalCpuTime&lt;/p>
+&lt;ul>
+&lt;li>把第一次的所有cpu使用情况求和，得到s1;&lt;/li>
+&lt;li>把第二次的所有cpu使用情况求和，得到s2;&lt;/li>
+&lt;li>s2 – s1得到这个时间间隔内的所有时间片，即totalCpuTime = j2 – j1 ;&lt;/li>
+&lt;/ul>
+&lt;p>b) 计算空闲时间idle&lt;/p>
+&lt;ul>
+&lt;li>idle对应第四列的数据，用第二次的第四列- 第一次的第四列即可&lt;/li>
+&lt;li>idle=第二次的第四列- 第一次的第四列&lt;/li>
+&lt;/ul>
+&lt;p>c) 计算cpu使用率&lt;/p>
+&lt;ul>
+&lt;li>pcpu =100* (total-idle)/total&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>（2）linux内存监控&lt;/strong>&lt;/p>
+&lt;p>使用free命令可以查看当前内存使用情况。&lt;/p>
+&lt;p>其数据来源是来自/proc/meminfo文件&lt;/p>
+&lt;p>常用的计算公式：&lt;/p>
+&lt;blockquote>
+&lt;p>real_used = used_mem – buffer – cache&lt;/p>
+&lt;p>real_free = free_mem + buffer + cache&lt;/p>
+&lt;p>total_mem = used_mem + free_mem&lt;/p></description></item></channel></rss>

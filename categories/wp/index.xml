@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>WP on My New Hugo Site</title><link>https://example.org/categories/wp/</link><description>Recent content in WP on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 15 Oct 2020 08:32:51 +0800</lastBuildDate><atom:link href="https://example.org/categories/wp/index.xml" rel="self" type="application/rss+xml"/><item><title>WP主题侧边栏导航条设置教程</title><link>https://example.org/2972.html</link><pubDate>Thu, 15 Oct 2020 08:32:51 +0800</pubDate><guid>https://example.org/2972.html</guid><description>&lt;h1 id="wp主题侧边栏导航条设置教程">WP主题侧边栏导航条设置教程&lt;/h1>
+&lt;p>此教程是经过网上的一些教程整理而成的，网上很大一部分设置不成功，&lt;br>
+这里给出RiPro主题最新设置方法&lt;/p>
+&lt;p>找到主题下找到footer.php文件&lt;br>
+将原来的导航条代码全部替换&lt;br>
+原来的代码替换部分参考代码&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>替换为一下代码：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;div class=&amp;quot;coin&amp;quot;&amp;gt;
+ &amp;lt;span class=&amp;quot;label label-warning&amp;quot;&amp;gt;10积分&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>最后的效果就是本站的效果；记得把QQ群连接换了&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item></channel></rss>

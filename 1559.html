@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>在服务器上使用docker实现LNMP实验环境 &middot; Blowfish</title>
+  <meta name="title" content="在服务器上使用docker实现LNMP实验环境 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/1559.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/1559.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="在服务器上使用docker实现LNMP实验环境">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-24T12:31:58+08:00">
+    <meta property="article:modified_time" content="2020-03-24T12:31:58+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在服务器上使用docker实现LNMP实验环境">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "在服务器上使用docker实现LNMP实验环境",
+    "headline": "在服务器上使用docker实现LNMP实验环境",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/1559.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-03-24T12:31:58\u002b08:00",
+    "datePublished": "2020-03-24T12:31:58\u002b08:00",
+    
+    "dateModified": "2020-03-24T12:31:58\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "496"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      在服务器上使用docker实现LNMP实验环境
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-03-24T12:31:58&#43;08:00">24 March 2020</time><span class="px-2 text-primary-500">&middot;</span><span>496 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p><span style="color: black; font-size: 16pt;"><strong>项目主题：在服务器上使用docker实现LNMP实验环境</strong></span><br>
+<span style="color: black;"><strong><br /> </strong></span></p>
+<p><span style="font-size: 12pt;"><strong>项目需求</strong></span><span style="font-size: 9pt;">:</span>公司业务扩展，客户需要使用web访问公司数据库记录信息，现公司决定搭建LNMP平台满足此需求。现阶段客户访问量不是太大,采用一台物理服务器搭建docker实现成本的节约。</p>
+
+
+<h2 class="relative group">思路图： 
+    <div id="%E6%80%9D%E8%B7%AF%E5%9B%BE" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%E6%80%9D%E8%B7%AF%E5%9B%BE" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker1.png" alt="" /> 
+<p style="background: white;">
+  <span style="font-size: 12pt;"><strong>硬件平台:</strong></span>dell R710服务器,内存:16G,cpu:两颗/四核E5504, 硬盘4*300G
+</p>
+<p style="background: white;">
+  <span style="font-size: 12pt;"><strong>软件平台: </strong></span>centos7的服务器系统,docker版本1.10,
+</p>
+<p style="background: white;">
+  centos6.8的基础docker镜像
+</p>
+<p><span style="color: #00b0f0; font-family: Arial; font-size: 15pt;"><strong>Docker</strong></span>的优点：</p>
+<ol>
+<li>快速交付应用程序</li>
+</ol>
+<ul>
+<li>
+<div style="text-align: justify;">
+  <span style="color: #333333;"><span style="font-family: 宋体; font-size: 9pt; background-color: white;">开发者使用一个标准的</span><span style="font-family: Arial;"><span style="font-size: 9pt; background-color: white;"><br /> </span><span style="color: red;"><span style="font-size: 12pt; background-color: white;"><strong>image</strong></span><span style="color: #333333; font-size: 9pt; background-color: white;"><br /> </span></span></span><span style="font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">来构建开发容器，开发完成之后，</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></span>
+</div>
+<p style="text-align: justify;">
+  <span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">系统管理员就可以。使用这个容器来部署代码。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span>
+</p>
+</li>
+<li>
+<div style="text-align: justify;">
+  <span style="color: red;"><span style="font-family: Arial; font-size: 12pt; background-color: white;">docker</span><span style="font-size: 9pt;"><span style="color: #333333; font-family: 宋体; background-color: white;">可</span>以<span style="color: #333333;"><span style="font-family: 宋体; background-color: white;">快速创建容器，快速迭代应用程序，并让整个过程可见，</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></span></span>
+</div>
+<p style="text-align: justify;">
+  <span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">使团队中的其他成员更容易理解应用程序是如何创建和工作的。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span>
+</p>
+</li>
+<li>
+<div style="text-align: justify;">
+  <span style="color: red;"><span style="font-family: Arial; font-size: 12pt; background-color: white;">docker</span><span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">容器很轻！很快！容器的启动时间是次秒级的，节约开发、</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></span>
+</div>
+<p style="text-align: justify;">
+  <span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">测试、部署的时间。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span>
+</p>
+</li>
+</ul>
+<p style="text-align: justify;">
+  <span style="font-size: 10pt;">2. 更容易部署和扩展<br /> </span>
+</p>
+<ul>
+<li>
+<div style="text-align: justify;">
+  <span style="color: red;"><span style="font-family: Arial; font-size: 12pt; background-color: white;">docker</span><span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">容器可以在几乎所有的环境中运行，物理机、虚拟机、公有云、</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></span>
+</div>
+<p style="text-align: justify;">
+  <span style="color: #333333; font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">私有云、个人电脑、服务器等等。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span>
+</p>
+</li>
+<li>
+<div style="text-align: justify;">
+  <span style="color: red;"><span style="font-family: Arial;"><span style="font-size: 12pt; background-color: white;">docker</span><span style="color: #333333; font-size: 9pt; background-color: white;"><br /> </span></span><span style="font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">容器兼容很多平台，这样就可以把一个应用程序从一个平台迁移到另外一个。</span><span style="color: #333333; font-family: Arial; background-color: white;"><br /> </span></span></span>
+</div>
+</li>
+</ul>
+<p><span style="color: #333333; font-family: Arial; font-size: 9pt; background-color: white;">3. </span>效率更高</p>
+<ul>
+<li>
+<div style="text-align: justify;">
+  <span style="color: red;"><span style="font-size: 12pt;"><strong>d<span style="font-family: Arial; background-color: white;">ocker</span></strong></span><span style="color: #333333;"><span style="font-family: 宋体; font-size: 9pt; background-color: white;">容器不需要</span><span style="color: red;"><span style="font-family: Arial;"><span style="font-size: 12pt; background-color: white;">hypervisor</span><span style="color: #333333; font-size: 9pt; background-color: white;"><br /> </span></span><span style="font-size: 9pt;"><span style="font-family: 宋体; background-color: white;">，他是内核级的虚拟化</span><span style="color: #333333; font-family: Arial; background-color: white;"><br /> </span></span></span></span></span>
+</div>
+</li>
+</ul>
+<p><span style="color: #333333; font-family: Arial; font-size: 9pt; background-color: white;">4. </span>快速部署也意味着更简单的管理</p>
+<ul>
+<li>
+<div style="text-align: justify;">
+  <span style="font-size: 9pt;">通<span style="color: #333333;"><span style="font-family: 宋体; background-color: white;">常只需要小小的改变就可以替代以往巨型和大量的更新工作。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></span>
+</div>
+</li>
+</ul>
+<p><span style="color: #00b0f0; font-size: 18pt;"><strong><span style="font-family: Arial; background-color: white;">LNMP</span><span style="font-family: 宋体; background-color: white;">：</span></strong></span>Linux系统下Nginx+MySQL+PHP这种网站服务器架构。</p>
+<p><a href="http://baike.baidu.com/view/1634.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer"><span style="color: red; font-family: Arial; background-color: white;"><strong>Linux</strong></span></a>是服务器操作系统；<a href="http://baike.baidu.com/view/926025.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer"><span style="color: red; font-family: Arial;"><strong>Nginx</strong></span></a>是一个高性能的HTTP和<a href="http://baike.baidu.com/view/1165595.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer">反向代理</a>服务器；<span style="color: red;"><strong>Mysql</strong></span>是一个小型<a href="http://baike.baidu.com/view/1450387.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer">关系型数据库管理系统</a>；<a href="http://baike.baidu.com/view/99.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer"><span style="color: red; font-family: Arial; background-color: white;"><strong>PHP</strong></span></a>是一款超文本预处理器。</p>
+<p>这四种软件均为免费<a href="http://baike.baidu.com/view/444964.htm" target="http://baike.baidu.com/_blank" rel="noopener noreferrer"><span style="color: red; font-family: 宋体; background-color: white;"><strong>开源软件</strong></span></a>，组合到一起，成为一个免费、高效、扩展性强的网站服务系统。</p>
+<p><span style="font-size: 12pt;"><strong>项目实施：</strong></span><span style="font-family: 微软雅黑; font-size: 14pt;"><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 14pt;">部署安装mysql服务</span><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="color: #010101; font-size: 10pt;">使用centos6的基础镜像生成容器：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@localhost Desktop]# docker run -dit -v /docker/:/mysql -v /data/:/data --name mysql docker.io/centos:centos6<span style="color: #010101;"> <span style="color: #333333;"><br /> </span></span></span>
+</p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">-dit ： 分别是指容器可以在后台运行，前端运行，给容器赋予交互式界面<br /> </span></p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">-v :将本地目挂载到容器内部，可实现容器内部访问到宿主机的目录，并实现了容器内的重要数据存储的安全<br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 9pt;">&ndash;name： 给容器起个容器名称。<span style="color: red;">(以下生成容器选项含义一致)</span></span><span style="font-size: 12pt;"><br /> </span></span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">所需软件：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="font-family: 微软雅黑; font-size: 9pt;"><span style="color: #333333;">bison-3.0.4.tar.gz   cmake-3.5.2.tar.gz   ncurses-5.9.tar.gz</span><br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="font-family: 微软雅黑; font-size: 9pt;"><span style="color: #333333;">boost_1_59_0.tar.gz  mysql-5.7.13.tar.gz</span><br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">安装开发所需依赖的安装包：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="font-family: 微软雅黑; font-size: 9pt;"><span style="color: #333333;">[root@213410cda363 /]#yum -y install gcc-c++  m4  perl</span><br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">安装mysql所需软件包：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# tar zxf bison-3.0.4.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# cd bison-3.0.4<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 bison-3.0.4]# ./configure && make && make install<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# tar zxf boost_1_59_0.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# mv boost_1_59_0 /usr/local/boost<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# tar zxf ncurses-5.9.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# cd ncurses-5.9<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 ncurses-5.9]# ./configure && make && make install<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# tar zxf  cmake-3.5.2.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# cd cmake-3.5.2<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 cmake-3.5.2]# ./bootstrap && gmake && gmake install<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql]# tar zxf mysql-5.7.13.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 mysql-5.7.13]#cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data -DSYSCONFDIR=/etc -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DEXTRA_CHARSETS=all -DMYSQL_UNIX_ADDR=/usr/local/mysql/mysql.sock -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BOOST=/usr/local/boost && make && make install<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">创建mysql服务运行用户并给安装目录及数据目录授予权限并初始化mysql数据库：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 /]#useradd -s /bin/false -M mysql<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 /]chown -R mysql:mysql /data<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 /]chown -R mysql:mysql /usr/local/mysql/<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 /]/usr/local/mysql/bin/mysqld  --initialize-insecure  --user=mysql  --basedir=/usr/local/mysql --datadir=/data<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="color: #333333; font-size: 12pt;">优化mysql路径：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 data]# tail -1 /etc/profile<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">export PATH=$PATH:/usr/local/mysql/bin<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 data]# . /etc/profile<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">创建mysql的参数文件到/etc下和mysql的启动脚本到/etc/init.d/下添加系统服务</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]#cp my-default.cnf /etc/my.cnf<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]#cp -p mysql.server /etc/init.d/mysqld<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]#chkconfig --add mysqld<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">修改mysql的主配置文件：/etc/my.cnf</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]# grep  -v "^#" /etc/my.cnf | grep -v  "^;" | grep -v "^$"<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[mysqld]</span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">datadir = /data<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">port = 3306<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">server_id = 1<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">socket = /usr/local/mysql/mysql.sock<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">log-error = /data/mysqld.err<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">启动mysql的服务并查看端口：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]# service mysqld start<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">Starting MySQL.. SUCCESS!<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@213410cda363 support-files]# netstat -anpt | grep 3306<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">tcp        0      0 :::3306                     :::*                        LISTEN      -<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">创建访问mysql服务所需用户：<br /> </span></p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker2.png" alt="" /> <span style="font-family: 微软雅黑; font-size: 9pt;"><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 14pt;">部署php服务</span><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="color: #010101; font-size: 10pt;">使用centos6的基础镜像生成容器：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">docker run -dit -v /docker/:/php -v /php/usr/loca/php5/etc --link mysql --name php docker.io/centos:centos6<span style="color: #010101;"><br /> </span></span>
+</p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">&ndash;link mysql：&ldquo;mysql&quot;是容器名称，php服务器是需要连接mysql服务器的，容器之间使用link命令实现容器互连<span style="color: red;">(以下生成容器选项含义一致)</span><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">所需软件</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="font-family: 微软雅黑; font-size: 9pt;"><span style="color: #333333;">php-5.3.28.tar.gz   ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz</span><br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">安装部署php依赖软件包和开发依赖包，并指定mysqlclient库文件</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 /]#yum -y install gd libxml2-devel libjpeg-devel libpng-devel mysql-devel gcc-c++<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 /]#cp /usr/lib64/mysql/libmysqlclient.so.16.0.0 /usr/lib/libmysqlclient.so<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">解压php的tar格式压缩包，并配置安装</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 /]#tar zxf php-5.3.28.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 /]#cd php-5.3.28<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php-5.3.28]# ./configure --prefix=/usr/local/php5 --with-gd --with-zlib --with-mysql --with-mysqli  --with-mysql-sock --with-config-file-path=/usr/local/php5/ --enable-mbstring --enable-fpm --with-jpeg-dir=/usr/lib && make && make install<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">创建php.ini和php-fpm配置文件</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php-5.3.28]# cp php.ini-production /usr/local/php5/etc/php.ini<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 etc]# cp php-fpm.conf.default php-fpm<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">为了提高php解析效率，将ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz解压并配置</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php]# tar zxf ZendGuardLoader-php-5.3-linux-glibc23-x86_64.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php]#cd ZendGuardLoader-php-5.3-linux-glibc23-x86_64/php-5.3.x<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php-5.3.x]# cp ZendGuardLoader.so /usr/local/php5/lib/php/<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">在php主配置文件php.ini添加内容，启用ZendGuardLoader：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker3.png" alt="" align="right" /><span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 php]# tail -2 /usr/local/php5/etc/php.ini<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker4.png" alt="" align="left" /><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker5.png" alt="" align="left" /><span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">zend_extension=/usr/local/php5/lib/php/ZendGuardLoader.so<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker6.png" alt="" align="left" /><span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">zend_loader.enable=1<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">创建监听用户，修改php-fpm配置文件以启动php-fpm进程监听php解析请求：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 etc]# useradd -s /bin/false -M php<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 etc]# grep -v "^;" ./php-fpm  | grep -v "^$"<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker7.png" alt="" /><span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;"><br /> </span>
+</p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker8.png" alt="" /> <span style="font-family: 微软雅黑; font-size: 12pt;"><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">启动php-fpm进程并查看进程监听状态</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 etc]# /usr/local/php5/sbin/php-fpm<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@b4dd46498f63 etc]# netstat -anpt | grep  9000<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">tcp        0      0 0.0.0.0:9000                0.0.0.0:*                   LISTEN      808/php-fpm<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;"> 创建php连接mysql，及php语言创建的测试文件：<br /> </span></p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">创建存放测试文件目录<span style="color: red;">（此目录要与nginx配置文件中的一致）<br /> </span></span></p>
+<img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker9.png" alt="" /> 
+<p>创建nginx可成功连接php服务器文件：</p>
+<img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker10.png" alt="" /> 
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">Php链接mysql脚本：<br /> </span></p>
+<img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker11.png" alt="" /> 
+<p><span style="font-family: 微软雅黑; font-size: 19pt;">部署Nginx<br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="color: #010101; font-size: 10pt;">使用centos6生成nginx容器：</span><br /> </span></p>
+<img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker12.png" alt="" /> 
+<p>-p: nginx是前端监听客户端访问的服务器，所以需要设置监听端口，容器中端口发布时可以使</p>
+<p>用&ndash;port简写-p命令使容器端口映射到宿主机端口，实现服务发布需求</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">所需软件： </span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="font-family: 微软雅黑; font-size: 9pt;"><span style="color: #333333;">nginx-1.11.2.tar.gz</span><br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">安装Nginx的依赖包并且创建服务运行用户：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx]# yun -y install pcre-devel zlib-devel openssl-devel gcc-c++<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx]# useradd -M -s /bin/false nginx<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;"> 解压并且安装nginx：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx]# tar zxf nginx-1.11.2.tar.gz<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx]# cd nginx-1.11.2<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx-1.11.2]# ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --user=nginx --group=nginx<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx-1.11.2]# make && make install<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">做路径优化：</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@e56461580138 nginx-1.11.2]# ln -s /usr/local/nginx/sbin/nginx /usr/local/sbin/<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">修改nginx的住配置文件,使nginx能解析php网页：</span><br /> </span></p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker13.png" alt="" /> <span style="font-family: 微软雅黑;"><br /> </span></p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker14.png" alt="" /> <span style="font-family: 微软雅黑;"><br /> </span></p>
+<p><span style="font-family: 微软雅黑;"><span style="font-size: 12pt;">检测nginx配置文件并启动服务</span><br /> </span></p>
+<p style="background: #fbfaf8;">
+  <img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker15.png" alt="" align="left" /><span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@d34486af8b6d /]# nginx -t<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">nginx: the configuration file /usr/local/nginx/conf/nginx.conf <span style="background-color: red;">syntax is ok</span><br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@d34486af8b6d /]# nginx<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">[root@d34486af8b6d /]# netstat -anpt | grep nginx<br /> </span>
+</p>
+<p style="background: #fbfaf8;">
+  <span style="color: #333333; font-family: 微软雅黑; font-size: 9pt;">tcp        0      0 0.0.0.0:80                  0.0.0.0:*                   LISTEN      16/nginx<br /> </span>
+</p>
+<p><span style="font-family: 微软雅黑; font-size: 12pt;">Lnmp项目到此就做完，进行测试。验证lnmp平台是否可以正常运行：<br /> </span></p>
+<p><span style="font-family: 微软雅黑; font-size: 9pt;">访问静态网页：<br /> </span></p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker16.png" alt="" align="left" /><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker17.png" alt="" /></p>
+<p>测试nginx连接php应用：</p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker18.png" alt="" align="left" /><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker19.png" alt="" /></p>
+<p><span style="color: red;">*经过前两个的测试返回结果。足以证明搭建的lnmp平台顺利实现了web平台的静动分离的效果。<br /> </span></p>
+<p>验证客户端访问mysql数据库的效果：</p>
+<p><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker20.png" alt="" align="left" /><img decoding="async" src="https://www.kubehan.cn/wp-content/uploads/2020/03/032420_1258_docker21.png" alt="" /></p>
+<p>到此，lnmp项目完成。</p>
+<p><span style="color: #333333;"><span style="font-family: 宋体; background-color: white;">六．<span style="font-size: 12pt;"><strong>项目总结</strong></span></span><span style="font-family: Arial; background-color: white;"><strong><br /> </strong></span></span></p>
+<p><span style="color: #333333;"><span style="font-family: 宋体; background-color: white;">使用</span><span style="font-family: Arial; background-color: white;">centos6</span><span style="font-family: 宋体; background-color: white;">的基础镜像编译搭建</span><span style="font-family: Arial; background-color: white;">nginx</span><span style="font-family: 宋体; background-color: white;">、</span><span style="font-family: Arial; background-color: white;">mysql</span><span style="font-family: 宋体; background-color: white;">、</span><span style="font-family: Arial; background-color: white;">php</span><span style="font-family: 宋体; background-color: white;">。组合</span><span style="font-family: Arial; background-color: white;">LEMP</span><span style="font-family: 宋体; background-color: white;">平台，因为是基础镜像，所以在编译过程中的开发软件包部分都没有安装，需手动安装。但是需要注意的是：</span><span style="font-family: Arial; background-color: white;">docker</span><span style="font-family: 宋体; background-color: white;">本身就是一个轻量级虚拟化方案，所以建议不要安装开发组的所有软件包，只安装应用编译时所需要的软件包，以减轻</span><span style="font-family: Arial; background-color: white;">docker</span><span style="font-family: 宋体; background-color: white;">的负载。在安装顺序的时候因为前端应用需要连接后端的服务器，所有建议安装顺序为：</span><span style="font-family: Arial; background-color: white;">mysql&mdash;&mdash;php&mdash;&mdash;nginx</span><span style="font-family: 宋体; background-color: white;">。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></p>
+<p><span style="color: #333333;"><span style="font-family: 宋体; background-color: white;">最终经过全组人员共同测试，搭建的</span><span style="font-family: Arial; background-color: white;">LEMP</span><span style="font-family: 宋体; background-color: white;">平台可以完美的连接各服务器。当客户端访问的静态页面由</span><span style="font-family: Arial; background-color: white;">nginx</span><span style="font-family: 宋体; background-color: white;">应用；当访问的是动态页面时</span><span style="font-family: Arial; background-color: white;">nginx</span><span style="font-family: 宋体; background-color: white;">可以顺利的调用</span><span style="font-family: Arial; background-color: white;">php</span><span style="font-family: 宋体; background-color: white;">服务器；当客户需要往数据库输入数据的时候，客户可以通过</span><span style="font-family: Arial; background-color: white;">nginx</span><span style="font-family: 宋体; background-color: white;">访问</span><span style="font-family: Arial; background-color: white;">php</span><span style="font-family: 宋体; background-color: white;">，</span><span style="font-family: Arial; background-color: white;">php</span><span style="font-family: 宋体; background-color: white;">通过</span><span style="font-family: Arial; background-color: white;">mysql</span><span style="font-family: 宋体; background-color: white;">协议调用</span><span style="font-family: Arial; background-color: white;">mysql</span><span style="font-family: 宋体; background-color: white;">服务器响应给客户端。</span><span style="font-family: Arial; background-color: white;"><br /> </span></span></p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-03-24-在服务器上使用docker实现lnmp实验环境.md"
+        var oid_likes = "likes_posts\/2020-03-24-在服务器上使用docker实现lnmp实验环境.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/1523.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Linux mysql8的安装与主从复制的配置</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-24T05:14:00&#43;08:00">24 March 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/1753.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >搭建FTP虚拟用户</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-24T13:02:07&#43;08:00">24 March 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>小技巧 on My New Hugo Site</title><link>https://example.org/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/</link><description>Recent content in 小技巧 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 23 Oct 2020 03:32:03 +0800</lastBuildDate><atom:link href="https://example.org/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml"/><item><title>.htaccess 强制 HTTP 全部跳转到 HTTPS</title><link>https://example.org/3033.html</link><pubDate>Fri, 23 Oct 2020 03:32:03 +0800</pubDate><guid>https://example.org/3033.html</guid><description>&lt;p>HTTP 80 强制转 HTTPS&lt;/p>
+&lt;p>全站采用https协议访问，所以需要http重定向到https，只需要在.htaccess加入下面规则&lt;/p>
+&lt;p>在相应的网站根目录新建 .htaccess&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>或者&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>这里分享几个实战案例&lt;br>
+1、强制301重定向 HTTPS&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>2、站点绑定多个域名&lt;br>
+只允许www.kubehan.cn 跳转&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>3、一些比较高级的用法，仅供参考&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>4、只要求访问http://bo.kevin.com/beijing/ 时强制跳转到https://bo.kevin.com/beijing/,其他的url访问时都不做http到https的强转!&lt;/p>
+&lt;p>下面的配置,就实现了只是针对http://bo.kevin.com/beijing/这一个单独的url做https的强制跳转,其他url访问时都不做跳转!&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>电脑上如何登录多个微信？---微信多开教程</title><link>https://example.org/3027.html</link><pubDate>Thu, 22 Oct 2020 01:33:53 +0800</pubDate><guid>https://example.org/3027.html</guid><description>&lt;h1 id="电脑上如何登录多个微信---微信多开教程">电脑上如何登录多个微信？-&amp;ndash;微信多开教程&lt;/h1>
+&lt;p>有时候需要多个微信登录，但是微信不像QQ那样可以登录多个！&lt;/p>
+&lt;p>本教程适用于全部的Windows系统：&lt;/p>
+&lt;p>今天就告诉大家如何将微信多开，同时登录多个微信号&lt;br>
+教程开始：&lt;br>
+1、桌面找到微信图标，右键属性，复制目标位置的内容，我的内容如下：&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>2、桌面新建一个文本文档。将刚刚复制的内容粘贴进去&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+格式如下：&lt;br>
+去掉原来的双引号，用双引号把Program Files (x86)引起来，需要多开多少个微信就复制多少行。&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>3、保存文本为.bat格式，重命名为微信.bat&lt;br>
+4、单击运行bat文件就达到了多开效果&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>WP主题侧边栏导航条设置教程</title><link>https://example.org/2972.html</link><pubDate>Thu, 15 Oct 2020 08:32:51 +0800</pubDate><guid>https://example.org/2972.html</guid><description>&lt;h1 id="wp主题侧边栏导航条设置教程">WP主题侧边栏导航条设置教程&lt;/h1>
+&lt;p>此教程是经过网上的一些教程整理而成的，网上很大一部分设置不成功，&lt;br>
+这里给出RiPro主题最新设置方法&lt;/p>
+&lt;p>找到主题下找到footer.php文件&lt;br>
+将原来的导航条代码全部替换&lt;br>
+原来的代码替换部分参考代码&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>替换为一下代码：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;div class=&amp;quot;coin&amp;quot;&amp;gt;
+ &amp;lt;span class=&amp;quot;label label-warning&amp;quot;&amp;gt;10积分&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>最后的效果就是本站的效果；记得把QQ群连接换了&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>获取随即图片的api接口</title><link>https://example.org/2961.html</link><pubDate>Thu, 15 Oct 2020 04:47:36 +0800</pubDate><guid>https://example.org/2961.html</guid><description>&lt;p>获取随即图片的api接口&lt;br>
+效果如图，图片会随机变化！&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>彩色简历通用模板</title><link>https://example.org/2951.html</link><pubDate>Wed, 14 Oct 2020 08:58:02 +0800</pubDate><guid>https://example.org/2951.html</guid><description>&lt;!-- raw HTML omitted --></description></item><item><title>Ripro主题播放优酷腾讯等视频接口解析教程</title><link>https://example.org/2946.html</link><pubDate>Tue, 13 Oct 2020 01:56:29 +0800</pubDate><guid>https://example.org/2946.html</guid><description>&lt;p>现在Ripro貌似不支持解析播放腾讯优酷视频，现在教大家解决这个困惑，&lt;br>
+效果:&lt;br>
+直接在视频播放模块输入你浏览器看到的视频链接即可&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>教程开始&lt;br>
+1、复制下面解析函数代码，放到function.php最下面。&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;div class=&amp;quot;coin&amp;quot;&amp;gt;
+ &amp;lt;span class=&amp;quot;label label-warning&amp;quot;&amp;gt;20积分&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>2、修改parts/video-box.php文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code> 修改后可以自动播放腾讯视频，去除腾讯的广告，并调用腾讯视频的缩略图，具体查看本页视频演示&lt;/code>&lt;/pre></description></item><item><title>局域网内主机时间同步</title><link>https://example.org/2914.html</link><pubDate>Thu, 24 Sep 2020 06:19:55 +0800</pubDate><guid>https://example.org/2914.html</guid><description>&lt;h1 id="局域网内主机时间同步">局域网内主机时间同步&lt;/h1>
+&lt;p>​ 能联网的电脑，大家都知道可以通过网络来校正系统时间，那没有网络的局域网呢？它的时间又是怎么同步和校正的呢？下面来教大家如何通过设置时间服务器来给局域网内的其他电脑同步时间，具体步骤如下：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>两大步骤：一是先设置服务器；二是设置要同步的电脑。&lt;/p>
+&lt;h2 id="方法步骤">方法/步骤&lt;/h2>
+&lt;p>1.首先，我们要先来设置服务器端，开启NTP服务，这个协议必需要在服务器端启动才能实现同步的时间，使用快捷键Win+R输入：regedit&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>2.启用NTPServer服务，找到如下路径：[HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\services\W32Time\TimeProviders\NtpServer] ，右边找到Enable 设置值为1，如下图：&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>3.接着设定强制主机（将其自身设宣布为可靠的时间源） ，找到如下路径：[HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\services\W32Time\config] ，右边找到AnnounceFlags设置值为5，如下图&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>4.重启W32Time服务，来保证设置有效性，这样服务器端就设置好了&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>5.服务器端设置完成后，其他要同步的计算机便可以在”Internet时间设置“中输入作为服务器的IP，点击立即更新，等待同步成功即可&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>如何把Execl表和拆分成单个的excel表格文件</title><link>https://example.org/2902.html</link><pubDate>Thu, 24 Sep 2020 05:36:56 +0800</pubDate><guid>https://example.org/2902.html</guid><description>&lt;h1 id="如何把execl表和拆分成单个的excel表格文件">如何把Execl表和拆分成单个的excel表格文件&lt;/h1>
+&lt;p>需求：&lt;/p>
+&lt;p>现在我有一个excel文件，里面有1000张表，领导要求把这些表中的某100个表单独发给他！&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>疑问：难道我要把这100张表一张一张的复制出来然后再发给老板吗？no no no&lt;/p>
+&lt;p>绝招：拆分表&lt;/p>
+&lt;p>开始教程&lt;/p>
+&lt;p>&lt;strong>步骤1：&lt;strong>打开您的Excel工作簿，然后单击&lt;/strong>开发工具&lt;/strong>选项卡下的“**Visual Basic”**命令，或者只需按“&lt;strong>ALT + F11&lt;/strong>”快捷方式。如果没有开发工具一栏，直接按快捷键&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>**步骤2：**出现“&lt;strong>Visual Basic编辑器&lt;/strong>”窗口 单击“&lt;strong>插入&lt;/strong>” – &amp;gt;“&lt;strong>模块&lt;/strong>”以创建新模块。&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>**步骤3：**将以下VBA代码粘贴到代码窗口中。然后单击“&lt;strong>保存&lt;/strong>”按钮&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>步骤4：然后运行上面的excel宏。单击&lt;strong>运行&lt;/strong>命令&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;h2 id="见证奇迹">见证奇迹&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;p>所有的表格全部变成单个文件&lt;/p></description></item></channel></rss>

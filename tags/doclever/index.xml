@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DOCLever on My New Hugo Site</title><link>https://example.org/tags/doclever/</link><description>Recent content in DOCLever on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 06 Mar 2020 08:13:57 +0800</lastBuildDate><atom:link href="https://example.org/tags/doclever/index.xml" rel="self" type="application/rss+xml"/><item><title>Centos下安装部署DOCLever</title><link>https://example.org/716.html</link><pubDate>Fri, 06 Mar 2020 08:13:57 +0800</pubDate><guid>https://example.org/716.html</guid><description>&lt;p>DOClever是一个可视化接口管理工具 ,可以分析接口结构，校验接口正确性， 围绕接口定义文档，通过一系列自动化工具提升我们的协作效率。&lt;br>
+DOClever前后端全部采用了javascript来作为我们的开发语言，前端用的是vue+element UI，后端是express+mongodb，这样的框架集成了高并发，迭代快的特点，保证系统的稳定可靠。&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item></channel></rss>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jenkins on My New Hugo Site</title><link>https://example.org/tags/jenkins/</link><description>Recent content in Jenkins on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 17 Mar 2020 05:07:37 +0800</lastBuildDate><atom:link href="https://example.org/tags/jenkins/index.xml" rel="self" type="application/rss+xml"/><item><title>安装jenkins</title><link>https://example.org/1023.html</link><pubDate>Tue, 17 Mar 2020 05:07:37 +0800</pubDate><guid>https://example.org/1023.html</guid><description>&lt;p>&lt;!-- raw HTML omitted -->安装&lt;!-- raw HTML omitted -->jenkins&lt;/p>
+&lt;p>Jenkins&lt;!-- raw HTML omitted -->的&lt;!-- raw HTML omitted -->war&lt;!-- raw HTML omitted -->包安装下载地址&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>&lt;a href="https://updates.jenkins-ci.org/download/war/">&lt;a href="https://updates.jenkins-ci.org/download/war/">https://updates.jenkins-ci.org/download/war/&lt;/a>&lt;/a>&lt;/p>
+&lt;p>&lt;!-- raw HTML omitted -->这里采用&lt;!-- raw HTML omitted -->docker&lt;!-- raw HTML omitted -->的方式来运行&lt;!-- raw HTML omitted -->docker&lt;/p>
+&lt;p>docker pull Jenkins&lt;/p>
+&lt;p>mkdir /home/jenkins          &lt;!-- raw HTML omitted -->创建文件夹&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>ls -nd jenkins/                  &lt;!-- raw HTML omitted -->查看文件权限&lt;!-- raw HTML omitted -->&lt;/p></description></item></channel></rss>

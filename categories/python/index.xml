@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on My New Hugo Site</title><link>https://example.org/categories/python/</link><description>Recent content in Python on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 13 Oct 2020 03:48:52 +0800</lastBuildDate><atom:link href="https://example.org/categories/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Error: pg_config executable not found 安装python安装psycopg2报错</title><link>https://example.org/2948.html</link><pubDate>Tue, 13 Oct 2020 03:48:52 +0800</pubDate><guid>https://example.org/2948.html</guid><description>&lt;p>报错信息：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>原因一：&lt;br>
+需要用到插件却没有安装 没有安装postgresql插件&lt;/p>
+&lt;p>解决办法：&lt;br>
+安装插件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>原因二：&lt;br>
+插件版本冲突&lt;br>
+解决办法：卸载原来的版本再安装新版本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>再次安装就能成功了&lt;/p></description></item><item><title>Python视频全套教程</title><link>https://example.org/2878.html</link><pubDate>Mon, 14 Sep 2020 06:24:56 +0800</pubDate><guid>https://example.org/2878.html</guid><description>&lt;!-- raw HTML omitted --></description></item><item><title>Python程序设计之数据结构</title><link>https://example.org/285.html</link><pubDate>Fri, 21 Feb 2020 09:13:52 +0800</pubDate><guid>https://example.org/285.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;br /&amp;gt; 1.堆&amp;lt;br /&amp;gt; 堆是一个二叉树，其中每个父亲节点的值都不大于其所有子节点的值。&amp;lt;br /&amp;gt; &amp;lt;strong&amp;gt;使用数组或列表来实现堆时，对于所有的k（下标，从0开始）都满足heap[k]&amp;lt;=heap[2&amp;lt;em&amp;gt;k+1]和heap[k]&amp;lt;=heap[2&amp;lt;/em&amp;gt;k+2],并且堆中最小的元素总是位于二叉树的根节点。&amp;lt;/strong&amp;gt; 栈又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；&amp;lt;/p&amp;gt; 
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;import heapq #引入堆模块
+&lt;/code>&lt;/pre>
+&lt;p>import random #引入random模块
+data=random.shuffle(list(range(10))) #列表初始化为打乱的数字
+heap=[] #建堆
+for n in data:
+heapq.heappush(heap,n) #堆初始化
+heapq.heappush(heap,0.5) #新数据入堆&lt;br>
+heapq.heappop(heap) #弹出最小的元素，堆会自动重建
+list=[1,2,3] #初始化列表
+heapq.heapify(list) #将列表转换为堆
+heapq.heapreplace(list,6) #替换列表中的元素值，自动重建堆
+heapq.nlargest(2,list) #返回堆中最大的两个元素
+heapq.nsmallest(1,list) #返回堆中最小的元素
+&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p></description></item></channel></rss>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes on My New Hugo Site</title><link>https://example.org/categories/kubernetes/</link><description>Recent content in Kubernetes on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 21 Oct 2022 14:14:40 +0800</lastBuildDate><atom:link href="https://example.org/categories/kubernetes/index.xml" rel="self" type="application/rss+xml"/><item><title>K8S Pod 磁盘治理方案</title><link>https://example.org/3258.html</link><pubDate>Fri, 21 Oct 2022 14:14:40 +0800</pubDate><guid>https://example.org/3258.html</guid><description>&lt;h1 id="k8s-pod-磁盘治理方案">K8S Pod 磁盘治理方案&lt;/h1>
+&lt;p>背景：关于开发程序在Pod内自定义目录打满磁盘，直接影响到线上环境稳定性，增加运维同志处理磁盘告警的负担。特推出以下方案&lt;br>
+灾难案例： 一个服务在在pod内疯狂打日志，输出一小时内输出155G+日志量，直接造成了线上服务因磁盘压力被驱逐&lt;br>
+&lt;!-- raw HTML omitted -->&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;h2 id="解决方案">解决方案：&lt;/h2>
+&lt;p>为每个pod设置默认的可以使用的最大临时卷磁盘大小 limits ephemeral-storage&lt;/p>
+&lt;h3 id="方案可行性验证">方案可行性验证：&lt;/h3>
+&lt;p>目前针对公司环境来说，采取了hostPath 和localPV的方式进行了数据持久化处理，因此对这两种场景进行验证测试&lt;/p>
+&lt;h4 id="hostpath验证测试">hostPath验证测试&lt;/h4>
+&lt;p>对容器进行如下配置&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>验证测试：&lt;br>
+1.进入容器在容器挂载目录/opt 内用 dd if=/dev/zero of=file bs=1M count=20000 测试写一个20G大小的文件&lt;br>
+结果：可写入响应大小的文件&lt;br>
+2.进入容器在非容器挂载目录/home内用 dd if=/dev/zero of=file bs=1M count=20000 测试写一个20G大小的文件&lt;br>
+结果： 超出20Mi 容器立刻被驱逐重启&lt;/p>
+&lt;h4 id="localpv验证测试">LocalPV验证测试&lt;/h4>
+&lt;p>创建一个localPV&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>创建一个Pod并挂载本地LocalPV&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>验证测试过程与上面的类似【待验证】&lt;/p></description></item><item><title>批量导出k8s集群pod运行的镜像脚本</title><link>https://example.org/3167.html</link><pubDate>Fri, 15 Jan 2021 03:34:12 +0800</pubDate><guid>https://example.org/3167.html</guid><description>&lt;p>批量导出k8s集群pod运行的镜像脚本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>直接执行脚本就可以导出镜像&lt;/p></description></item><item><title>部署 metrics-server 后无法使用 top 命令</title><link>https://example.org/3136.html</link><pubDate>Thu, 31 Dec 2020 07:38:11 +0800</pubDate><guid>https://example.org/3136.html</guid><description>&lt;p>等待metrics-server的pod完全启动后，使用 kubectl top 命令，报错如下：&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>kubectl top 报错&lt;br>
+通过 kubectl logs 查看 pod 中应用日志报错如下：&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>metrics-server 应用报错&lt;br>
+根据报错信息初步看是 Pod 中 DNS 无法解析出节点 k8s-master 、k8s-node1、k8s-node2 的 IP，修改其 yaml 文件，让 Pod 通过 IP 直接访问，而不是通过主机名&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>再次修改 yaml 文件，忽略证书校验步骤，已确保 https 调用成功&lt;br>
+&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;p>添加 kubelet-insecure-tls&lt;br>
+再次测试，可正常使用 kubectl top&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>CKA考试真题9月 2020</title><link>https://example.org/2931.html</link><pubDate>Wed, 28 Oct 2020 06:16:40 +0800</pubDate><guid>https://example.org/2931.html</guid><description>&lt;p>待更新。。。。&lt;/p>
+&lt;p>跳转网站：&lt;a href="https://kaoshi.pythondesign.cn/index.php">&lt;a href="https://kaoshi.pythondesign.cn/index.php">https://kaoshi.pythondesign.cn/index.php&lt;/a>&lt;/a>&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title>K8s如何实现滚动升级</title><link>https://example.org/3056.html</link><pubDate>Tue, 27 Oct 2020 07:35:00 +0800</pubDate><guid>https://example.org/3056.html</guid><description>&lt;h1 id="k8s如何实现滚动升级">K8s如何实现滚动升级&lt;/h1>
+&lt;h4 id="k8s滚动更新机制">k8s滚动更新机制：&lt;/h4>
+&lt;p>k8s创建副本应用程序的最佳方法就是部署(Deployment)，部署自动创建副本集(ReplicaSet)，副本集可以精确地控制每次替换的Pod数量，从而可以很好的实现滚动更新。具体来说，k8s每次使用一个新的副本控制器(replication controller)来替换已存在的副本控制器，从而始终使用一个新的Pod模板来替换旧的pod模板。&lt;br>
+大致步骤如下：&lt;/p>
+&lt;ol>
+&lt;li>创建一个新的replication controller。&lt;/li>
+&lt;li>增加或减少pod副本数量，直到满足当前批次期望的数量。&lt;/li>
+&lt;li>删除旧的replicationplication controller。&lt;br>
+#### 实战演示：&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code>使用kubectl更新一个已部署的应用程序，并模拟回滚。为了方便分析，将应用程序的pod副本数量设置为10。 
+扩容副本数量
+
+&amp;lt;pre&amp;gt;&amp;lt;code class=&amp;quot;language-bash&amp;quot;&amp;gt;kubectl -n k8s-apps scale deployment helloworldapi --replicas=10&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>模拟一下nginx服务&lt;br>
+查看部署列表&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>查看在运行的pod&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>通过pod描述，查看应用程序的当前映像版本,这里应该是能看到创建的10个副本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>得知该镜像使用的是1.16.0版本的nginx镜像。现在需要将其升级到1.17.0&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>验证升级成功：&lt;br>
+检查rollout状态&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>正在挨个升级&lt;br>
+检查镜像版本&lt;br>
+和上面一样的命令&lt;/p></description></item><item><title>k8s之coredns部署脚本</title><link>https://example.org/2676.html</link><pubDate>Wed, 12 Aug 2020 03:31:29 +0800</pubDate><guid>https://example.org/2676.html</guid><description>&lt;p>需要注意脚本里面的IP地址的对应关系&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>使用Kubeadm快速搭建一个k8s集群---【v1.18】</title><link>https://example.org/2663.html</link><pubDate>Mon, 03 Aug 2020 02:47:02 +0800</pubDate><guid>https://example.org/2663.html</guid><description>&lt;p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。&lt;/p>
+&lt;p>这个工具能通过两条指令完成一个kubernetes集群的部署：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="1-安装要求">1. 安装要求&lt;/h2>
+&lt;p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：&lt;/p>
+&lt;ul>
+&lt;li>一台或多台机器，操作系统 CentOS7.x-86_x64&lt;/li>
+&lt;li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多&lt;/li>
+&lt;li>集群中所有机器之间网络互通&lt;/li>
+&lt;li>可以访问外网，需要拉取镜像&lt;/li>
+&lt;li>禁止swap分区&lt;/li>
+&lt;/ul>
+&lt;h2 id="2-准备环境">2. 准备环境&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>角色&lt;/th>
+ &lt;th>IP&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>k8s-master&lt;/td>
+ &lt;td>192.168.31.61&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>k8s-node1&lt;/td>
+ &lt;td>192.168.31.62&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>k8s-node2&lt;/td>
+ &lt;td>192.168.31.63&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="3-所有节点安装dockerkubeadmkubelet">3. 所有节点安装Docker/kubeadm/kubelet&lt;/h2>
+&lt;p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。&lt;/p>
+&lt;h3 id="31-安装docker">3.1 安装Docker&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="32-添加阿里云yum软件源">3.2 添加阿里云YUM软件源&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>ubuntu系统配置源并安装：&lt;/p></description></item><item><title>51个Kubernetes工具提高工作效率，涵盖监控、安全、测试、开放、服务网格等！</title><link>https://example.org/2431.html</link><pubDate>Thu, 07 May 2020 10:38:16 +0800</pubDate><guid>https://example.org/2431.html</guid><description>&lt;p>根据Stackrox 最近进行的一项 调查，Kubernetes在市场上的主导地位继续得到加强，有86％的受访者将其用于容器编排。&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->END&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>kubernetes-dashboard不支持谷歌浏览器webui及显示英文解决办法</title><link>https://example.org/2240.html</link><pubDate>Mon, 13 Apr 2020 05:11:42 +0800</pubDate><guid>https://example.org/2240.html</guid><description>&lt;p>K8S Dashboard安装好以后，通过Firefox浏览器解决办法kubernetes-dashboard是可以打开的，但通过Google Chrome浏览器，无法成功浏览页面，对于一些新手来说，傻乎乎的用谷歌打开，缺怎么也打不开，一睹站在怀疑人生的道路上。这里分别给出两盒问题的解决方案&lt;br>
+&lt;strong>不支持谷歌浏览器webui解决办法：&lt;/strong>&lt;br>
+自己创建证书，不使用kubeadmz自动生成的证书&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="101010139为master节点的ip地址">10.10.10.139为master节点的IP地址&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="删除原有证书">删除原有证书&lt;/h1>
+&lt;h1 id="注意新版的dashboard的namespace已经变为kubernetes-dashboard了旧版本的在默认的namespace">注意新版的Dashboard的namespace已经变为kubernetes-dashboard了，旧版本的在默认的namespace&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="创建新证书的secret">创建新证书的secret&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="查找正在运行的pod">查找正在运行的pod&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="删除pod这里补充一下可能有些小伙不敢删除这个pod放心好了删除后新的pod会自动启动起来">删除pod，这里补充一下，可能有些小伙不敢删除这个pod，放心好了，删除后，新的pod会自动启动起来。&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;h1 id="如果pod比较多的时候可以使用以下这条命令批量删除">如果pod比较多的时候，可以使用以下这条命令批量删除。&lt;/h1>
+&lt;!-- raw HTML omitted -->
+&lt;p>这时，再次刷新Chrome浏览器的Dashboard页面就能正常浏览了&lt;br>
+&lt;strong>显示英文解决办法&lt;/strong>&lt;br>
+因为官方默认采用zh显示中文，而不是zh-CN。而浏览器默认为zh-CN。只需要改一下显示语言即可。后期可能会自适应中文。找到谷歌浏览器的设置页-&amp;ndash;-&amp;mdash;-&amp;gt;语言-&amp;ndash;-&amp;ndash;-&amp;ndash;&amp;gt;将中文置顶，原来是中文简体刷新页面变能正常显示中文了&lt;/p></description></item><item><title>k8s环境准备之docker（一）</title><link>https://example.org/2187.html</link><pubDate>Thu, 09 Apr 2020 05:08:36 +0800</pubDate><guid>https://example.org/2187.html</guid><description>&lt;h4 id="1准备docker环境">1.准备docker环境&lt;/h4>
+&lt;p>在每个节点上安装docker-ce-18.09.9&lt;/p>
+&lt;h2 id="下载阿里源repo文件">下载阿里源repo文件&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h4 id="加速镜像源">加速镜像源&lt;/h4>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="配置网卡转发看值是否为1">配置网卡转发,看值是否为1&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="若未配置需要执行如下">若未配置，需要执行如下&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p> &lt;/p>
+&lt;h4 id="2下载镜像">2.下载镜像&lt;/h4>
+&lt;p>使用docker pull的方式，下载如下镜像到各节点&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>镜像下载相关学习链接：&lt;!-- raw HTML omitted -->点击跳转查看&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;h4 id="启动docker报错">启动docker报错&lt;/h4>
+&lt;p>报错分析：应该是daemo.json文件编写的时候格式发生变化&lt;/p></description></item><item><title>K8s部署kubernetes-dashboard</title><link>https://example.org/2106.html</link><pubDate>Wed, 01 Apr 2020 06:07:59 +0800</pubDate><guid>https://example.org/2106.html</guid><description>&lt;p>本人在百度上面搜索了超级多的yaml文件来部署dashboard始终未成功，部署文件不生效就是文件不存在，很是头疼，这里将最近2019年11月成功部署的记录进行笔记存下来，仅供参考&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>更改yaml文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>创建&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>查看部署情况&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>访问https://ip:30001&lt;/p>
+&lt;p>获取令牌&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>这里千万不要直接粘贴复制过去。因为你粘贴的会带有一个空格，必须先粘贴到文本里面把空格删除了才行&lt;!-- raw HTML omitted --> 成功了&lt;/p></description></item><item><title>Kubernetes主机和容器的监控方案</title><link>https://example.org/2019.html</link><pubDate>Fri, 27 Mar 2020 09:55:48 +0800</pubDate><guid>https://example.org/2019.html</guid><description>&lt;blockquote>
+&lt;p>&lt;strong>摘要&lt;/strong>：随着Docker容器云的广泛应用，大量的业务软件运行在容器中，这使得对docker容器的监控越来越重要。传统的监控系统大多数是针对物理机或者虚拟机设计的，而容器的特点不同与传统的物理机或者虚拟机，如果还是采用传统的监控系统，则会增加监控复杂程度，那么如何对容器进行监控呢？&lt;/p>
+&lt;/blockquote>
+&lt;p>大家晚上好，今天很高兴能在这里和大家一起交流和分享在工作中的一些经验和总结。都知道监控在运维体系乃至产品的整个生命中期都是重要的一个环节，针对不同的应用场景，监控方案也会有很大的不同。本次就和大家分享一下我在开发我们公司新产品ufleet的监控模块时的一些技术总结，如果有错误的地方，欢迎大家指出。主要内容有:&lt;/p>
+&lt;p>1.数据的采集方式&lt;/p>
+&lt;p>2.监控原理&lt;/p>
+&lt;p>3.容器的监控方案&lt;/p>
+&lt;p>4.kubernetes上的主机和容器的监控&lt;/p>
+&lt;p>5.监控工具的对比&lt;/p>
+&lt;p>一个完整的监控体系包括：采集数据、分析存储数据、展示数据、告警以及自动化处理、监控工具自身的安全机制，接下来会对数据的采集和监控原理深入讲解，其他部分会在一些架构中穿插讲解。&lt;/p>
+&lt;h2 id="一-数据的采集方式">一 、数据的采集方式&lt;/h2>
+&lt;p>1.命令行方式。比如在linux系统上使用top，vmstat，netstat写一些shell脚本进行数据的采集，再把数据存储在文本文件中进行处理。&lt;/p>
+&lt;p>2.嵌入式。通过在进程中运行agent的方式获取应用的状态。如目前的APM产品都是通过将监控工具嵌入到应用内部进行数据采集。&lt;/p>
+&lt;p>3.主动输出。提前在应用中埋点，应用主动上报。比如一些应用系统的业务状态，可以通过在日志中主动输出状态用于采集。&lt;/p>
+&lt;p>4.旁路式。通过外部获取的方式采集数据。比如对网站url的探测，模拟业务的报文 ，对服务器的ping，流量的监控。可以通过在交换机上将流量进行端口复制，将源始流量复制到另一个端口后再进行处理，这样这业务系统是完全没有侵入。&lt;/p>
+&lt;p>5.远程接入。通过对应用进程接口调用获取应用的状态。比如使用JMX的方式连接到java进程中，对进程的状态进行采集。&lt;/p>
+&lt;p>6.入侵式。不同于嵌入式，入侵式的agent是独立运行的进程，而不是运行在进程中。这个目前监控工具比较常用的方式，比如zabbix，在主机上运行一个进程进行相关数据的采集。&lt;/p>
+&lt;h2 id="二监控原理">二、监控原理&lt;/h2>
+&lt;p>具体监控指标总结如下：&lt;/p>
+&lt;ul>
+&lt;li>首先是容器本身资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机的资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机上容器镜像情况，名字，大小，版本。&lt;/li>
+&lt;/ul>
+&lt;h3 id="1主机的监控">1.主机的监控&lt;/h3>
+&lt;p>&lt;strong>（1）Cpu数据&lt;/strong>&lt;/p>
+&lt;p>使用top命令可以查看当前cpu使用情况，源文件来自/proc/stat&lt;/p>
+&lt;p>采样两个足够短的时间间隔的Cpu快照，分别记作t1,t2，其中t1、t2的结构均为：&lt;/p>
+&lt;p>(user、nice、system、idle、iowait、irq、softirq、stealstolen、guest)的9元组;&lt;/p>
+&lt;p>a) 计算总的Cpu时间片totalCpuTime&lt;/p>
+&lt;ul>
+&lt;li>把第一次的所有cpu使用情况求和，得到s1;&lt;/li>
+&lt;li>把第二次的所有cpu使用情况求和，得到s2;&lt;/li>
+&lt;li>s2 – s1得到这个时间间隔内的所有时间片，即totalCpuTime = j2 – j1 ;&lt;/li>
+&lt;/ul>
+&lt;p>b) 计算空闲时间idle&lt;/p>
+&lt;ul>
+&lt;li>idle对应第四列的数据，用第二次的第四列- 第一次的第四列即可&lt;/li>
+&lt;li>idle=第二次的第四列- 第一次的第四列&lt;/li>
+&lt;/ul>
+&lt;p>c) 计算cpu使用率&lt;/p>
+&lt;ul>
+&lt;li>pcpu =100* (total-idle)/total&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>（2）linux内存监控&lt;/strong>&lt;/p>
+&lt;p>使用free命令可以查看当前内存使用情况。&lt;/p>
+&lt;p>其数据来源是来自/proc/meminfo文件&lt;/p>
+&lt;p>常用的计算公式：&lt;/p>
+&lt;blockquote>
+&lt;p>real_used = used_mem – buffer – cache&lt;/p>
+&lt;p>real_free = free_mem + buffer + cache&lt;/p>
+&lt;p>total_mem = used_mem + free_mem&lt;/p></description></item></channel></rss>

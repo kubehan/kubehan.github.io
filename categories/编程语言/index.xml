@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程语言 on My New Hugo Site</title><link>https://example.org/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>Recent content in 编程语言 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 03 Dec 2021 08:02:33 +0800</lastBuildDate><atom:link href="https://example.org/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml"/><item><title>在Windows中编译Linux运行的Golang程序</title><link>https://example.org/3222.html</link><pubDate>Fri, 03 Dec 2021 08:02:33 +0800</pubDate><guid>https://example.org/3222.html</guid><description>&lt;p>打开CMD，先修改Go环境参数，然后再编译。编译结束恢复为windows的环境参数。&lt;br>
+注意：不知道为什么，在VsCode的Terminal中操作时会失败，但是在cmd.exe中是可以的。&lt;/p>
+&lt;p>修改go环境参数&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>设置完之后，可以查看一下设置是否生效：&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>将环境参数改回windows&lt;br>
+也可不改回，取决于具体需要&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>如何运行一个Golang项目</title><link>https://example.org/3220.html</link><pubDate>Fri, 03 Dec 2021 07:29:55 +0800</pubDate><guid>https://example.org/3220.html</guid><description>&lt;p>运行Go代码流程图&lt;/p>
+&lt;p>&lt;a href="https://www.kubehan.cn/">&lt;!-- raw HTML omitted -->&lt;/a>&lt;/p></description></item></channel></rss>

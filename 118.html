@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>Linux安全基线配置规范 &middot; Blowfish</title>
+  <meta name="title" content="Linux安全基线配置规范 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/118.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/118.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="Linux安全基线配置规范">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-02-18T03:48:56+08:00">
+    <meta property="article:modified_time" content="2020-02-18T03:48:56+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux安全基线配置规范">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "Linux安全基线配置规范",
+    "headline": "Linux安全基线配置规范",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/118.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-02-18T03:48:56\u002b08:00",
+    "datePublished": "2020-02-18T03:48:56\u002b08:00",
+    
+    "dateModified": "2020-02-18T03:48:56\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "395"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      Linux安全基线配置规范
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-02-18T03:48:56&#43;08:00">18 February 2020</time><span class="px-2 text-primary-500">&middot;</span><span>395 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">2 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <!-- wp:paragraph -->
+<p>Linux安全基线配置规范</p>
+<!-- /wp:paragraph -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>Linux安全基线配置规范
+一、	设置密码修改最小间隔时间，限制密码更改过于频繁
+加固建议
+在 /etc/login.defs 中将 PASS_MIN_DAYS 参数设置为7-14之间,建议为7：
+PASS_MIN_DAYS 7
+需同时执行命令为root用户设置：
+chage --mindays 7 root
+二、	设置SSH空闲超时退出时间
+设置SSH空闲超时退出时间,可降低未授权用户访问其他用户ssh会话的风险
+编辑/etc/ssh/sshd_config，将ClientAliveInterval 设置为300到900，即5-15分钟，将ClientAliveCountMax设置为0-3之间。
+ClientAliveInterval 600
+ClientAliveCountMax 2
+三、	密码复杂度检查 
+检查密码长度和密码是否使用多种字符类型
+编辑/etc/security/pwquality.conf，把minlen（密码最小长度）设置为9-32位，
+把minclass（至少包含小写字母、大写字母、数字、特殊字符等4类字符中等3类或4类）设置为3或4。如：
+minlen=10
+minclass=3
+四、	检查密码重用是否受限制 | 身份鉴别
+强制用户不重用最近使用的密码，降低密码猜测攻击风险
+在/etc/pam.d/password-auth和/etc/pam.d/system-auth中password sufficient pam_unix.so 
+这行的末尾配置remember参数为5-24之间，原来的内容不用更改，只在末尾加了remember=5。
+五、	检查系统空密码账户 | 身份鉴别
+检查系统空密码账户
+为用户设置一个非空密码，或者执行`passwd -l &lt;username>`锁定用户
+六、	禁止SSH空密码用户登录 | SSH服务配置
+禁止SSH空密码用户登录
+编辑文件`/etc/ssh/sshd_config`，将PermitEmptyPasswords配置为no:
+PermitEmptyPasswords no
+七、	设置密码失效时间 | 身份鉴别
+设置密码失效时间，强制定期修改密码，减少密码被泄漏和猜测风险，使用非密码登陆方式(如密钥对)请忽略此项。
+`使用非密码登陆方式如密钥对，请忽略此项。`在 `/etc/login.defs `中将 PASS_MAX_DAYS 参数设置为 60-180之间，如:
+PASS_MAX_DAYS 90
+需同时执行命令设置root密码失效时间：
+chage --maxdays 90 root
+八、	确保密码到期警告天数为7或更多 | 身份鉴别
+确保密码到期警告天数为7或更多
+在 /etc/login.defs 中将 PASS_WARN_AGE 参数设置为7-14之间，建议为7：
+PASS_WARN_AGE 7
+同时执行命令使root用户设置生效：  
+chage --warndays 7 root
+九、	确保SSH MaxAuthTries设置为3到6之间 | SSH服务配置
+设置较低的Max AuthTrimes参数将降低SSH服务器被暴力攻击成功的风险。
+在/etc/ssh/sshd_config中取消MaxAuthTries注释符号#，设置最大密码尝试失败次数3-6，建议为4：
+MaxAuthTries 4
+十、	确保rsyslog服务已启用 | 安全审计
+确保rsyslog服务已启用，记录日志用于审计
+运行以下命令启用rsyslog服务：
+systemctl enable rsyslog
+systemctl start rsyslog
+
+
+十一、	安全日志完备性要求
+配置名称：安全日志完备性要求
+配置要求：系统应配置完备日志记录，记录对与系统相关的安全事件。
+操作指南：1、# cat /etc/syslog.conf查看是否有对应配置
+          2、# cat /var/log/secure查看是否有对应配置
+检查方法：1、cat /etc/syslog.conf确认有对应配置；
+          2、查看/var/log/secure，应记录有需要的设备相关的安全事件。
+配置方法：修改配置文件vi /etc/syslog.conf。
+          配置如下类似语句：
+          authpriv.*			/var/log/secure
+          定义为需要保存的设备相关安全事件
+
+十二、	确保SSH LogLevel设置为INFO | 服务配置
+确保SSH LogLevel设置为INFO,记录登录和注销活动
+编辑 /etc/ssh/sshd_config 文件以按如下方式设置参数(取消注释):
+LogLevel INFO
+十三、	访问控制配置文件的权限设置 | 文件权限
+访问控制配置文件的权限设置
+运行以下4条命令：
+chown root:root /etc/hosts.allow 
+chown root:root /etc/hosts.deny 
+chmod 644 /etc/hosts.deny
+chmod 644 /etc/hosts.allow
+十四、	开启地址空间布局随机化 | 入侵防范
+它将进程的内存空间地址随机化来增大入侵者预测目的地址难度，从而降低进程被成功入侵的风险
+在/etc/sysctl.conf或/etc/sysctl.d/*文件中设置以下参数：
+`kernel.randomize_va_space = 2`
+执行命令：
+`sysctl -w kernel.randomize_va_space=2`
+十五、	确保root是唯一的UID为0的帐户 | 身份鉴别
+除root以外其他UID为0的用户都应该删除，或者为其分配新的UID
+除root以外其他UID为0的用户(查看命令`cat /etc/passwd | awk -F: '($3 == 0) { print $1 }'|grep -v '^root$' `)都应该删除，或者为其分配新的UID
+十六、	SSHD强制使用V2安全协议
+描述：SSHD强制使用V2安全协议。
+加固建议
+vim /etc/ssh/sshd_config
+Protocol 2
+
+
+
+十七、	共享账号检查
+配置名称：用户账号分配检查，避免共享账号存在
+配置要求：
+1、系统需按照实际用户分配账号；          
+2、避免不同用户间共享账号，避免用户账号和服务器间通信使用的账号共享。
+参考配置操作：cat /etc/passwd查看当前所有用户的情况；
+检查方法：命令cat /etc/passwd查看当前所有用户的信息，与管理员确认是否有共享账号情况存在。
+配置方法：如需建立用户，参考如下：          #useradd username  #创建账号          #passwd username   #设置密码
+          使用该命令为不同的用户分配不同的账号，设置不同的口令及权限信息等。
+适用版本：Linux Redhat AS 3、Linux Redhat AS 4
+十八、	多余账户锁定策略
+配置名称：多余账户锁定策略
+配置要求：应锁定与设备运行、维护等工作无关的账号。
+操作指南：参考配置操作：
+          查看锁定用户：
+          # cat /etc/password，查看哪些账户的shell域中为nologin；
+检查方法：人工检查：
+          	# cat /etc/password后查看多余账户的shell域为nologin为符合；
+          BVS基线检查：
+          	多余账户处于锁定状态为符合。
+配置方法：锁定用户：
+        修改/etc/password文件，将需要锁定的用户的shell域设为nologin；
+        或通过#passwd –l username锁定账户；
+        只有具备超级用户权限的使用者方可使用#passwd –l username锁定用户,用#passwd –d username解锁后原有密码失效，登录需输入新密码。
+        补充操作说明：
+        一般情况下，需要锁定的用户：lp,nuucp,hpdb,www,demon
+适用版本：Linux Redhat AS 3、Linux Redhat AS 4
+十九、	用户缺省权限控制
+配置名称：用户缺省权限控制
+配置要求：控制用户缺省访问权限，当在创建新文件或目录时应屏蔽掉新文件或目录不应有的访问允许权限,防止同属于该组的其它用户及别的组的用户修改该用户的文件或更高限制。
+操作指南：
+1、# cat /etc/bashrc  查看全局默认设置umask值          
+2、查看具体用户home目录下bash_profile，具体用户的umask
+检查方法：查看全局默认设置umask值为027或更小权限为符合（如有特许权限需求，可根据实际情况判断）；
+          查看具体用户的umask，本着最小权限的原则。
+配置方法：参考配置操作：
+          单独针对用户设置
+          可修改用户home目录下的.bash_profile脚本文件，例如，可增加一条语句：umask 027；对于权限要求较严格的场合，建议设置为077。
+          全局默认设置：
+          默认通过全局脚本/etc/bashrc设置所有用户的默认umask值，修改脚本即可实现对用户默认umask值的全局性修改，
+          通常建议将umask设置为027以上，对于权限要求较严格的场合，建议设置为077
+二十、	SSH登录配置
+配置名称：SSH登录配置
+配置要求：系统应配置使用SSH等加密协议进行远程登录维护，并安全配置SSHD的设置。不使用TELENT进行远程登录维护。
+操作指南：
+1、查看SSH服务状态：# ps –elf|grep ssh；          
+2、查看telnet服务状态：# ps –elf|grep telnet。
+检查方法：
+1、不能使用telnet进行远程维护；          
+2、应使用SSH进行远程维护； 
+3、SH配置要符合如下要求；
+              Protocol  2 #使用ssh2版本
+              X11Forwarding yes #允许窗口图形传输使用ssh加密
+              IgnoreRhosts  yes#完全禁止SSHD使用.rhosts文件
+              RhostsAuthentication no #不设置使用基于rhosts的安全验证
+              RhostsRSAAuthentication no #不设置使用RSA算法的基于rhosts的安全验证
+              HostbasedAuthentication no #不允许基于主机白名单方式认证
+              PermitRootLogin no #不允许root登录
+              PermitEmptyPasswords no #不允许空密码
+              Banner /etc/motd  #设置ssh登录时显示的banner          
+4、以上条件都满足为符合。
+配置方法：1、参考配置操作
+            编辑 sshd_config，添加相关设置，SSHD相关安全设置选项参考检查方法中的描述。  2、补充操作说明
+查看SSH服务状态：# ps –elf|grep ssh
+二十一、	关闭不必要的系统服务
+配置名称：关闭不必要的系统服务
+配置要求：根据每台机器的不同角色，关闭不需要的系统服务。操作指南中的服务项提供参考，根据服务器的角色和应用情况对启动项进行修改。
+如无特殊需要，应关闭Sendmail、Telnet、Bind等服务。
+操作指南：执行命令 #chkconfig --list，查看哪些服务开放。
+检查方法：与管理员确认无用服务已关闭
+配置方法：
+1、参考配置操作
+使用如下方式禁用不必要的服务#service &lt;服务名> stop #chkconfig –level 35 off        
+2、参考说明
+        Linux/Unix系统服务中，部分服务存在较高安全风险，应当禁用，包括：
+        “lpd”，此服务为行式打印机后台程序，用于假脱机打印工作的UNIX后台程序，此服务通常情况下不用，建议禁用；
+        “telnet”，此服务采用明文传输数据，登陆信息容易被窃取，建议用ssh代替；
+        “routed”，此服务为路由守候进程，使用动态RIP路由选择协议，建议禁用；
+        “sendmail”，此服务为邮件服务守护进程，非邮件服务器应将其关闭；
+        “Bluetooth”，此服务为蓝牙服务，如果不需要蓝牙服务时应关闭；
+        “identd”，此服务为AUTH服务，在提供用户信息方面与finger类似，一般情况下该服务不是必须的，建议关闭；
+        “xfs”，此服务为Linux中X Window的字体服务，关于该服务历史上出现过信息泄露和拒绝服务等漏洞，应以减少系统风险；
+        R服务（“rlogin”、“rwho”、“rsh”、“rexec”），R服务设计上存在严重的安全缺陷，仅适用于封闭环境中信任主机之间便捷访问，
+        其他场合下均必须禁用；
+        基于inetd/xinetd的服务（daytime、chargen、echo等），此类服务建议禁用。
+二十二、	禁止Control-Alt-Delete键盘关闭命令
+配置名称：禁止Control-Alt-Delete键盘关闭命令
+配置要求：应禁止使用Control-Alt-Delete组合键重启服务器，防止误操作
+操作指南：命令cat /etc/inittab，查看配置
+检查方法：/etc/inittab 中应有：“#ca::ctrlaltdel:/sbin/shutdown -t3 -r now”配置为符合。
+配置方法：1、参考配置操作
+            在“/etc/inittab” 文件中注释掉下面这行（使用#）： ca::ctrlaltdel:/sbin/shutdown -t3 -r now  
+            改为： #ca::ctrlaltdel:/sbin/shutdown -t3 -r now  
+            为了使此改动生效，输入下面这个命令： # /sbin/init q        2、补充说明
+            禁止ctl-alt-del使得在控制台直接按ctl-alt-del不能重新启动计算机。
+</code></pre>
+<!-- /wp:code -->
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-02-18-linux安全基线配置规范.md"
+        var oid_likes = "likes_posts\/2020-02-18-linux安全基线配置规范.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/109.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >ApacheSVN配置</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-02-18T03:27:38&#43;08:00">18 February 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/139.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Curl命令超级详解</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-02-18T05:05:04&#43;08:00">18 February 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

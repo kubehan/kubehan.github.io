@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>K8s日志管理可视化 on My New Hugo Site</title><link>https://example.org/categories/k8s%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%8F%AF%E8%A7%86%E5%8C%96/</link><description>Recent content in K8s日志管理可视化 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 27 Aug 2020 05:57:14 +0800</lastBuildDate><atom:link href="https://example.org/categories/k8s%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%8F%AF%E8%A7%86%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes Etcd 数据备份与恢复</title><link>https://example.org/2767.html</link><pubDate>Thu, 27 Aug 2020 05:57:14 +0800</pubDate><guid>https://example.org/2767.html</guid><description>&lt;p>系统环境：&lt;/p>
+&lt;p>Etcd 版本：3.4.3&lt;br>
+Kubernetes 版本：1.17.4&lt;br>
+Kubernetes 安装方式：Kubeadm&lt;br>
+一、简介Kubernetes 使用 Etcd 数据库实时存储集群中的数据，可以说 Etcd 是 Kubernetes 的核心组件，犹如人类的大脑。如果 Etcd 数据损坏将导致 Kubernetes 不可用，在生产环境中 Etcd 数据是一定要做好高可用与数据备份，这里介绍下如何备份与恢复 Etcd 数据。&lt;/p>
+&lt;h2 id="wow1">二、备份 Etcd 数据&lt;/h2>
+&lt;p>&lt;strong>1、查询 ETCD 镜像&lt;/strong>&lt;/p>
+&lt;p>查询当前 Kubernetes 使用的 Etcd 使用的镜像，记住镜像名称与版本：&lt;/p>
+&lt;pre>&lt;code>$ docker images | grep etcd&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;k8s.gcr.io/etcd 3.4.3-0 303ce5db0e90 5 months ago 288MB
+registry.aliyuncs.com/google_containers/etcd 3.4.3-0 303ce5db0e90 5 months ago 288MB
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>由于 k8s.gcr.io 镜像仓库国内被墙，所以使用的是阿里云的 etcd 镜像&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>2、备份 Etcd 数据&lt;/strong>&lt;/p>
+&lt;blockquote>
+&lt;p>本人采用的是 Kubeadm 安装的 Kubernetes 集群，采用镜像方式部署的 Etcd，所以操作 Etcd 需要使用 Etcd 镜像提供的 Etcdctl 工具。如果你是非镜像方式部署 Etcd，可以直接使用 Etcdctl 命令备份数据。&lt;/p></description></item><item><title>K8s部署kubernetes-dashboard</title><link>https://example.org/2106.html</link><pubDate>Wed, 01 Apr 2020 06:07:59 +0800</pubDate><guid>https://example.org/2106.html</guid><description>&lt;p>本人在百度上面搜索了超级多的yaml文件来部署dashboard始终未成功，部署文件不生效就是文件不存在，很是头疼，这里将最近2019年11月成功部署的记录进行笔记存下来，仅供参考&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>更改yaml文件&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>创建&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>查看部署情况&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>访问https://ip:30001&lt;/p>
+&lt;p>获取令牌&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>这里千万不要直接粘贴复制过去。因为你粘贴的会带有一个空格，必须先粘贴到文本里面把空格删除了才行&lt;!-- raw HTML omitted --> 成功了&lt;/p></description></item><item><title>Kubernetes主机和容器的监控方案</title><link>https://example.org/2019.html</link><pubDate>Fri, 27 Mar 2020 09:55:48 +0800</pubDate><guid>https://example.org/2019.html</guid><description>&lt;blockquote>
+&lt;p>&lt;strong>摘要&lt;/strong>：随着Docker容器云的广泛应用，大量的业务软件运行在容器中，这使得对docker容器的监控越来越重要。传统的监控系统大多数是针对物理机或者虚拟机设计的，而容器的特点不同与传统的物理机或者虚拟机，如果还是采用传统的监控系统，则会增加监控复杂程度，那么如何对容器进行监控呢？&lt;/p>
+&lt;/blockquote>
+&lt;p>大家晚上好，今天很高兴能在这里和大家一起交流和分享在工作中的一些经验和总结。都知道监控在运维体系乃至产品的整个生命中期都是重要的一个环节，针对不同的应用场景，监控方案也会有很大的不同。本次就和大家分享一下我在开发我们公司新产品ufleet的监控模块时的一些技术总结，如果有错误的地方，欢迎大家指出。主要内容有:&lt;/p>
+&lt;p>1.数据的采集方式&lt;/p>
+&lt;p>2.监控原理&lt;/p>
+&lt;p>3.容器的监控方案&lt;/p>
+&lt;p>4.kubernetes上的主机和容器的监控&lt;/p>
+&lt;p>5.监控工具的对比&lt;/p>
+&lt;p>一个完整的监控体系包括：采集数据、分析存储数据、展示数据、告警以及自动化处理、监控工具自身的安全机制，接下来会对数据的采集和监控原理深入讲解，其他部分会在一些架构中穿插讲解。&lt;/p>
+&lt;h2 id="一-数据的采集方式">一 、数据的采集方式&lt;/h2>
+&lt;p>1.命令行方式。比如在linux系统上使用top，vmstat，netstat写一些shell脚本进行数据的采集，再把数据存储在文本文件中进行处理。&lt;/p>
+&lt;p>2.嵌入式。通过在进程中运行agent的方式获取应用的状态。如目前的APM产品都是通过将监控工具嵌入到应用内部进行数据采集。&lt;/p>
+&lt;p>3.主动输出。提前在应用中埋点，应用主动上报。比如一些应用系统的业务状态，可以通过在日志中主动输出状态用于采集。&lt;/p>
+&lt;p>4.旁路式。通过外部获取的方式采集数据。比如对网站url的探测，模拟业务的报文 ，对服务器的ping，流量的监控。可以通过在交换机上将流量进行端口复制，将源始流量复制到另一个端口后再进行处理，这样这业务系统是完全没有侵入。&lt;/p>
+&lt;p>5.远程接入。通过对应用进程接口调用获取应用的状态。比如使用JMX的方式连接到java进程中，对进程的状态进行采集。&lt;/p>
+&lt;p>6.入侵式。不同于嵌入式，入侵式的agent是独立运行的进程，而不是运行在进程中。这个目前监控工具比较常用的方式，比如zabbix，在主机上运行一个进程进行相关数据的采集。&lt;/p>
+&lt;h2 id="二监控原理">二、监控原理&lt;/h2>
+&lt;p>具体监控指标总结如下：&lt;/p>
+&lt;ul>
+&lt;li>首先是容器本身资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机的资源使用情况：cpu，内存，网络，磁盘&lt;/li>
+&lt;li>物理机上容器镜像情况，名字，大小，版本。&lt;/li>
+&lt;/ul>
+&lt;h3 id="1主机的监控">1.主机的监控&lt;/h3>
+&lt;p>&lt;strong>（1）Cpu数据&lt;/strong>&lt;/p>
+&lt;p>使用top命令可以查看当前cpu使用情况，源文件来自/proc/stat&lt;/p>
+&lt;p>采样两个足够短的时间间隔的Cpu快照，分别记作t1,t2，其中t1、t2的结构均为：&lt;/p>
+&lt;p>(user、nice、system、idle、iowait、irq、softirq、stealstolen、guest)的9元组;&lt;/p>
+&lt;p>a) 计算总的Cpu时间片totalCpuTime&lt;/p>
+&lt;ul>
+&lt;li>把第一次的所有cpu使用情况求和，得到s1;&lt;/li>
+&lt;li>把第二次的所有cpu使用情况求和，得到s2;&lt;/li>
+&lt;li>s2 – s1得到这个时间间隔内的所有时间片，即totalCpuTime = j2 – j1 ;&lt;/li>
+&lt;/ul>
+&lt;p>b) 计算空闲时间idle&lt;/p>
+&lt;ul>
+&lt;li>idle对应第四列的数据，用第二次的第四列- 第一次的第四列即可&lt;/li>
+&lt;li>idle=第二次的第四列- 第一次的第四列&lt;/li>
+&lt;/ul>
+&lt;p>c) 计算cpu使用率&lt;/p>
+&lt;ul>
+&lt;li>pcpu =100* (total-idle)/total&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>（2）linux内存监控&lt;/strong>&lt;/p>
+&lt;p>使用free命令可以查看当前内存使用情况。&lt;/p>
+&lt;p>其数据来源是来自/proc/meminfo文件&lt;/p>
+&lt;p>常用的计算公式：&lt;/p>
+&lt;blockquote>
+&lt;p>real_used = used_mem – buffer – cache&lt;/p>
+&lt;p>real_free = free_mem + buffer + cache&lt;/p>
+&lt;p>total_mem = used_mem + free_mem&lt;/p></description></item></channel></rss>

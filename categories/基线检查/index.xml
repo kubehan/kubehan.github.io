@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>基线检查 on My New Hugo Site</title><link>https://example.org/categories/%E5%9F%BA%E7%BA%BF%E6%A3%80%E6%9F%A5/</link><description>Recent content in 基线检查 on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 25 Oct 2020 00:41:55 +0800</lastBuildDate><atom:link href="https://example.org/categories/%E5%9F%BA%E7%BA%BF%E6%A3%80%E6%9F%A5/index.xml" rel="self" type="application/rss+xml"/><item><title>Apache基线检查</title><link>https://example.org/3082.html</link><pubDate>Sun, 25 Oct 2020 00:41:55 +0800</pubDate><guid>https://example.org/3082.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>门户网站安全维护手册</title><link>https://example.org/2785.html</link><pubDate>Sat, 24 Oct 2020 02:47:32 +0800</pubDate><guid>https://example.org/2785.html</guid><description>&lt;p>门户网站安全维护手册&lt;/p>
+&lt;p>常见网站安全问题及解决方法&lt;/p>
+&lt;p>记录常见网站加固方法&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title>Apache目录列表漏洞修复方法---icons</title><link>https://example.org/2754.html</link><pubDate>Wed, 19 Aug 2020 07:46:19 +0800</pubDate><guid>https://example.org/2754.html</guid><description>&lt;p>接到市总的通知。网站有目录列表显示的漏洞，用的apache服务器&lt;br>
+漏洞描述：使用Apache服务器时，访问地址：&lt;a href="https://%E6%82%A8%E7%9A%84%E5%9F%9F%E5%90%8D/icons/">https://您的域名/icons/&lt;/a>&lt;br>
+会显示你的网站的icon信息&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>关闭apache自动目录列表功能的方法 按如下步骤可以禁止：&lt;br>
+打开目录apache/conf/extra/下的文件httpd-autoindex.conf（位置可能有差异）&lt;br>
+我的apache是yum安装的&lt;br>
+配置文件路径：/etc/httpd/conf.d/autoindex.conf&lt;br>
+找到&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>去掉Indexes改成&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>重启apache服务器！&lt;/p>
+&lt;p>暴力解决办法就是注释掉或者直接删除icons目录&lt;/p></description></item><item><title>【漏洞通告】微软更新多个产品高危漏洞通告</title><link>https://example.org/2286.html</link><pubDate>Wed, 15 Apr 2020 13:48:06 +0800</pubDate><guid>https://example.org/2286.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->2020-04-15&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;p style=&amp;quot;line-height: 1.5em;&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;font-family: 微软雅黑, Microsoft YaHei;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;微软、安全更新&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;、CVE-2020-0938、CVE-2020-1020、CVE-2020-1027、CVE-2020-0968&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+ &amp;lt;/p&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;p style=&amp;quot;line-height: 1.75em;&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;color: rgb(0, 0, 0);font-family: 微软雅黑, &amp;amp;quot;Microsoft YaHei&amp;amp;quot;;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;color: red;&amp;quot;&amp;gt;攻击者利用本次安全更新中的漏洞，&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;color: red;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;可造成信息泄露、特权提升、远程代码执行等&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+ &amp;lt;/p&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;1.0&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->1&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>【漏洞通告】WebLogic多个远程代码执行漏洞通告</title><link>https://example.org/2270.html</link><pubDate>Wed, 15 Apr 2020 13:34:42 +0800</pubDate><guid>https://example.org/2270.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->2020-04-15&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;font-size: 14px;font-family: 微软雅黑, Microsoft YaHei;&amp;quot;&amp;gt;WebLogic、CVE-2020-2801、CVE-2020-2883、CVE-2020-2884、CVE-2020-2915&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;color: rgb(255, 0, 0);font-family: 微软雅黑, &amp;amp;quot;Microsoft YaHei&amp;amp;quot;;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;color: rgb(255, 0, 0);font-size: 14px;font-family: 微软雅黑, &amp;amp;quot;Microsoft YaHei&amp;amp;quot;;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;高，&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;攻击者利用此类漏洞，可实现远程代码执行。&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-family: 微软雅黑, Microsoft YaHei;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;color: rgb(255, 0, 0);font-size: 14px;&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;color: red;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td colspan=&amp;quot;1&amp;quot; rowspan=&amp;quot;1&amp;quot; style=&amp;quot;border-left-color: rgb(216, 216, 216);border-top-color: rgb(216, 216, 216);margin: 5px 10px;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;color: rgb(255, 192, 0);&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;黄色&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px;border-color: rgb(216, 216, 216);word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;1.0&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->1&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>【威胁分析】揭秘！WannaRen勒索病毒背后，一条恶意软件分发产业链</title><link>https://example.org/2155.html</link><pubDate>Thu, 09 Apr 2020 00:26:32 +0800</pubDate><guid>https://example.org/2155.html</guid><description>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px; border-color: #d8d8d8; word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;span style=&amp;quot;color: #000000; font-size: 14px; font-family: 微软雅黑, 'Microsoft YaHei';&amp;quot;&amp;gt;&amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;line-height: 107%;&amp;quot;&amp;gt;WannaRen、勒索软件、kms&amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;pre>&lt;code>&amp;lt;td style=&amp;quot;margin: 5px 10px; border-color: #d8d8d8; word-break: break-all;&amp;quot; valign=&amp;quot;top&amp;quot;&amp;gt;
+ &amp;lt;strong&amp;gt;&amp;lt;span style=&amp;quot;font-size: 14px;&amp;quot;&amp;gt;1.0&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;/strong&amp;gt;
+&amp;lt;/td&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;!-- raw HTML omitted -->1&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted --> &lt;!-- raw HTML omitted -->&lt;/p></description></item><item><title>Type1 字体解析远程代码执行漏洞</title><link>https://example.org/1952.html</link><pubDate>Thu, 26 Mar 2020 09:45:10 +0800</pubDate><guid>https://example.org/1952.html</guid><description>&lt;p>当地时间3月23日，微软发布ADV200006号通告，称其发现目前有在野攻击利用Adobe Type Manager Library中的2个0-day漏洞。&lt;/p>
+&lt;p>由于该Library在处理multi-master字体（Adobe Type 1 PostScript格式）时存在缺陷，攻击者可以精心构造一个恶意的文档并诱使用户使用Windows Preview pane预览，从而利用该漏洞来远程执行代码。&lt;/p>
+&lt;p>目前Microsoft已经在准备相关的补丁，预计于下个月的补丁日发出。同时建议用户现在可以采取相应的缓解措施来进行防护。&lt;/p>
+&lt;h3 id="受影响版本">受影响版本：&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h3 id="漏洞验证">漏洞验证：&lt;/h3>
+&lt;p>打开资源管理器，在菜单栏中点击“查看”，检查是否有开启“预览窗格”或“详细信息窗格”，如果有开启其中任意一个，则可能存在漏洞风险。&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;h3 id="漏洞防护">漏洞防护：&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>在Windows资源管理器中禁用预览窗格和详细信息窗格&lt;/strong>&lt;br>
+在Windows资源管理器中禁用预览和详细信息窗格将阻止在Windows资源管理器中自动显示OTF字体。虽然可以防止在Windows资源管理器中查看恶意文件，但并不能阻止经过身份验证的本地用户运行特殊设计的程序来利用此漏洞。&lt;strong>注：使用该方法后&lt;strong>&lt;strong>Windows&lt;/strong>&lt;/strong>资源管理器将不会再自动显示OTF 字体。&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Windows 7、Windows 8.1 和Windows Server 2008、Windows Server 2008 R2、Windows Server 2012、Windows Server 2012 R2禁用预览窗格：&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>打开Windows资源管理器，单击组织，然后单击布局。&lt;/li>
+&lt;li>清除详细信息窗格和预览窗格的菜单选项。&lt;/li>
+&lt;li>单击整理，然后单击文件夹和搜索选项。&lt;/li>
+&lt;li>单击视图选项卡。&lt;/li>
+&lt;/ol>
+&lt;p>在高级设置下，选中“始终显示图标，从不显示缩略图框”。（如需撤销该方法，取消勾选即可恢复）&lt;!-- raw HTML omitted -->&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>Windows 10 和Windows Server 2016、Windows Server 2019禁用预览窗格：&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>打开 Windows 资源管理器（在Windows 10中为文件资源管理器），单击视图选项卡。&lt;/li>
+&lt;li>清除详细信息窗格和预览窗格的菜单选项。&lt;/li>
+&lt;li>单击选项，然后单击更改文件夹和搜索选项。&lt;/li>
+&lt;li>单击视图选项卡。&lt;/li>
+&lt;/ol>
+&lt;p>在高级设置下，勾选始终显示图标，从不显示缩略图框。（如需撤销该方法，取消勾选即可恢复）&lt;/p></description></item><item><title>编译安装openssh新版本编译安装openssh新版本</title><link>https://example.org/1901.html</link><pubDate>Wed, 25 Mar 2020 10:00:06 +0800</pubDate><guid>https://example.org/1901.html</guid><description>&lt;p>reference1: &lt;a href="https://blog.csdn.net/qq_33684555/article/details/81872110">https://blog.csdn.net/qq_33684555/article/details/81872110&lt;/a>&lt;/p>
+&lt;p>reference2: &lt;a href="http://www.cnblogs.com/xiaochina/p/7486073.html">http://www.cnblogs.com/xiaochina/p/7486073.html&lt;/a>&lt;/p>
+&lt;p>reference3: &lt;a href="https://blog.csdn.net/bytxl/article/details/46639073">https://blog.csdn.net/bytxl/article/details/46639073&lt;/a>&lt;/p>
+&lt;p>reference4: &lt;a href="https://www.cnblogs.com/xshrim/p/6472679.html">https://www.cnblogs.com/xshrim/p/6472679.html&lt;/a> -&amp;gt; 含有zlib编译&lt;/p>
+&lt;p>reference5: &lt;a href="https://www.linuxidc.com/Linux/2011-10/45739p2.htm">https://www.linuxidc.com/Linux/2011-10/45739p2.htm&lt;/a> -&amp;gt; 定义了sshd_config文件中的配置&lt;/p>
+&lt;p>OpenSSH（OpenBSD Secure Shell）是OpenBSD计划组所维护的一套用于安全访问远程计算机的连接工具。该工具是SSH协议的开源实现，支持对所有的传输进行加密，可有效阻止窃听、连接劫持以及其他网络级的攻击。&lt;br>
+OpenSSH中的scp client实用程序存在安全漏洞，该漏洞源于程序错误的验证了对象名称。攻击者可利用该漏洞覆盖文件。&lt;br>
+最近公司发现OPENSSH有防护漏洞, 需要给7.9版本的openssh安装补丁, 故网上收集资料, 融合自己的理解, 写出此文, 有任何问题请指正.&lt;/p>
+&lt;p>&lt;strong>注意: 编译安装openssh新版本之前, 最好先安装telnet服务, 万一sshd服务被你操作挂了, 还有替代的telnet服务可以提供远程连接, 笔者就是在安装过程中遇到过此问题, 最后拖了两天时间, 各种找领导, 然后登录堡垒机直接操作Centos虚拟机, 才解决问题!!!&lt;/strong>&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="1-基础环境准备">1. 基础环境准备&lt;/h2>
+&lt;p>首先去openssh官网下载openssh.tar.gz最新版本&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>注意要下载p1版本, 此版为编译安装包!!&lt;/strong>&lt;/p>
+&lt;p>在安装之前先记下sshd.pid路径, 因为在启动文件sshd中要更改此路径&lt;/p>
+&lt;p>将安装包先传入服务器中&lt;/p>
+&lt;p>卸载现有版本openssh: &lt;code>rpm -e --nodeps $(rpm -qa | grep openssh)&lt;/code>&lt;/p>
+&lt;p>删除/etc/ssh/下所有文件, 在卸载完openssh后此路径下文件不会删除, 需手动删除&lt;/p></description></item></channel></rss>
