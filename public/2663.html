@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>使用Kubeadm快速搭建一个k8s集群---【v1.18】 &middot; Blowfish</title>
+  <meta name="title" content="使用Kubeadm快速搭建一个k8s集群---【v1.18】 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/2663.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/2663.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="使用Kubeadm快速搭建一个k8s集群---【v1.18】">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-08-03T02:47:02+08:00">
+    <meta property="article:modified_time" content="2020-08-03T02:47:02+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="使用Kubeadm快速搭建一个k8s集群---【v1.18】">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "使用Kubeadm快速搭建一个k8s集群---【v1.18】",
+    "headline": "使用Kubeadm快速搭建一个k8s集群---【v1.18】",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/2663.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-08-03T02:47:02\u002b08:00",
+    "datePublished": "2020-08-03T02:47:02\u002b08:00",
+    
+    "dateModified": "2020-08-03T02:47:02\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "477"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      使用Kubeadm快速搭建一个k8s集群---【v1.18】
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-08-03T02:47:02&#43;08:00">3 August 2020</time><span class="px-2 text-primary-500">&middot;</span><span>477 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。</p>
+<p>这个工具能通过两条指令完成一个kubernetes集群的部署：</p>
+<pre><code class="language-shell"># 创建一个 Master 节点
+$ kubeadm init
+
+# 将一个 Node 节点加入到当前集群中
+$ kubeadm join &lt;Master节点的IP和端口 &gt;</code></pre>
+
+
+<h2 class="relative group">1. 安装要求 
+    <div id="1-%E5%AE%89%E8%A3%85%E8%A6%81%E6%B1%82" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%E5%AE%89%E8%A3%85%E8%A6%81%E6%B1%82" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
+<ul>
+<li>一台或多台机器，操作系统 CentOS7.x-86_x64</li>
+<li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多</li>
+<li>集群中所有机器之间网络互通</li>
+<li>可以访问外网，需要拉取镜像</li>
+<li>禁止swap分区</li>
+</ul>
+
+
+<h2 class="relative group">2. 准备环境 
+    <div id="2-%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<img decoding="async" src="https://blog-1252881505.cos.ap-beijing.myqcloud.com/k8s/single-master.jpg" alt="kubernetesæ¶æå¾" /> 
+<table>
+  <thead>
+      <tr>
+          <th>角色</th>
+          <th>IP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>k8s-master</td>
+          <td>192.168.31.61</td>
+      </tr>
+      <tr>
+          <td>k8s-node1</td>
+          <td>192.168.31.62</td>
+      </tr>
+      <tr>
+          <td>k8s-node2</td>
+          <td>192.168.31.63</td>
+      </tr>
+  </tbody>
+</table>
+<pre><code class="language-shell">关闭防火墙：
+$ systemctl stop firewalld
+$ systemctl disable firewalld
+
+关闭selinux：
+$ sed -i &#039;s/enforcing/disabled/&#039; /etc/selinux/config  # 永久
+$ setenforce 0  # 临时
+
+关闭swap：
+$ swapoff -a  # 临时
+$ vim /etc/fstab  # 永久
+
+设置主机名：
+$ hostnamectl set-hostname &lt;hostname&gt;
+
+在master添加hosts：
+$ cat &gt;&gt; /etc/hosts &lt;&lt; EOF
+192.168.31.61 k8s-master
+192.168.31.62 k8s-node1
+192.168.31.63 k8s-node2
+EOF
+
+将桥接的IPv4流量传递到iptables的链：
+$ cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+$ sysctl --system  # 生效
+
+时间同步：
+$ yum install ntpdate -y
+$ ntpdate time.windows.com</code></pre>
+
+
+<h2 class="relative group">3. 所有节点安装Docker/kubeadm/kubelet 
+    <div id="3-%E6%89%80%E6%9C%89%E8%8A%82%E7%82%B9%E5%AE%89%E8%A3%85dockerkubeadmkubelet" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-%E6%89%80%E6%9C%89%E8%8A%82%E7%82%B9%E5%AE%89%E8%A3%85dockerkubeadmkubelet" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。</p>
+
+
+<h3 class="relative group">3.1 安装Docker 
+    <div id="31-%E5%AE%89%E8%A3%85docker" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#31-%E5%AE%89%E8%A3%85docker" aria-label="Anchor">#</a>
+    </span>        
+    
+</h3>
+<pre><code class="language-shell">$ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+$ yum -y install docker-ce-18.06.1.ce-3.el7
+$ systemctl enable docker && systemctl start docker
+$ docker --version
+Docker version 18.06.1-ce, build e68fc7a</code></pre>
+<pre><code class="language-shell"># cat &gt; /etc/docker/daemon.json &lt;&lt; EOF
+{
+  "registry-mirrors": ["https://b9pmyelo.mirror.aliyuncs.com"]
+}
+EOF</code></pre>
+
+
+<h3 class="relative group">3.2 添加阿里云YUM软件源 
+    <div id="32-%E6%B7%BB%E5%8A%A0%E9%98%BF%E9%87%8C%E4%BA%91yum%E8%BD%AF%E4%BB%B6%E6%BA%90" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#32-%E6%B7%BB%E5%8A%A0%E9%98%BF%E9%87%8C%E4%BA%91yum%E8%BD%AF%E4%BB%B6%E6%BA%90" aria-label="Anchor">#</a>
+    </span>        
+    
+</h3>
+<pre><code class="language-shell">$ cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF</code></pre>
+<p>ubuntu系统配置源并安装：</p>
+<p>[<a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#%E5%AE%89%E8%A3%85-kubeadm-kubelet-%E5%92%8C-kubectl" target="_blank"><a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#%E5%AE%89%E8%A3%85-kubeadm-kubelet-%E5%92%8C-kubectl" target="_blank">https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#%E5%AE%89%E8%A3%85-kubeadm-kubelet-%E5%92%8C-kubectl</a></a>]<a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#%e5%ae%89%e8%a3%85-kubeadm-kubelet-%e5%92%8c-kubectl" target="_blank">2</a></p>
+
+
+<h3 class="relative group">3.3 安装kubeadm，kubelet和kubectl 
+    <div id="33-%E5%AE%89%E8%A3%85kubeadmkubelet%E5%92%8Ckubectl" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#33-%E5%AE%89%E8%A3%85kubeadmkubelet%E5%92%8Ckubectl" aria-label="Anchor">#</a>
+    </span>        
+    
+</h3>
+<p>由于版本更新频繁，这里指定版本号部署：</p>
+<pre><code class="language-shell">$ yum install -y kubelet-1.18.0 kubeadm-1.18.0 kubectl-1.18.0
+$ systemctl enable kubelet</code></pre>
+
+
+<h2 class="relative group">4. 部署Kubernetes Master 
+    <div id="4-%E9%83%A8%E7%BD%B2kubernetes-master" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4-%E9%83%A8%E7%BD%B2kubernetes-master" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>参考文档： [<a href="https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file" target="_blank"><a href="https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file" target="_blank">https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file</a></a>]<a href="https://kubernetes.io/zh/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file" target="_blank">3</a></p>
+<p>[<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node" target="_blank"><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node" target="_blank">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node</a></a>]<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#initializing-your-control-plane-node" target="_blank">4</a></p>
+<p>在192.168.31.61（Master）执行。</p>
+<pre><code class="language-shell">$ kubeadm init \
+  --apiserver-advertise-address=192.168.31.61 \
+  --image-repository registry.aliyuncs.com/google_containers \
+  --kubernetes-version v1.18.0 \
+  --service-cidr=10.96.0.0/12 \
+  --pod-network-cidr=10.244.0.0/16 \
+  --ignore-preflight-errors=all</code></pre>
+<p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址。</p>
+<p>或者使用配置文件引导：</p>
+<pre><code class="language-shell">$ vi kubeadm.conf
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+kubernetesVersion: v1.18.0
+imageRepository: registry.aliyuncs.com/google_containers 
+networking:
+  podSubnet: 10.244.0.0/16 
+  serviceSubnet: 10.96.0.0/12 
+
+$ kubeadm init --config kubeadm.conf --ignore-preflight-errors=all  </code></pre>
+<p>使用kubectl工具：</p>
+<pre><code class="language-bash">mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+$ kubectl get nodes</code></pre>
+
+
+<h2 class="relative group">5. 加入Kubernetes Node 
+    <div id="5-%E5%8A%A0%E5%85%A5kubernetes-node" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#5-%E5%8A%A0%E5%85%A5kubernetes-node" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>在192.168.31.62/63（Node）执行。</p>
+<p>向集群添加新节点，执行在kubeadm init输出的kubeadm join命令：</p>
+<pre><code class="language-shell">$ kubeadm join 192.168.31.61:6443 --token esce21.q6hetwm8si29qxwn \
+    --discovery-token-ca-cert-hash sha256:00603a05805807501d7181c3d60b478788408cfe6cedefedb1f97569708be9c5</code></pre>
+<p>默认token有效期为24小时，当过期之后，该token就不可用了。这时就需要重新创建token，操作如下：</p>
+<pre><code class="language-shell"># kubeadm token create
+# kubeadm token list
+# openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2&gt;/dev/null | openssl dgst -sha256 -hex | sed &#039;s/^.* //&#039;
+63bca849e0e01691ae14eab449570284f0c3ddeea590f8da988c07fe2729e924
+
+# kubeadm join 192.168.31.61:6443 --token nuja6n.o3jrhsffiqs9swnu --discovery-token-ca-cert-hash sha256:63bca849e0e01691ae14eab449570284f0c3ddeea590f8da988c07fe2729e924</code></pre>
+<p>kubeadm token create &ndash;print-join-command</p>
+<p>[<a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/" target="_blank"><a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/" target="_blank">https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/</a></a>]<a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/" target="_blank">5</a></p>
+
+
+<h2 class="relative group">6. 网络方案（CNI） 
+    <div id="6-%E7%BD%91%E7%BB%9C%E6%96%B9%E6%A1%88cni" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#6-%E7%BD%91%E7%BB%9C%E6%96%B9%E6%A1%88cni" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>[<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network" target="_blank"><a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network" target="_blank">https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network</a></a>]<a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network" target="_blank">6</a></p>
+<p>注意：只需要部署下面其中一个，推荐Calico。</p>
+
+
+<h3 class="relative group">6.1 Calico 
+    <div id="61-calico" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#61-calico" aria-label="Anchor">#</a>
+    </span>        
+    
+</h3>
+<p>Calico是一个纯三层的数据中心网络方案，Calico支持广泛的平台，包括Kubernetes、OpenStack等。</p>
+<p>Calico 在每一个计算节点利用 Linux Kernel 实现了一个高效的虚拟路由器（ vRouter） 来负责数据转发，而每个 vRouter 通过 BGP 协议负责把自己上运行的 workload 的路由信息向整个 Calico 网络内传播。</p>
+<p>此外，Calico 项目还实现了 Kubernetes 网络策略，提供ACL功能。</p>
+<p>[<a href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart" target="_blank"><a href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart" target="_blank">https://docs.projectcalico.org/getting-started/kubernetes/quickstart</a></a>]<a href="https://docs.projectcalico.org/getting-started/kubernetes/quickstart" target="_blank">7</a></p>
+<pre><code class="language-shell">wget https://docs.projectcalico.org/manifests/calico.yaml</code></pre>
+<p>下载完后还需要修改里面配置项：</p>
+<ul>
+<li>定义Pod网络（CALICO_IPV4POOL_CIDR），与前面pod CIDR配置一样</li>
+<li>选择工作模式（CALICO_IPV4POOL_IPIP），支持<strong>BGP（Never）</strong>、<strong>IPIP（Always）</strong>、<strong>CrossSubnet</strong>（开启BGP并支持跨子网）</li>
+</ul>
+<p>修改完后应用清单：</p>
+<pre><code class="language-shell"># kubectl apply -f calico.yaml
+# kubectl get pods -n kube-system</code></pre>
+
+
+<h3 class="relative group">6.2 Flannel 
+    <div id="62-flannel" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#62-flannel" aria-label="Anchor">#</a>
+    </span>        
+    
+</h3>
+<p>Flannel是CoreOS维护的一个网络组件，Flannel为每个Pod提供全局唯一的IP，Flannel使用ETCD来存储Pod子网与Node IP之间的关系。flanneld守护进程在每台主机上运行，并负责维护ETCD信息和路由数据包。</p>
+<pre><code class="language-shell">wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+sed -i -r "s#quay.io/coreos/flannel:.*-amd64#lizhenliang/flannel:v0.11.0-amd64#g" kube-flannel.yml</code></pre>
+<p>修改国内镜像仓库。</p>
+
+
+<h2 class="relative group">7. 测试kubernetes集群 
+    <div id="7-%E6%B5%8B%E8%AF%95kubernetes%E9%9B%86%E7%BE%A4" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#7-%E6%B5%8B%E8%AF%95kubernetes%E9%9B%86%E7%BE%A4" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<ul>
+<li>验证Pod工作</li>
+<li>验证Pod网络通信</li>
+<li>验证DNS解析</li>
+</ul>
+<p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
+<pre><code class="language-shell">$ kubectl create deployment nginx --image=nginx
+$ kubectl expose deployment nginx --port=80 --type=NodePort
+$ kubectl get pod,svc</code></pre>
+<p>访问地址：[<a href="http://NodeIP:Port" target="_blank"><a href="http://NodeIP:Port" target="_blank">http://NodeIP:Port</a></a>]<a href="http://NodeIP:Port" target="_blank">8</a></p>
+
+
+<h2 class="relative group">8. 部署 Dashboard 
+    <div id="8-%E9%83%A8%E7%BD%B2-dashboard" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#8-%E9%83%A8%E7%BD%B2-dashboard" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<pre><code class="language-shell">$ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.3/aio/deploy/recommended.yaml</code></pre>
+<p>默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：</p>
+<pre><code class="language-shell">kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30001
+  selector:
+    k8s-app: kubernetes-dashboard
+  type: NodePort</code></pre>
+<p>访问地址：<a href="https://NodeIP:30001" target="_blank">https://NodeIP:30001</a></p>
+<p>创建service account并绑定默认cluster-admin管理员集群角色：</p>
+<pre><code class="language-shell">kubectl create serviceaccount dashboard-admin -n kube-system
+kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
+kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk &#039;/dashboard-admin/{print $1}&#039;)</code></pre>
+<p>使用输出的token登录Dashboard。</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-08-03-使用kubeadm快速搭建一个k8s集群-【v1-18】.md"
+        var oid_likes = "likes_posts\/2020-08-03-使用kubeadm快速搭建一个k8s集群-【v1-18】.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/2662.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >把Sublime Text添加到右键菜单的方法</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-08-03T02:16:24&#43;08:00">3 August 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/2665.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >记录一次confluence升级处理过程</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-08-04T03:49:40&#43;08:00">4 August 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WP on Blowfish</title>
+    <link>http://127.0.0.1/categories/wp/</link>
+    <description>Recent content in WP on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Thu, 15 Oct 2020 08:32:51 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/wp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WP主题侧边栏导航条设置教程</title>
+      <link>http://127.0.0.1/2972.html</link>
+      <pubDate>Thu, 15 Oct 2020 08:32:51 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2972.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

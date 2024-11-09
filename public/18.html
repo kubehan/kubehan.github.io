@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>zabbix4.0的安装与配置 &middot; Blowfish</title>
+  <meta name="title" content="zabbix4.0的安装与配置 &middot; Blowfish" />
+  
+  
+  <meta name="keywords" content="mysql, nginx, zabbix, " />
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/18.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/18.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="zabbix4.0的安装与配置">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-02-16T11:33:33+08:00">
+    <meta property="article:modified_time" content="2020-02-16T11:33:33+08:00">
+    <meta property="article:tag" content="Mysql">
+    <meta property="article:tag" content="Nginx">
+    <meta property="article:tag" content="Zabbix">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="zabbix4.0的安装与配置">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "zabbix4.0的安装与配置",
+    "headline": "zabbix4.0的安装与配置",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/18.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-02-16T11:33:33\u002b08:00",
+    "datePublished": "2020-02-16T11:33:33\u002b08:00",
+    
+    "dateModified": "2020-02-16T11:33:33\u002b08:00",
+    
+    "keywords": ["mysql","nginx","zabbix"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "893"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      zabbix4.0的安装与配置
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-02-16T11:33:33&#43;08:00">16 February 2020</time><span class="px-2 text-primary-500">&middot;</span><span>893 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <!-- wp:paragraph -->
+<p>安装zabbix监控首先的先安装LNMP环境，在这里我采用事先准备好的脚本进行安装LNMP环境 脚本内容如下</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>安装zabbix监控首先的先安装LNMP环境，在这里我采用事先准备好的脚本进行安装LNMP环境 脚本内容如下</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>安装zabbix监控首先的先安装LNMP环境，在这里我采用事先准备好的脚本进行安装LNMP环境 脚本内容如下</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>安装zabbix监控首先的先安装LNMP环境，在这里我采用事先准备好的脚本进行安装LNMP环境 脚本内容如下</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>安装zabbix监控首先的先安装LNMP环境，在这里我采用事先准备好的脚本进行安装LNMP环境 脚本内容如下</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">#!/bin/bash
+#&nbsp;DATE：Wed&nbsp;Jan&nbsp;17&nbsp;1#&nbsp;hw226234@126.com&nbsp;&nbsp;3&nbsp;#this&nbsp;is&nbsp;a&nbsp;lnmp-install
+&nbsp;
+#&nbsp;The&nbsp;Nginx&nbsp;service&nbsp;is&nbsp;being&nbsp;installed
+ROOT_ID=0
+ML=/usr/local/src
+NGINX_ML=/usr/local/src/nginx-1.12.2
+PML=/usr/local/src/php-5.6.27
+QD=`netstat&nbsp;-anpt&nbsp;|&nbsp;grep&nbsp;80&nbsp;|&nbsp;awk&nbsp;'{print&nbsp;$7}'&nbsp;|&nbsp;cut&nbsp;-d&nbsp;"/"&nbsp;-f2&nbsp;|&nbsp;cut&nbsp;-d&nbsp;":"&nbsp;-f1`
+ADDR=`ip&nbsp;a&nbsp;|&nbsp;grep&nbsp;eth0
+&lt;pre wp-pre-tag-0=""></pre>
+<p>nbsp;| awk &rsquo;{print $2}&rsquo; | cut -d &quot;/&quot; -f1`<br>
+MMM=`netstat -anput | grep mysqld | awk &rsquo;{print $4}&rsquo; | cut -d &quot;:&quot; -f4`<br>
+MAR=`rpm -qa | grep mariadb`<br>
+cd $ML &amp;&amp; {<br>
+wget http://mirrors.aliyun.com/repo/Centos-7.repo &amp;&gt; /dev/null<br>
+mv Centos-7.repo /etc/yum.repos.d/Centos-Base.repo<br>
+yum clean all &amp;&gt; /dev/null<br>
+yum makecache &amp;&gt; /dev/null<br>
+}<br>
+ <br>
+if [ $? -eq 0 ]<br>
+    then<br>
+          echo &ldquo;Yum源更新完毕,开始安装！！！&rdquo;<br>
+    else<br>
+        echo &ldquo;Yum源error&rdquo;<br>
+        exit 1<br>
+fi<br>
+echo &ldquo;Yum源配置成功&rdquo;<br>
+ <br>
+if [ &quot;$UID&quot; -eq &quot;$ROOT_ID&quot; ]<br>
+        then<br>
+               echo &ldquo;root用户运行中&rdquo; &amp;&amp; systemctl stop firewalld &amp;&amp; yum install -y gcc gcc-c++  pcre-devel zlib-devel openssl-devel &amp;&gt; /dev/null<br>
+        else<br>
+               echo &ldquo;请使用Root用户运行&rdquo;<br>
+               exit 1<br>
+fi<br>
+echo &ldquo;依赖包安装完成！&rdquo;<br>
+cd $ML || {<br>
+        echo &ldquo;进入目录失败！！！&rdquo;<br>
+        exit 1<br>
+}<br>
+ <br>
+wget http://nginx.org/download/nginx-1.12.2.tar.gz &amp;&gt; /dev/null &amp;&amp; {<br>
+tar zxf nginx-1.12.2.tar.gz &amp;&amp; groupadd www &amp;&amp; useradd -g www www -s /sbin/nologin<br>
+}<br>
+echo &ldquo;Nginx包下载成功&rdquo;<br>
+cd $NGINX_ML &amp;&amp; {<br>
+    ./configure &ndash;prefix=/usr/local/nginx &ndash;with-http_dav_module &ndash;with-http_stub_status_module &ndash;with-http_addition_module &ndash;with-http_sub_module &ndash;with-http_flv_module &ndash;with-http_mp4_module &ndash;with-http_ssl_module &ndash;with-http_gzip_static_module &ndash;user=www &ndash;group=www &amp;&gt; /dev/null &amp;&amp; make &amp;&gt; /dev/null &amp;&amp; make install &amp;&gt; /dev/null <br>
+}<br>
+ <br>
+if [ $? -eq &ldquo;0&rdquo; ]<br>
+        then<br>
+               ln -s /usr/local/nginx/sbin/nginx /usr/local/sbin ;nginx &amp;&amp; echo &ldquo;Nginx启动成功，请访问http://$ADDR:80&rdquo;<br>
+        else<br>
+              echo &ldquo;Nginx启动失败！！！&rdquo;<br>
+              exit 1<br>
+fi<br>
+ <br>
+ <br>
+#Start installing MySQL5.7！<br>
+echo &ldquo;开始下载MySQL二进制安装包，请稍等&hellip;&rdquo;<br>
+if [ -z &quot;$MAR&quot; ]<br>
+                then<br>
+                        echo &ldquo;开始安装MySQL&rdquo;<br>
+fi<br>
+if [ -n &quot;$MAR&quot; ]<br>
+               then<br>
+                        rpm -e mariadb-libs &ndash;nodeps &amp;&amp; echo &ldquo;卸载mariadb成功！正式安装MySQL&rdquo;<br>
+fi<br>
+ <br>
+cd $ML || {<br>
+    echo &ldquo;进入目录失败！！！&rdquo;<br>
+    exit 1<br>
+}<br>
+ <br>
+#wget http://mirrors.sohu.com/mysql/MySQL-5.7/mysql-5.7.18-linux-glibc2.5-x86_64.tar.gz &amp;&gt; /dev/null &amp;&amp; {<br>
+wget https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz &amp;&amp; {<br>
+tar zxf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz  &amp;&amp; mv mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/mysql<br>
+cd /usr/local/mysql/ &amp;&amp; mkdir data &amp;&amp; mkdir log &amp;&amp; echo &ldquo;export PATH=$PATH:/usr/local/mysql/bin&rdquo; &raquo; /etc/profile<br>
+source /etc/profile &amp;&amp; groupadd mysql &amp;&amp; useradd -r -g mysql -s /bin/false mysql<br>
+}<br>
+cat &laquo; EOF &gt;/etc/my.cnf</p>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>socket=/usr/local/mysql/mysql.sock  </p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>basedir=/usr/local/mysql  <br>
+datadir=/usr/local/mysql/data  <br>
+pid-file=/usr/local/mysql/data/mysqld.pid  <br>
+socket=/usr/local/mysql/mysql.sock  <br>
+log_error=/usr/local/mysql/log/mysql.err<br>
+EOF<br>
+if [ ! -d /etc/my.cnf ]<br>
+                then<br>
+                        chmod 750 data/ &amp;&amp; chown -R mysql . &amp;&amp; chgrp -R mysql . &amp;&amp; bin/mysqld &ndash;initialize &ndash;user=mysql &amp;&amp; cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld &amp;&amp; service mysqld start &amp;&gt; /dev/null<br>
+                else<br>
+                         echo &ldquo;错误！！！&rdquo;<br>
+fi<br>
+if [ $? -eq &ldquo;0&rdquo; ]<br>
+    then<br>
+        echo &ldquo;MySQL正式安装完成杀青！&rdquo;<br>
+    else<br>
+        echo &ldquo;MySQL安装失败！！！&rdquo;<br>
+        exit 1<br>
+fi<br>
+#PHP install sccessy<br>
+yum -y install libxml2-devel libcurl-devel openssl-devel bzip2-devel &amp;&gt; /dev/null<br>
+if [ $? -eq 0 ]<br>
+        then<br>
+                echo &ldquo;依赖包安装成功！！！&rdquo;<br>
+        else<br>
+                echo &ldquo;依赖包安装失败！！！&rdquo;<br>
+fi<br>
+cd $ML || {<br>
+        echo &ldquo;进入目录失败！！！&rdquo;<br>
+        exit 1<br>
+}<br>
+wget ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz &amp;&gt; /dev/null  &amp;&amp; {<br>
+tar zxf libmcrypt-2.5.7.tar.gz &amp;&amp; cd libmcrypt-2.5.7/ &amp;&amp; ./configure &ndash;prefix=/usr/local/libmcrypt &amp;&gt; /dev/null &amp;&amp; make &amp;&gt; /dev/null &amp;&amp; make install &amp;&gt; /dev/null<br>
+}<br>
+if [ $? -eq 0 ]<br>
+        then<br>
+                echo &ldquo;Libmcrypt安装成功！&rdquo;<br>
+        else<br>
+                echo &ldquo;Libmcrypt-ERROR!&rdquo;<br>
+        exit 1<br>
+fi<br>
+# PHP install<br>
+cd $ML || {<br>
+        echo &ldquo;进入目录失败！！！&rdquo;<br>
+        exit 1<br>
+}<br>
+wget http://cn2.php.net/distributions/php-5.6.27.tar.gz &amp;&gt; /dev/null &amp;&amp; {<br>
+tar zxf php-5.6.27.tar.gz &amp;&amp; cd php-5.6.27/ &amp;&amp;  ./configure &ndash;prefix=/usr/local/php5.6 &ndash;with-mysql=mysqlnd &ndash;with-pdo-mysql=mysqlnd &ndash;with-mysqli=mysqlnd &ndash;with-openssl &ndash;enable-fpm &ndash;enable-sockets &ndash;enable-sysvshm &ndash;enable-mbstring &ndash;with-freetype-dir &ndash;with-jpeg-dir &ndash;with-png-dir &ndash;with-zlib &ndash;with-libxml-dir=/usr &ndash;enable-xml &ndash;with-mhash &ndash;with-mcrypt=/usr/local/libmcrypt &ndash;with-config-file-path=/etc &ndash;with-config-file-scan-dir=/etc/php.d &ndash;with-bz2 &ndash;enable-maintainer-zts  &amp;&gt; /dev/null<br>
+}<br>
+if [ $? -eq 0 ]<br>
+            then<br>
+                 make &amp;&gt; /dev/null  &amp;&amp; make install &amp;&gt; /dev/null  &amp;&amp;  echo &ldquo;PHP编译安装成功,正在配置请稍等&hellip;.&rdquo;<br>
+            else<br>
+                 echo &ldquo;PHP安装失败&rdquo;<br>
+fi<br>
+cd $PML || {<br>
+                echo &ldquo;进入目录失败！！！&rdquo;<br>
+                exit 1<br>
+}<br>
+cp php.ini-production /etc/php.ini &amp;&amp; {<br>
+cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm &amp;&amp; chmod +x /etc/init.d/php-fpm &amp;&amp; chkconfig &ndash;add php-fpm &amp;&amp; chkconfig php-fpm on<br>
+}<br>
+if [ $? -eq 0 ]<br>
+                        then<br>
+                                cp /usr/local/php5.6/etc/php-fpm.conf.default /usr/local/php5.6/etc/php-fpm.conf &amp;&amp; echo &ldquo;复制主配置成功&rdquo;<br>
+                        else<br>
+                                echo &ldquo;PHP权限失败，请重试！&rdquo;<br>
+fi<br>
+if [ ! -d /usr/local/php5.6/etc/php-fpm.conf ]<br>
+        then<br>
+                sed -i &rsquo;s#;pid = run/php-fpm.pid#pid = run/php-fpm.pid#g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+                sed -i &rsquo;s/listen = 127.0.0.1:9000/listen = 127.0.0.1:9000/g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+                sed -i &rsquo;s/pm.max_children = 5/pm.max_children = 300/g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+                sed -i &rsquo;s/pm.start_servers = 2/pm.start_servers = 20/g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+                sed -i &rsquo;s/pm.min_spare_servers = 1/pm.min_spare_servers = 20/g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+                sed -i &rsquo;s/pm.max_spare_servers = 3/pm.max_spare_servers = 100/g&rsquo; /usr/local/php5.6/etc/php-fpm.conf<br>
+        else<br>
+                echo &ldquo;NONONO&rdquo;<br>
+fi<br>
+if [ $? -eq 0 ]<br>
+                        then<br>
+                                systemctl start php-fpm &amp;&amp; echo &ldquo;PHP启动成功&rdquo;<br>
+                        else<br>
+                                echo &ldquo;启动PHP失败&rdquo;<br>
+fi<br>
+#配置nginx解析php<br>
+if [ ! -d /usr/local/nginx/conf/nginx.conf ]<br>
+        then<br>
+               sed -i &rsquo;s/index  index.html index.htm;/index  index.php index.html index.htm;/g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &rsquo;s/#    root           html;/    root           html;/g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &rsquo;s/#    fastcgi_pass   127.0.0.1:9000;/    fastcgi_pass   127.0.0.1:9000;/g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &rsquo;s/#    fastcgi_index  index.php;/    fastcgi_index  index.php;/g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &rsquo;s*#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;*    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;*g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &rsquo;s/#    include        fastcgi_params;/    include        fastcgi.conf;/g&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &lsquo;71d&rsquo; /usr/local/nginx/conf/nginx.conf &amp;&amp; sed -i &lsquo;N;70a}&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+               sed -i &lsquo;65d&rsquo; /usr/local/nginx/conf/nginx.conf &amp;&amp; sed -i &lsquo;N;64alocation ~ \.php</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted"></pre>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>nbsp;{&rsquo; /usr/local/nginx/conf/nginx.conf<br>
+        else<br>
+               echo &ldquo;解析PHP失败！！！&rdquo;<br>
+fi<br>
+touch /usr/local/nginx/html/phptest.php<br>
+cat &laquo; EOF &gt;/usr/local/nginx/html/phptest.php</p>
+<?php  
+phpinfo();  
+?>  
+<p>EOF<br>
+if [ ! -d /usr/local/nginx/html/phptest.php ]<br>
+    then<br>
+        nginx -s reload &amp;&amp; systemctl restart php-fpm<br>
+    else<br>
+        echo &ldquo;测试目录文件失败&rdquo;<br>
+fi<br>
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  &amp;&gt; /dev/null &amp;&amp; yum install -y sl &amp;&gt; /dev/null<br>
+sl<br>
+if [ $? -eq 0 ]<br>
+        then<br>
+                echo &ldquo;LNMP安装成功，请您访问http://$ADDR/phptest.php&rdquo;<br>
+        else<br>
+                echo &ldquo;安装失败&rdquo;<br>
+fi<br>
+if [ $? -eq 0 ]<br>
+    then<br>
+        echo &ldquo;LNMP安装成功，请您访问http://$ADDR/phptest.php&rdquo;<br>
+    else<br>
+        echo &ldquo;安装失败&rdquo;<br>
+fi<br>
+###################################################################################################This is a lnmp-install~<br>
+以上为lnmp环境的搭建，不要准备包，全部在线下载，整个过程最多30分钟，这个只是基本的lnmp环境</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>如果说要安装zabbix4.0的话还需要满足他的先决条件，在这里我们一步步的来，遇到阻挡了再去安装。</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p> 下面开始安装zabbix4.0</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>软件包下载地址：https://www.zabbix.com/download_sources</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>解压软件包：</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">yum&nbsp;install&nbsp;-y&nbsp;net-snmp-devel
+tar&nbsp;zxf&nbsp;zabbix-4.0.0.tar.gz
+cd&nbsp;zabbix-4.0.0
+./configure&nbsp;--prefix=/usr/local/zabbix&nbsp;--enable-server&nbsp;--enable-agent&nbsp;--with-mysql&nbsp;--enable-ipv6&nbsp;--with-net-snmp&nbsp;--with-libcurl&nbsp;--with-libxml2</pre>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>在这里有可能会发生报错：</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>现象1：</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">configure:&nbsp;error:&nbsp;Not&nbsp;found&nbsp;mysqlclient&nbsp;library</pre>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>解决：将编译时的&ndash;with-mysql后面跟上数据库的安装路径</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>1 make &amp;&amp; make install</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>到这里安装成功，下面开始配置各项配置文件</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">1&nbsp;vim&nbsp;/usr/local/zabbix/etc/zabbix_server.conf
+2&nbsp;DBHost=localhost&nbsp;#默认注释掉了，直接取消注释即可
+3&nbsp;DBName=zabbix&nbsp;#数据库名字
+4&nbsp;DBUser=zabbix&nbsp;#默认是root，我们授权的用户是zabbix
+5&nbsp;DBPassword=zabbix&nbsp;#密码我们授权的也是zabbix</pre>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>下面是数据库的导入与授权操作</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>1.先登录数据库</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>在这里也许你会不知道数据库该怎么登录，因为你并不知道数据库密码</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>初始密码获取方法： cat /usr/local/mysql/log/mysql.err | grep password</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>黄色框里面的就是数据库的初始密码了</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>登录数据库以后必须更改初密码，否则无法进行建库等操作</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>更改密码：</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">1&nbsp;use&nbsp;mysql;
+2&nbsp;update&nbsp;user&nbsp;set&nbsp;password=password('mysql')&nbsp;where&nbsp;user='root';
+3&nbsp;flush&nbsp;privileges;
+4&nbsp;create&nbsp;database&nbsp;zabbix;
+5&nbsp;grant&nbsp;all&nbsp;on&nbsp;zabbix.*&nbsp;to&nbsp;zabbix@'localhost'&nbsp;identified&nbsp;by&nbsp;'zabbixmysql';
+6&nbsp;flush&nbsp;privileges;</pre>
+<!-- /wp:preformatted -->
+<!-- wp:paragraph -->
+<p>接下来是导入数据库：</p>
+<!-- /wp:paragraph -->
+<!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+<pre class="wp-block-preformatted brush:bash;toolbar:false">1&nbsp;cd&nbsp;/usr/src/zabbix-4.0.0
+2&nbsp;mysql&nbsp;-uzabbix&nbsp;-pzabbixmysql&nbsp;zabbix&nbsp;&lt;&nbsp;database/mysql/schema.sql
+3&nbsp;mysql&nbsp;-uzabbix&nbsp;-pzabbixmysql&nbsp;zabbix&nbsp;&lt;&nbsp;database/mysql/images.sql
+4&nbsp;mysql&nbsp;-uzabbix&nbsp;-pzabbixmysql&nbsp;zabbix&nbsp;&lt;&nbsp;database/mysql/data.sql</pre>
+<!-- /wp:preformatted -->
+<!-- wp:group {"backgroundColor":"vivid-cyan-blue"} -->
+<div class="wp-block-group has-vivid-cyan-blue-background-color has-background">
+  <div class="wp-block-group__inner-container">
+    <!-- wp:paragraph --></p> 
+<pre><code>&lt;p&gt;
+  下面我们可以写一个数据库连通性的测试页面放到nginx的html目录下：
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;!-- /wp:paragraph --&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;!-- wp:shortcode --&gt;
+  
+  &lt;br /&gt; vim /usr/local/nginx/html/mysqltest.php&lt;br /&gt; &lt;?php
+</code></pre>
+<p>$link=mysql_connect(&rsquo;localhost&rsquo;,&lsquo;zabbix&rsquo;,&lsquo;zabbix&rsquo;);
+if($link) echo &quot;</p>
+<h1>The database connection was successful!</h1> 
+<pre><code>  &lt;p&gt;
+    &quot;;&lt;br /&gt; else echo &quot;
+  &lt;/p&gt;
+  
+  &lt;h1&gt;
+    The database connection was Fail!!
+  &lt;/h1&gt;
+  
+  &lt;p&gt;
+    &quot;;&lt;br /&gt; mysql_close();&lt;br /&gt; ?&gt;&lt;br /&gt; &lt;!-- /wp:shortcode --&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;!-- wp:preformatted {&quot;className&quot;:&quot;brush:bash;toolbar:false&quot;} --&gt;
+  &lt;/p&gt;
+  
+  &lt;pre class=&quot;wp-block-preformatted brush:bash;toolbar:false&quot;&gt;&lt;/pre&gt;
+</code></pre>
+<p>
+  <!-- /wp:preformatted --></div> </div> 
+  <p>
+    <!-- /wp:group -->
+  </p>
+  <p>
+    <!-- wp:paragraph -->
+  </p>
+  <p>
+    浏览器访问nginx的IP后面加上测试文件文件名出先下面内容则代表连接成功：
+  </p>
+  <p>
+    <!-- /wp:paragraph -->
+  </p>
+  <p>
+    <!-- wp:paragraph -->
+  </p>
+  <p>
+    接下来就是进入zabbix的web界面了，这时候需要把前端文件copy到nginx的HTML目录下
+  </p>
+  <p>
+    <!-- /wp:paragraph -->
+  </p>
+  <p>
+    <!-- wp:preformatted {"className":"brush:bash;toolbar:false"} -->
+  </p>
+  <pre class="wp-block-preformatted brush:bash;toolbar:false">mkdir&nbsp;/usr/local/nginx/html/zabbix
+cd&nbsp;/usr/src/zabbix-4.0.0/frontends/php/
+cp&nbsp;*&nbsp;/usr/local/nginx/html/zabbix/</pre>
+<p>
+  <!-- /wp:preformatted -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  进入web界面：http://ip/zabbix/
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  下面是安装过程遇到的问题
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  提示不满足zabbix的先决条件
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  根据提示去更改php.ini的相关数值，参考上面的先决条件
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  在这个过程可能会涉及到php模块的安装，可以参考php扩展模块的安装方法安装就能完成
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  &nbsp;php扩展模块安装方法：https://www.cnblogs.com/hw226234/p/9777616.html&nbsp;
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+<p>
+  <!-- wp:paragraph -->
+</p>
+<p>
+  本文来自我的个人博客：https://www.cnblogs.com/hw226234/
+</p>
+<p>
+  <!-- /wp:paragraph -->
+</p>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-02-16-zabbix4-0的安装与配置.md"
+        var oid_likes = "likes_posts\/2020-02-16-zabbix4-0的安装与配置.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/5.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Linux使用随机数修改密码</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-02-16T10:42:00&#43;08:00">16 February 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/70.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >网站群系统描述</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-02-18T00:29:17&#43;08:00">18 February 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

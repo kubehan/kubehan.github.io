@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>关于博主 on Blowfish</title>
+    <link>http://127.0.0.1/categories/%E5%85%B3%E4%BA%8E%E5%8D%9A%E4%B8%BB/</link>
+    <description>Recent content in 关于博主 on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Sun, 26 Apr 2020 08:50:29 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/%E5%85%B3%E4%BA%8E%E5%8D%9A%E4%B8%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wordpress强烈推荐的编辑器</title>
+      <link>http://127.0.0.1/2316.html</link>
+      <pubDate>Sun, 26 Apr 2020 08:50:29 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2316.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>武汉加油，中国加油</title>
+      <link>http://127.0.0.1/434.html</link>
+      <pubDate>Thu, 27 Feb 2020 10:01:52 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/434.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

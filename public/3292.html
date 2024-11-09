@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>ELK安装部署脚本及MySQL主从同步监控脚本 &middot; Blowfish</title>
+  <meta name="title" content="ELK安装部署脚本及MySQL主从同步监控脚本 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/3292.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/3292.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="ELK安装部署脚本及MySQL主从同步监控脚本">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-18T10:11:20+08:00">
+    <meta property="article:modified_time" content="2023-05-18T10:11:20+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ELK安装部署脚本及MySQL主从同步监控脚本">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "ELK安装部署脚本及MySQL主从同步监控脚本",
+    "headline": "ELK安装部署脚本及MySQL主从同步监控脚本",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/3292.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2023",
+    "dateCreated": "2023-05-18T10:11:20\u002b08:00",
+    "datePublished": "2023-05-18T10:11:20\u002b08:00",
+    
+    "dateModified": "2023-05-18T10:11:20\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "430"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      ELK安装部署脚本及MySQL主从同步监控脚本
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2023-05-18T10:11:20&#43;08:00">18 May 2023</time><span class="px-2 text-primary-500">&middot;</span><span>430 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; padding: 0 10px; line-height: 1.6; word-spacing: 0px; letter-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; color: #333; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"> 
+<h1 data-tool="mdnice编辑器" style="font-weight: bold; font-size: 24px; padding: 30px 0; margin: 0; color: #135ce0; position: relative; margin-top: 30px; margin-bottom: 10px; text-align: center;">
+  <span class="prefix" style="display: inline-block; top: 0; width: 60px; height: 60px; background: url(https://my-wechat.mdnice.com/ape_blue.svg); background-size: 100% 100%; opacity: .12;"></span><span class="content" style="font-size: 22px; display: block; margin-top: -36px;">ELK安装部署脚本及MySQL主从同步监控脚本</span><span class="suffix"></span>
+</h1>
+<h1 data-tool="mdnice编辑器" style="font-weight: bold; font-size: 24px; padding: 30px 0; margin: 0; color: #135ce0; position: relative; margin-top: 30px; margin-bottom: 10px; text-align: center;">
+  <span class="prefix" style="display: inline-block; top: 0; width: 60px; height: 60px; background: url(https://my-wechat.mdnice.com/ape_blue.svg); background-size: 100% 100%; opacity: .12;"></span><span class="content" style="font-size: 22px; display: block; margin-top: -36px;">第一个ELK的安装部署脚本</span><span class="suffix"></span>
+</h1>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #272822; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #ddd; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #272822; border-radius: 5px;">&lt;span class="hljs-meta" style="color: #75715e; line-height: 26px;">#!/bin/bash&lt;/span>&lt;br>&lt;span class="hljs-comment" style="color: #75715e; line-height: 26px;">#mail:xuel@anchnet.com&lt;/span>&lt;br>&lt;span class="hljs-comment" style="color: #75715e; line-height: 26px;">#data:2017/9/7&lt;/span>&lt;br>&lt;span class="hljs-comment" style="color: #75715e; line-height: 26px;">#AutoInstall&nbsp;ELK&nbsp;scripts&lt;/span>&lt;br>&lt;span class="hljs-comment" style="color: #75715e; line-height: 26px;">#Software:elasticsearch-5.4.1/logstash-5.4.1/filebeat-5.4.1/kibana-5.4.1&lt;/span>&lt;br>clear&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo&lt;/span>&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"##########################################"&lt;/span>&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo&lt;/span>&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Auto&nbsp;Install&nbsp;ELK.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##"&lt;/span>&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo&lt;/span>&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press&nbsp;Ctrl&nbsp;+&nbsp;C&nbsp;to&nbsp;cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##"&lt;/span>&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo&lt;/span>&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Any&nbsp;key&nbsp;to&nbsp;continue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##"&lt;/span>&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo&lt;/span>&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"##########################################"&lt;/span>&lt;br>&lt;span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">read&lt;/span>&nbsp;-p&nbsp;&lt;br>software_dir=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"/usr/local/software"&lt;/span>&lt;br>elasticsearch_url=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.1.tar.gz"&lt;/span>&lt;br>kibana_url=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"https://artifacts.elastic.co/downloads/kibana/kibana-5.4.1-linux-x86_64.tar.gz"&lt;/span>&lt;br>logstash_url=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"https://artifacts.elastic.co/downloads/logstash/logstash-5.4.1.tar.gz"&lt;/span>&lt;br>filebeat_url=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.4.1-linux-x86_64.tar.gz"&lt;/span>&lt;br>sys_version=&lt;code>cat&nbsp;/etc/redhat-release&nbsp;|awk&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{print&nbsp;$4}&#039;&lt;/span&gt;|cut&nbsp;-d.&nbsp;-f1</code><br />IP=<code>ip&nbsp;addr|grep&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"inet&nbsp;"&lt;/span&gt;|grep&nbsp;-v&nbsp;127.0.0.1|awk&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{print&nbsp;$2}&#039;&lt;/span&gt;|cut&nbsp;-d/&nbsp;-f1</code><br />jvm_conf=<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"/usr/local/elasticsearch/config/jvm.options"</span><br />sys_mem=<code>free&nbsp;-m|grep&nbsp;Mem:|awk&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{print&nbsp;$2}&#039;&lt;/span&gt;|awk&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{sum+=$1}&nbsp;END&nbsp;{print&nbsp;sum/1024}&#039;&lt;/span&gt;|cut&nbsp;-d.&nbsp;-f1</code><br /><br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#wget&nbsp;software</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">wget_fun</span></span>()&nbsp;{<br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">if</span>&nbsp;[&nbsp;!&nbsp;-d&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${software_dir}</span>&nbsp;];<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">then</span><br />&nbsp;mkdir&nbsp;-p&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${software_dir}</span>&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${software_dir}</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">else</span><br />&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${software_dir}</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">fi</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">for</span>&nbsp;software&nbsp;<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">in</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$elasticsearch_url</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$kibana_url</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$logstash_url</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$filebeat_url</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">do</span><br />&nbsp;wget&nbsp;-c&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$software</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">done</span><br />clear<br />}<br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#initial&nbsp;system:install&nbsp;java&nbsp;wget;set&nbsp;hostname;disable&nbsp;firewalld</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">init_sys</span></span>()&nbsp;{<br />[&nbsp;-f&nbsp;/etc/init.d/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">functions</span>&nbsp;]&nbsp;&&&nbsp;.&nbsp;/etc/init.d/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">functions</span><br />[&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${sys_version}</span>"</span>&nbsp;!=&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"7"</span>&nbsp;]&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"Error:This&nbsp;Scripts&nbsp;Support&nbsp;Centos7.xx"</span>&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">exit</span>&nbsp;1<br />[&nbsp;$(id&nbsp;-u)&nbsp;!=&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"0"</span>&nbsp;]&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"Error:&nbsp;You&nbsp;must&nbsp;be&nbsp;root&nbsp;to&nbsp;run&nbsp;this&nbsp;script"</span>&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">exit</span>&nbsp;1<br />sed&nbsp;-i&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"s/SELINUX=enforcing/SELINUX=disabled/"</span>&nbsp;&nbsp;/etc/selinux/config<br />setenforce&nbsp;0<br />yum&nbsp;install&nbsp;-y&nbsp;java-1.8.0-openjdk&nbsp;wget&nbsp;net-tools<br />hostnamectl&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">set</span>-hostname&nbsp;elk-server&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />systemctl&nbsp;stop&nbsp;firewalld<br />cat&nbsp;&gt;&gt;/etc/security/limits.conf&lt;&lt;EOF<br />*&nbsp;soft&nbsp;nofile&nbsp;65536&nbsp;<br />*&nbsp;hard&nbsp;nofile&nbsp;65536&nbsp;<br />*&nbsp;soft&nbsp;nGproc&nbsp;65536&nbsp;<br />*&nbsp;hard&nbsp;nproc&nbsp;65536<br />EOF<br />}<br /><br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#install&nbsp;elasticsearch</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">install_elasticsearch</span></span>()&nbsp;{<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$software_dir</span><br />tar&nbsp;zxf&nbsp;elasticsearch-5.4.1.tar.gz<br />mv&nbsp;elasticsearch-5.4.1&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch<br />mkdir&nbsp;-p&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch/data&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch/logs<br />useradd&nbsp;elasticsearch<br />chown&nbsp;-R&nbsp;elasticsearch:elasticsearch&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"vm.max_map_count&nbsp;=&nbsp;655360"</span>&nbsp;&gt;&gt;/etc/sysctl.conf&nbsp;&&&nbsp;sysctl&nbsp;-p<br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">if</span>&nbsp;[&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${sys_mem}</span>&nbsp;-eq&nbsp;0&nbsp;];<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">then</span><br />&nbsp;sed&nbsp;-i&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"s#<code>grep&nbsp;"&lt;/span&gt;^-Xmx&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${jvm_conf}&lt;/span&gt;</code>#"</span>-Xmx512m<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#g"</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${jvm_conf}</span><br />&nbsp;sed&nbsp;-i&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"s#<code>grep&nbsp;"&lt;/span&gt;^-Xms&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${jvm_conf}&lt;/span&gt;</code>#"</span>-Xms512m<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#g"</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${jvm_conf}</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">else</span><br />&nbsp;sed&nbsp;-i&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"s#<code>grep&nbsp;"&lt;/span&gt;^-Xmx&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${jvm_conf}&lt;/span&gt;</code>#"</span>-Xmx<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${sys_mem}</span>g<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#g"</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${jvm_conf}</span><br />&nbsp;sed&nbsp;-i&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"s#<code>grep&nbsp;"&lt;/span&gt;^-Xms&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${jvm_conf}&lt;/span&gt;</code>#"</span>-Xms<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${sys_mem}</span>g<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"#g"</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${jvm_conf}</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">fi</span><br />cat&nbsp;&gt;&gt;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch/config/elasticsearch.yml&lt;&lt;EOF<br />cluster.name:&nbsp;my-application<br />node.name:&nbsp;elk-server<br />path.data:&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch/data<br />path.logs:&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/elasticsearch/logs<br />network.host:&nbsp;127.0.0.1<br />http.port:&nbsp;9200<br />discovery.zen.ping.unicast.hosts:&nbsp;[<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"elk-server"</span>]<br />EOF<br />su&nbsp;-&nbsp;elasticsearch&nbsp;-c&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"nohup&nbsp;/usr/local/elasticsearch/bin/elasticsearch&nbsp;&"</span><br />}<br /><br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#install&nbsp;logstash</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">install_logstash</span></span>()&nbsp;{<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$software_dir</span><br />tar&nbsp;-zxf&nbsp;logstash-5.4.1.tar.gz<br />mv&nbsp;logstash-5.4.1&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/logstash<br />cat&gt;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/logstash/config/01-syslog.conf&lt;&lt;EOF<br />input&nbsp;{<br />&nbsp;beats&nbsp;{<br />&nbsp;&nbsp;port&nbsp;=&gt;&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"5044"</span><br />&nbsp;&nbsp;}<br />&nbsp;}<br />output&nbsp;{<br />&nbsp;elasticsearch&nbsp;{<br />&nbsp;&nbsp;hosts&nbsp;=&gt;&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"127.0.0.1:9200"</span><br />&nbsp;}<br />&nbsp;stdout&nbsp;{&nbsp;codec&nbsp;=&gt;&nbsp;rubydebug&nbsp;}<br />}<br />EOF<br />nohup&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/logstash/bin/logstash&nbsp;-f&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/logstash/config/01-syslog.conf&nbsp;&&nbsp;&gt;/dev/null<br />}<br /><br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#install&nbsp;filebeat</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">install_filebeat</span></span>()&nbsp;{<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$software_dir</span><br />tar&nbsp;-zxf&nbsp;filebeat-5.4.1-linux-x86_64.tar.gz<br />mv&nbsp;filebeat-5.4.1-linux-x86_64&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/filebeat<br />cat&nbsp;&gt;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/filebeat/filebeat.yml&lt;&lt;EOF<br />filebeat.prospectors:<br />-&nbsp;input_type:&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span><br />&nbsp;&nbsp;paths:<br />&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;/var/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span>/*.<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span><br />output.logstash:<br />&nbsp;&nbsp;hosts:&nbsp;[<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"127.0.0.1:5044"</span>]<br />EOF<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/filebeat/<br />nohup&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/filebeat/filebeat&nbsp;&&nbsp;&gt;/dev/null<br />}<br /><br /><span class="hljs-comment" style="color: #75715e; line-height: 26px;">#install&nbsp;kibana</span><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">install_kibana</span></span>()&nbsp;{<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">cd</span>&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$software_dir</span><br />tar&nbsp;-zxf&nbsp;kibana-5.4.1-linux-x86_64.tar.gz<br />mv&nbsp;kibana-5.4.1-linux-x86_64&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/kibana<br />cat&nbsp;&gt;&gt;&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/kibana/config/kibana.yml&nbsp;&lt;&lt;EOF<br />server.port:&nbsp;5601<br />server.host:&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"0.0.0.0"</span><br />elasticsearch.url:&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"http://127.0.0.1:9200"</span><br />EOF<br />nohup&nbsp;/usr/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">local</span>/kibana/bin/kibana&nbsp;&&nbsp;&gt;/dev/null<br />}<br /><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">check</span></span>()&nbsp;{<br />port=<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$1</span><br />program=<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$2</span><br />check_port=<code>netstat&nbsp;-lntup|grep&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${port}&lt;/span&gt;|wc&nbsp;-l</code><br />check_program=<code>ps&nbsp;-ef|grep&nbsp;&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${program}&lt;/span&gt;|grep&nbsp;-v&nbsp;grep|wc&nbsp;-l</code><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">if</span>&nbsp;[&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$check_port</span>&nbsp;-gt&nbsp;0&nbsp;]&nbsp;&&&nbsp;[&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$check_program</span>&nbsp;-gt&nbsp;0&nbsp;];<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">then</span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${program}</span>&nbsp;run&nbsp;is&nbsp;ok!"</span>&nbsp;/bin/<span class="hljs-literal" style="color: #f92672; font-weight: bold; line-height: 26px;">true</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">else</span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">${program}</span>&nbsp;run&nbsp;is&nbsp;error!"</span>&nbsp;/bin/<span class="hljs-literal" style="color: #f92672; font-weight: bold; line-height: 26px;">false</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">fi</span><br />}<br /><br /><span class="hljs-function" style="line-height: 26px;"><span class="hljs-title" style="color: #a6e22e; font-weight: bold; line-height: 26px;">main</span></span>()&nbsp;{<br />init_sys<br />wget_fun<br />install_elasticsearch<br />install_filebeat<br />install_logstash<br />install_kibana<br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;-e&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"\033[32m&nbsp;Checking&nbsp;Elasticsearch...\033[0m"</span><br />sleep&nbsp;20<br />check&nbsp;:9200&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"elasticsearch"</span><br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;-e&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"\033[32m&nbsp;Checking&nbsp;Logstash...\033[0m"</span><br />sleep&nbsp;2<br />check&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">":9600"</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"logstash"</span><br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;-e&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"\033[32m&nbsp;Checking&nbsp;Kibana...\033[0m"</span><br />sleep&nbsp;2<br />check&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">":5601"</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"kibana"</span><br />action&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"ELK&nbsp;install&nbsp;is&nbsp;success!"</span>&nbsp;/bin/<span class="hljs-literal" style="color: #f92672; font-weight: bold; line-height: 26px;">true</span><br /><span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"url:http://<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$IP</span>:5601"</span><br />}<br />main<br />&lt;/code></pre>
+<h1 data-tool="mdnice编辑器" style="font-weight: bold; font-size: 24px; padding: 30px 0; margin: 0; color: #135ce0; position: relative; margin-top: 30px; margin-bottom: 10px; text-align: center;">
+  <span class="prefix" style="display: inline-block; top: 0; width: 60px; height: 60px; background: url(https://my-wechat.mdnice.com/ape_blue.svg); background-size: 100% 100%; opacity: .12;"></span><span class="content" style="font-size: 22px; display: block; margin-top: -36px;">第二个MySQL同步状态检查脚本</span><span class="suffix"></span>
+</h1>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;"><span style="display: block; background: url(https://files.mdnice.com/user/3441/876cad08-0422-409d-bb5a-08afec5da8ee.svg); height: 30px; width: 100%; background-size: 40px; background-repeat: no-repeat; background-color: #272822; margin-bottom: -7px; border-radius: 5px; background-position: 10px 10px;"></span><code class="hljs" style="overflow-x: auto; padding: 16px; color: #ddd; display: -webkit-box; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; font-size: 12px; -webkit-overflow-scrolling: touch; padding-top: 15px; background: #272822; border-radius: 5px;">&lt;span class="hljs-meta" style="color: #75715e; line-height: 26px;">#!/bin/bash&lt;/span>&lt;br>mysql_user=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">'root'&lt;/span>&lt;br>mysql_pass=&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"bhVd!564qazWSX78U#7"&lt;/span>&lt;br>data=$(/bin/date&nbsp;+%Y-%m-%d-%H:%M)&lt;br>/bin/netstat&nbsp;-lntup|egrep&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;">":3306"&lt;/span>|grep&nbsp;-v&nbsp;grep&gt;/dev/null0&lt;br>&lt;span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">if&lt;/span>&nbsp;[&nbsp;$?&nbsp;-eq&nbsp;0&nbsp;];&lt;span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">then&lt;/span>&lt;br>&nbsp;Slave_IO=&lt;code>/data/mysql/bin/mysql&nbsp;-u&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${mysql_user}&lt;/span&gt;&nbsp;-p&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${mysql_pass}&lt;/span&gt;&nbsp;-e&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"show&nbsp;slave&nbsp;status\G"&lt;/span&gt;|grep&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"Slave_IO_Running:"&lt;/span&gt;|awk&nbsp;-F&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;":&nbsp;"&lt;/span&gt;&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{print&nbsp;$2}&#039;&lt;/span&gt;</code><br />&nbsp;Slave_SQL=<code>/data/mysql/bin/mysql&nbsp;-u&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${mysql_user}&lt;/span&gt;&nbsp;-p&lt;span class="hljs-variable" style="color: #a6e22e; line-height: 26px;"&gt;${mysql_pass}&lt;/span&gt;&nbsp;-e&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"show&nbsp;slave&nbsp;status\G"&lt;/span&gt;|grep&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;"Slave_SQL_Running:"&lt;/span&gt;|awk&nbsp;-F&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;":&nbsp;"&lt;/span&gt;&nbsp;&lt;span class="hljs-string" style="color: #a6e22e; line-height: 26px;"&gt;&#039;{print&nbsp;$2}&#039;&lt;/span&gt;</code><br />&nbsp;&nbsp;<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">if</span>&nbsp;[&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$Slave_IO</span>"</span>&nbsp;==&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"Yes"</span>&nbsp;]&nbsp;&&&nbsp;[&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$Slave_SQL</span>"</span>&nbsp;==&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"Yes"</span>&nbsp;];<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">then</span><br />&nbsp;&nbsp;&nbsp;STAT=1&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$data</span>&nbsp;mysql-status&nbsp;is&nbsp;ok"</span>&gt;&gt;/var/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span>/mysql-status.log<br />&nbsp;&nbsp;<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">else</span><br />&nbsp;&nbsp;&nbsp;STAT=0&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$data</span>&nbsp;mysql-status&nbsp;is&nbsp;error"</span>&gt;&gt;/var/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span>/mysql-status.log<br />&nbsp;&nbsp;<span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">fi</span><br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">else</span><br />&nbsp;STAT=0&nbsp;&&&nbsp;<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">echo</span>&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$data</span>&nbsp;mysql-status&nbsp;is&nbsp;error"</span>&gt;&gt;/var/<span class="hljs-built_in" style="color: #a6e22e; line-height: 26px;">log</span>/mysql-status.log<br /><span class="hljs-keyword" style="color: #f92672; font-weight: bold; line-height: 26px;">fi</span><br />/usr/bin/zabbix_sender&nbsp;-z&nbsp;101.227.67.205&nbsp;-s&nbsp;<span class="hljs-string" style="color: #a6e22e; line-height: 26px;">"DaoDaEr-mysql-status"</span>&nbsp;-k&nbsp;mysql&nbsp;-o&nbsp;<span class="hljs-variable" style="color: #a6e22e; line-height: 26px;">$STAT</span><br />&lt;/code></pre></section>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2023-05-18-elk安装部署脚本及mysql主从同步监控脚本.md"
+        var oid_likes = "likes_posts\/2023-05-18-elk安装部署脚本及mysql主从同步监控脚本.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/3258.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >K8S Pod 磁盘治理方案</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2022-10-21T14:14:40&#43;08:00">21 October 2022</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

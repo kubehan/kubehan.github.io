@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DOCLever on Blowfish</title>
+    <link>http://127.0.0.1/tags/doclever/</link>
+    <description>Recent content in DOCLever on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Fri, 06 Mar 2020 08:13:57 +0800</lastBuildDate><atom:link href="http://127.0.0.1/tags/doclever/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Centos下安装部署DOCLever</title>
+      <link>http://127.0.0.1/716.html</link>
+      <pubDate>Fri, 06 Mar 2020 08:13:57 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/716.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

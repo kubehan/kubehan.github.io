@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>K8s日志管理可视化 on Blowfish</title>
+    <link>http://127.0.0.1/categories/k8s%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
+    <description>Recent content in K8s日志管理可视化 on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Thu, 27 Aug 2020 05:57:14 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/k8s%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E5%8F%AF%E8%A7%86%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes Etcd 数据备份与恢复</title>
+      <link>http://127.0.0.1/2767.html</link>
+      <pubDate>Thu, 27 Aug 2020 05:57:14 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2767.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>K8s部署kubernetes-dashboard</title>
+      <link>http://127.0.0.1/2106.html</link>
+      <pubDate>Wed, 01 Apr 2020 06:07:59 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2106.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Kubernetes主机和容器的监控方案</title>
+      <link>http://127.0.0.1/2019.html</link>
+      <pubDate>Fri, 27 Mar 2020 09:55:48 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2019.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

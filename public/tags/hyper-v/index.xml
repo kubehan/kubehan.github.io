@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hyper-V on Blowfish</title>
+    <link>http://127.0.0.1/tags/hyper-v/</link>
+    <description>Recent content in Hyper-V on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Wed, 27 May 2020 04:25:10 +0800</lastBuildDate><atom:link href="http://127.0.0.1/tags/hyper-v/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hyper-V虚拟机固定IP地址且能上网</title>
+      <link>http://127.0.0.1/2603.html</link>
+      <pubDate>Wed, 27 May 2020 04:25:10 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2603.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

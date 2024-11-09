@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程语言 on Blowfish</title>
+    <link>http://127.0.0.1/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link>
+    <description>Recent content in 编程语言 on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Fri, 03 Dec 2021 08:02:33 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Windows中编译Linux运行的Golang程序</title>
+      <link>http://127.0.0.1/3222.html</link>
+      <pubDate>Fri, 03 Dec 2021 08:02:33 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3222.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>如何运行一个Golang项目</title>
+      <link>http://127.0.0.1/3220.html</link>
+      <pubDate>Fri, 03 Dec 2021 07:29:55 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3220.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

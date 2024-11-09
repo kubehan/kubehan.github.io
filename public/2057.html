@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>Jumpserver部署文档官方版 &middot; Blowfish</title>
+  <meta name="title" content="Jumpserver部署文档官方版 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/2057.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/2057.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="Jumpserver部署文档官方版">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-30T05:17:07+08:00">
+    <meta property="article:modified_time" content="2020-03-30T05:17:07+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jumpserver部署文档官方版">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "Jumpserver部署文档官方版",
+    "headline": "Jumpserver部署文档官方版",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/2057.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-03-30T05:17:07\u002b08:00",
+    "datePublished": "2020-03-30T05:17:07\u002b08:00",
+    
+    "dateModified": "2020-03-30T05:17:07\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1640"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      Jumpserver部署文档官方版
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-03-30T05:17:07&#43;08:00">30 March 2020</time><span class="px-2 text-primary-500">&middot;</span><span>1640 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <pre><code>环境：
+
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;# CentOS 7
+&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas; background-color:yellow">$ setenforce 0 # </span><span style="font-family:宋体; background-color:yellow">临时关闭，重启后失效</span><span style="font-family:Consolas; background-color:yellow"><br /> </span></span></p>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas; background-color:yellow">$ systemctl stop firewalld.service # </span><span style="font-family:宋体; background-color:yellow">临时关闭，重启后失效</span><span style="font-family:Consolas; background-color:yellow"><br /> </span></span></p>
+<p> </p>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas; background-color:yellow"># </span><span style="font-family:宋体; background-color:yellow">修改字符集，否则可能报</span><span style="font-family:Consolas; background-color:yellow"> input/output error</span><span style="font-family:宋体; background-color:yellow">的问题，因为日志里打印了中文</span><span style="font-family:Consolas; background-color:yellow"><br /> </span></span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow">$ localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8<br /> </span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow">$ export LC_ALL=zh_CN.UTF-8<br /> </span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt"><span style="background-color:yellow">$ echo &lsquo;LANG=&ldquo;zh_CN.UTF-8&rdquo;&rsquo; &gt; /etc/locale.conf</span><br /> </span></p>
+<p>准备Python3和Python虚拟环境</p>
+<pre><code>安装依赖包：
+
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;yum -y install wget sqlite-devel xz gcc automake zlib-devel openssl-devel epel-release git&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p>安装Python3.6：</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;yum -y install python36 python36-devel&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p>建立Python虚拟环境</p>
+<p>因为 CentOS 6/7 自带的是 Python2，而 Yum 等工具依赖原来的 Python，为了不扰乱原来的环境我们来使用 Python 虚拟环境</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas&quot;&gt;&lt;span style=&quot;font-size:9pt&quot;&gt;$ python3 -m &lt;/span&gt;&lt;span style=&quot;font-size:14pt&quot;&gt;venv &lt;/span&gt;&lt;span style=&quot;font-size:9pt&quot;&gt;py3
+&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ source /opt/py3/bin/activate
+&lt;/span&gt;
+</code></pre>
+<p> </p>
+<pre><code>&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;看到下面的提示符代表成功，以后运行&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; Jumpserver &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;都要先运行以上&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; source &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;命令，以下所有命令均在该虚拟环境中运行&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;
+					&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;(py3) [root@localhost py3]&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p>懒癌解决办法：自动载入虚拟环境</p>
+<p><span style="color:#404040"><span style="font-family:等线; background-color:#fcfcfc">此项仅为懒癌晚期的人员使用，防止运行</span><span style="font-family:Arial; background-color:#fcfcfc"> Jumpserver </span><span style="font-family:等线; background-color:#fcfcfc">时忘记载入</span><span style="font-family:Arial; background-color:#fcfcfc"> Python </span><span style="font-family:等线; background-color:#fcfcfc">虚拟环境导致程序无法运行。使用</span><span style="font-family:Arial; background-color:#fcfcfc">autoenv<br /> </span></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ git clone https://github.com/kennethreitz/autoenv.git
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ echo 'source /opt/autoenv/activate.sh' &gt;&gt; ~/.bashrc
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ source ~/.bashrc&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p>安装jumpserver</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ git clone https://github.com/jumpserver/jumpserver.git &amp;&amp; cd jumpserver &amp;&amp; git checkout master
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;$ echo &quot;source /opt/py3/bin/activate&quot; &gt; /opt/jumpserver/.env  # &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;进入&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; jumpserver &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;目录时将自动载入&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; python &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;虚拟环境&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;
+					&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;首次进入&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; jumpserver &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;文件夹会有提示，按&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; y &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;即可&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;
+					&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;# Are you sure you want to allow this? (y/N) y&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p>安装依赖RPM包</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/jumpserver/requirements
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;$ yum -y install $(cat rpm_requirements.txt)  # &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;如果没有任何报错请继续&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;
+					&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><strong><span style="font-family:Arial; background-color:#fcfcfc"> </span><span style="font-family:等线; background-color:#fcfcfc">安装</span><span style="font-family:Arial; background-color:#fcfcfc"> Python </span><span style="font-family:等线; background-color:#fcfcfc">库依赖</span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ pip install -r requirements.txt&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><strong><span style="font-family:等线; background-color:#fcfcfc">安装</span><span style="font-family:Arial; background-color:#fcfcfc"> Redis, Jumpserver </span><span style="font-family:等线; background-color:#fcfcfc">使用</span><span style="font-family:Arial; background-color:#fcfcfc"> Redis </span><span style="font-family:等线; background-color:#fcfcfc">做</span><span style="font-family:Arial; background-color:#fcfcfc"> cache </span><span style="font-family:等线; background-color:#fcfcfc">和</span><span style="font-family:Arial; background-color:#fcfcfc"> celery broke</span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ yum -y install redis
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ systemctl enable redis
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ systemctl start redis&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><strong><span style="font-family:等线; background-color:#fcfcfc">安装</span><span style="font-family:Arial; background-color:#fcfcfc"> MySQL</span></strong></span></p>
+<p>安装过程就过了，用原来的就行</p>
+<p style="background: #fcfcfc">
+  <span style="color:#404040; font-size:12pt"><span style="font-family:宋体">本教程使用</span><span style="font-family:Arial"> Mysql </span><span style="font-family:宋体">作为数据库，如果不使用</span><span style="font-family:Arial"> Mysql </span><span style="font-family:宋体">可以跳过相关</span><span style="font-family:Arial"> Mysql </span><span style="font-family:宋体">安装和配置</span><span style="font-family:Arial"><br /> </span></span>
+</p>
+<p style="background: #eeffcc">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"># centos7<br /> </span>
+</p>
+<p style="background: #eeffcc">
+  <span style="color:#404040; font-size:9pt"><span style="font-family:Consolas">$ yum -y install mariadb mariadb-devel mariadb-server # centos7</span><span style="font-family:宋体">下安装的是</span><span style="font-family:Consolas">mariadb<br /> </span></span>
+</p>
+<p style="background: #eeffcc">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt">$ systemctl enable mariadb<br /> </span>
+</p>
+<p style="background: #eeffcc">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt">$ systemctl start mariadb<br /> </span>
+</p>
+<p style="background: #eeffcc">
+   
+</p>
+<p style="background: #eeffcc">
+  <span style="color:#404040; font-size:9pt"><span style="font-family:Consolas"># centos6 </span><span style="font-family:宋体">自带的</span><span style="font-family:Consolas"> mysql5.1 </span><span style="font-family:宋体">不支持，请在其他服务器上创建</span><span style="font-family:Consolas"> jumpserver </span><span style="font-family:宋体">数据库连接</span><span style="font-family:Consolas"><br /> </span></span>
+</p>
+<p> </p>
+<p><span style="color:#404040"><strong><span style="font-family:等线; background-color:#fcfcfc">创建数据库</span><span style="font-family:Arial; background-color:#fcfcfc"> Jumpserver </span><span style="font-family:等线; background-color:#fcfcfc">并授权</span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ mysql
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;&gt; create database jumpserver default charset 'utf8';
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;&gt; grant all on jumpserver.* to 'jumpserver'@'127.0.0.1' identified by 'weakPassword';
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;&gt; flush privileges;&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><strong><span style="font-family:Arial; background-color:#fcfcfc"> </span><span style="font-family:等线; background-color:#fcfcfc">修改</span><span style="font-family:Arial; background-color:#fcfcfc"> Jumpserver </span><span style="font-family:等线; background-color:#fcfcfc">配置文件</span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/jumpserver
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cp config_example.py config.py
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ vi config.py&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p><span style="background-color:red">这里特别需要注意：更改的地方要完全对整齐，不能用tab建，只能用空格键，并且要完全对齐，</span></p>
+<p>注意更改的地方如下</p>
+<p><span style="color:#408090; font-size:9pt"><em><span style="font-family:Consolas; background-color:yellow"># Jumpserver </span><span style="font-family:宋体; background-color:yellow">使用</span><span style="font-family:Consolas; background-color:yellow"> SECRET_KEY </span><span style="font-family:宋体; background-color:yellow">进行加密，请务必修改以下设置</span></em><span style="color:#404040; font-family:Consolas"><br /> </span></span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt"><br /> <span style="color:#408090"><em># SECRET_KEY = os.environ.get(&lsquo;SECRET_KEY&rsquo;) or &lsquo;2vym+ky!997d5kkcc64mnz06y1mmui3lut#(^wd=%s_qj$1%x&rsquo;</em><span style="color:#404040"><br /> </span></span></span></p>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas"> SECRET_KEY <span style="color:#666666">=<span style="color:#404040"><br /> <span style="color:#4070a0">&rsquo;</span></span></span></span><span style="font-family:宋体">请随意输入随机字符串（推荐字符大于等于</span><span style="color:#4070a0"><span style="font-family:Consolas"> 50</span><span style="font-family:宋体">位）</span><span style="font-family:Consolas">&rsquo;<span style="color:#404040"><br /> </span></span></span></span></p>
+<p> </p>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas"><br /> <span style="color:#408090; background-color:yellow"><em># DEBUG </em></span></span><span style="font-family:宋体; background-color:yellow"><em>模式</em></span><span style="color:#408090"><em><span style="font-family:Consolas; background-color:yellow"> True</span><span style="font-family:宋体; background-color:yellow">为开启</span><span style="font-family:Consolas; background-color:yellow"> False</span><span style="font-family:宋体; background-color:yellow">为关闭，默认开启，生产环境推荐关闭</span></em><span style="color:#404040; font-family:Consolas; background-color:yellow"><br /> </span></span></span></p>
+<p style="margin-left: 27pt">
+  <span style="color:#404040; font-size:9pt"><span style="font-family:Consolas; background-color:yellow"><br /> <span style="color:#408090"><em># </em></span></span><span style="font-family:宋体; background-color:yellow"><em>注意：如果设置了</em></span><span style="color:#408090"><em><span style="font-family:Consolas; background-color:yellow">DEBUG = False</span><span style="font-family:宋体; background-color:yellow">，访问</span><span style="font-family:Consolas; background-color:yellow">8080</span><span style="font-family:宋体; background-color:yellow">端口页面会显示不正常，需要搭建</span><span style="font-family:Consolas; background-color:yellow"> nginx </span><span style="font-family:宋体; background-color:yellow">代理才可以正常访问</span></em><span style="color:#404040; font-family:Consolas"><br /> </span></span></span>
+</p>
+<pre><code> &lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;DEBUG &lt;span style=&quot;color:#666666&quot;&gt;=&lt;span style=&quot;color:#404040&quot;&gt; os&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;environ&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;get(&lt;span style=&quot;color:#4070a0&quot;&gt;&quot;DEBUG&quot;&lt;span style=&quot;color:#404040&quot;&gt;) &lt;span style=&quot;color:#007020&quot;&gt;&lt;strong&gt;or&lt;/strong&gt;&lt;span style=&quot;color:#404040&quot;&gt;&lt;br /&gt; &lt;span style=&quot;color:#007020&quot;&gt;&lt;strong&gt;True&lt;/strong&gt;&lt;span style=&quot;color:#404040&quot;&gt;&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p><span style="color:#408090; font-size:9pt"><em><span style="font-family:Consolas; background-color:yellow"># </span><span style="font-family:宋体; background-color:yellow">日志级别，默认为</span><span style="font-family:Consolas; background-color:yellow">DEBUG</span><span style="font-family:宋体; background-color:yellow">，可调整为</span><span style="font-family:Consolas; background-color:yellow">INFO, WARNING, ERROR, CRITICAL</span><span style="font-family:宋体; background-color:yellow">，默认</span></em><span style="font-family:Consolas"><span style="background-color:yellow"><em>INFO</em></span><span style="color:#404040"><br /> </span></span></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;LOG_LEVEL &lt;span style=&quot;color:#666666&quot;&gt;=&lt;span style=&quot;color:#404040&quot;&gt; os&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;environ&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;get(&lt;span style=&quot;color:#4070a0&quot;&gt;&quot;LOG_LEVEL&quot;&lt;span style=&quot;color:#404040&quot;&gt;) &lt;span style=&quot;color:#007020&quot;&gt;&lt;strong&gt;or&lt;/strong&gt;&lt;span style=&quot;color:#404040&quot;&gt;&lt;br /&gt; &lt;span style=&quot;color:#4070a0&quot;&gt;'WARNING'&lt;span style=&quot;color:#404040&quot;&gt;&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;LOG_DIR &lt;span style=&quot;color:#666666&quot;&gt;=&lt;span style=&quot;color:#404040&quot;&gt; os&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;path&lt;span style=&quot;color:#666666&quot;&gt;.&lt;span style=&quot;color:#404040&quot;&gt;join(BASE_DIR, &lt;span style=&quot;color:#4070a0&quot;&gt;'logs'&lt;span style=&quot;color:#404040&quot;&gt;)&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p> </p>
+<p><span style="color:#408090; font-size:9pt"><em><span style="font-family:Consolas; background-color:yellow"># </span><span style="font-family:宋体; background-color:yellow">默认使用</span><span style="font-family:Consolas; background-color:yellow">SQLite3</span><span style="font-family:宋体; background-color:yellow">，如果使用其他数据库请注释下面两行</span></em><span style="color:#404040; font-family:Consolas"><br /> </span></span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt"><br /> <span style="color:#408090"><em># DB_ENGINE = &lsquo;sqlite3&rsquo;</em><span style="color:#404040"><br /> </span></span></span></p>
+<p><span style="color:#404040; font-family:Consolas; font-size:9pt"><br /> <span style="color:#408090"><em># DB_NAME = os.path.join(BASE_DIR, &lsquo;data&rsquo;, &lsquo;db.sqlite3&rsquo;)</em><span style="color:#404040"><br /> </span></span></span></p>
+<p> </p>
+<p style="background: yellow">
+  <span style="color:#404040; font-size:9pt"><span style="font-family:Consolas"><br /> <span style="color:#408090; background-color:yellow"><em># </em></span></span><span style="font-family:宋体; background-color:yellow"><em>如果需要使用</em></span><span style="color:#408090"><em><span style="font-family:Consolas; background-color:yellow">mysql</span><span style="font-family:宋体; background-color:yellow">或</span><span style="font-family:Consolas; background-color:yellow">postgres</span><span style="font-family:宋体; background-color:yellow">，请取消下面的注释并输入正确的信息</span><span style="font-family:Consolas; background-color:yellow">,</span><span style="font-family:宋体; background-color:yellow">本例使用</span><span style="font-family:Consolas; background-color:yellow">mysql</span><span style="font-family:宋体; background-color:yellow">做演示</span><span style="font-family:Consolas; background-color:yellow">(mariadb</span><span style="font-family:宋体; background-color:yellow">也是</span></em><span style="font-family:Consolas"><span style="background-color:yellow"><em>mysql)</em></span><span style="color:#404040"><br /> </span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_ENGINE <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_ENGINE"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#4070a0">'mysql'<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_HOST <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_HOST"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#4070a0">'127.0.0.1'<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_PORT <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_PORT"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#208050">3306<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_USER <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_USER"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#4070a0">'jumpserver'<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_PASSWORD <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_PASSWORD"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#4070a0">'weakPassword'<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p style="background: yellow">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> DB_NAME <span style="color:#666666">=<span style="color:#404040"> os<span style="color:#666666">.<span style="color:#404040">environ<span style="color:#666666">.<span style="color:#404040">get(<span style="color:#4070a0">"DB_NAME"<span style="color:#404040">) <span style="color:#007020"><strong>or</strong><span style="color:#404040"><br /> <span style="color:#4070a0">'jumpserver'<span style="color:#404040"><br /> </span></span></span></span></span></span></span></span></span></span></span></span></span>
+</p>
+<p> </p>
+<p><span style="color:#404040; font-size:9pt"><span style="font-family:Consolas"><br /> <span style="color:#408090; background-color:yellow"><em># Django </em></span></span><span style="font-family:宋体; background-color:yellow"><em>监听的</em></span><span style="color:#408090"><em><span style="font-family:Consolas; background-color:yellow">ip</span><span style="font-family:宋体; background-color:yellow">和端口，生产环境推荐把</span><span style="font-family:Consolas; background-color:yellow">0.0.0.0</span><span style="font-family:宋体; background-color:yellow">修改成</span><span style="font-family:Consolas; background-color:yellow">127.0.0.1</span><span style="font-family:宋体; background-color:yellow">，这里的意思是允许</span><span style="font-family:Consolas; background-color:yellow">x.x.x.x</span><span style="font-family:宋体; background-color:yellow">访问，</span><span style="font-family:Consolas; background-color:yellow">127.0.0.1</span><span style="font-family:宋体; background-color:yellow">表示仅允许自身访问</span></em><span style="color:#404040; font-family:Consolas"><br /> </span></span></span></p>
+<p style="background: #92d050">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"><br /> <span style="color:#408090"><em># ./manage.py runserver 127.0.0.1:8080</em><span style="color:#404040"><br /> </span></span></span>
+</p>
+<p style="background: #92d050">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt"> HTTP_BIND_HOST <span style="color:#666666">=<span style="color:#404040"><br /> <span style="color:#4070a0">'0.0.0.0'<span style="color:#404040"><br /> </span></span></span></span></span>
+</p>
+<p style="background: #92d050">
+  <span style="color:#404040; font-family:Consolas; font-size:9pt">HTTP_LISTEN_PORT <span style="color:#666666">=<span style="color:#404040"><br /> <span style="color:#208050">8080<span style="color:#404040"><br /> </span></span></span></span></span>
+</p>
+<p> </p>
+<p><span style="color:#404040"><strong><span style="font-family:Arial; background-color:#fcfcfc"> </span><span style="font-family:等线; background-color:#fcfcfc">生成数据库表结构和初始化数据</span><span style="font-family:Arial; background-color:#fcfcfc"><br /> </span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/jumpserver/utils
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ sh make_migrations.sh&lt;/span&gt;
+				&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><strong><span style="font-family:等线; background-color:#fcfcfc">运行</span><span style="font-family:Arial; background-color:#fcfcfc"> Jumpserver</span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/jumpserver
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;$ ./jms start all  # &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;后台运行使用&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; -d &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;参数&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;./jms start all -d&lt;/span&gt;
+					&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p>到这里登录jumpserver时可能会会无法登录。需要手动设置超级用户如下设置</p>
+<p><span style="color:#404040"><span style="font-family:等线; background-color:#fcfcfc">运行不报错，请浏览器访问</span><span style="font-family:Arial; background-color:#fcfcfc"> <a href="http://192.168.244.144:8080/"><span style="color:#9b59b6">http://192.168.244.144:8080/</span></a> </span><span style="font-family:等线; background-color:#fcfcfc">默认账号</span><span style="font-family:Arial; background-color:#fcfcfc">: admin </span><span style="font-family:等线; background-color:#fcfcfc">密码</span><span style="font-family:Arial; background-color:#fcfcfc">: admin </span><span style="font-family:等线; background-color:#fcfcfc">页面显示不正常先不用处理，继续往下操作，后面搭建</span><span style="font-family:Arial; background-color:#fcfcfc"> nginx </span><span style="font-family:等线; background-color:#fcfcfc">代理后即可正常访问，原因是因为</span><span style="font-family:Arial; background-color:#fcfcfc"> django </span><span style="font-family:等线; background-color:#fcfcfc">无法在非</span><span style="font-family:Arial; background-color:#fcfcfc"> debug </span><span style="font-family:等线; background-color:#fcfcfc">模式下加载静态资源</span></span></p>
+<ol>
+<li>
+<div style="background: #fcfcfc">
+ <span style="color:#404040; font-size:12pt"><span style="font-family:宋体">在终端修改管理员密码及新建超级用户</span><span style="font-family:Arial"><br /> </span></span>
+</li>
+</ol>
+<pre><code>&lt;/div&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;管理密码忘记了或者重置管理员密码&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ source /opt/py3/bin/activate&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ cd /opt/jumpserver/apps&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ python manage.py changepassword &lt;user_name&gt;&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+   
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;# &lt;/span&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;新建超级用户的命令如下命令&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;background: #eeffcc&quot;&gt;
+  &lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ python manage.py createsuperuser --username=user --email=user@domain.com&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify; background: #fcfcfc&quot;&gt;
+  &lt;h2&gt;
+    &lt;span style=&quot;color:#404040&quot;&gt;&lt;span style=&quot;font-family:等线 Light&quot;&gt;三&lt;/span&gt;&lt;span style=&quot;font-family:Georgia&quot;&gt;. &lt;/span&gt;&lt;span style=&quot;font-family:等线 Light&quot;&gt;安装&lt;/span&gt;&lt;span style=&quot;font-family:Georgia&quot;&gt; SSH Server &lt;/span&gt;&lt;span style=&quot;font-family:等线 Light&quot;&gt;和&lt;/span&gt;&lt;span style=&quot;font-family:Georgia&quot;&gt; WebSocket Server: Coco&lt;br /&gt; &lt;/span&gt;&lt;/span&gt;
+  &lt;/h2&gt;
+&lt;/p&gt;
+
+为啥要安装？ 
+
+Coco 
+
+实现了 SSH Server 和 Web Terminal Server 的组件，提供 SSH 和 WebSocket 接口, 使用 Paramiko 和 Flask 开发。 
+
+&lt;span style=&quot;color:#404040&quot;&gt;&lt;span style=&quot;font-family:等线&quot;&gt;新开一个终端，别忘了&lt;/span&gt;&lt;span style=&quot;font-family:Arial&quot;&gt; source /opt/py3/bin/activate&lt;/span&gt;&lt;/span&gt; 
+
+&lt;p style=&quot;background: #00b050&quot;&gt;
+  &lt;pre&gt;&lt;code&gt;&amp;lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt
+</code></pre>
+<p>&lt;/span&gt;</code></pre></p>
+</p>
+<p style="background: #00b050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow">$ source /opt/py3/bin/activate
+&lt;/span></code></pre>
+</p>
+<p style="background: #00b050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow">$ git clone https://github.com/jumpserver/coco.git && cd coco && git checkout master
+&lt;/span></code></pre>
+</p>
+<p style="background: #00b050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas; background-color:yellow">$ echo "source /opt/py3/bin/activate" &gt; /opt/coco/.env  # &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">进入&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow"> coco &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">目录时将自动载入&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow"> python &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">虚拟环境&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #00b050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas; background-color:yellow"># &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">首次进入&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow"> coco &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">文件夹会有提示，按&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow"> y &lt;/span>&lt;span style="font-family:宋体; background-color:yellow">即可&lt;/span>&lt;span style="font-family:Consolas; background-color:yellow">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;# Are you sure you want to allow this? (y/N) y&lt;/span&gt;
+						&lt;/span&gt;
+</code></pre>
+<p>安装依赖包</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/coco/requirements
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ &lt;em&gt;yum -y  install $(cat rpm_requirements.txt)&lt;/em&gt;
+						&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ pip install -r requirements.txt&lt;/span&gt;
+						&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;修改配置文件并运行&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;
+							&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ cd /opt/coco
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt; background-color:yellow&quot;&gt;$ mkdir keys logs
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt;$ cp conf_example.py conf.py  # &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;如果&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; coco &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;与&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; jumpserver &lt;/span&gt;&lt;span style=&quot;font-family:宋体; background-color:yellow&quot;&gt;分开部署，请手动修改&lt;/span&gt;&lt;span style=&quot;font-family:Consolas; background-color:yellow&quot;&gt; conf.py
+&lt;/span&gt;&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;&lt;span style=&quot;background-color:yellow&quot;&gt;$ vi conf.py&lt;/span&gt;
+						&lt;/span&gt;
+</code></pre>
+<p>到这里如果是根据文档安装的就不需要更改内容直接启动就行</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;$ ./cocod start  # &lt;/span&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;后台运行使用&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt; -d &lt;/span&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;参数&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;./cocod start -d
+&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p><span style="color:#404040"><span style="font-family:等线; background-color:#fcfcfc">启动成功后去</span><span style="font-family:Arial; background-color:#fcfcfc">Jumpserver </span><span style="font-family:等线; background-color:#fcfcfc">会话管理</span><span style="font-family:Arial; background-color:#fcfcfc">-</span><span style="font-family:等线; background-color:#fcfcfc">终端管理接受</span><span style="font-family:Arial; background-color:#fcfcfc">coco</span><span style="font-family:等线; background-color:#fcfcfc">的注册</span></span></p>
+<p>注册后就可以使用2222端口登录跳板机</p>
+<p style="text-align: justify; background: #fcfcfc">
+  <h2>
+    <span style="color:#404040"><span style="font-family:等线 Light">安装</span><span style="font-family:Georgia"> Web Terminal </span><span style="font-family:等线 Light">前端</span><span style="font-family:Georgia">: Luna<br /> </span></span>
+  </h2>
+</p>
+<p>如果不需要web端这里可以不安装</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ cd /opt
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ wget https://github.com/jumpserver/luna/releases/download/1.4.3/luna.tar.gz
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ tar xvf luna.tar.gz
+&lt;/span&gt;
+
+&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ chown -R root:root luna
+&lt;/span&gt;
+</code></pre>
+<p>配置nginx整合组建</p>
+<p>安装nginx省略</p>
+<p><span style="color:#404040"><strong><span style="font-family:等线; background-color:#fcfcfc">准备配置文件</span><span style="font-family:Arial; background-color:#fcfcfc"><br /> </span><span style="font-family:等线; background-color:#fcfcfc">修改</span><span style="font-family:Arial; background-color:#fcfcfc"> /etc/nginx/conf.d/jumpserver.conf<br /> </span></strong></span></p>
+<pre><code>&lt;span style=&quot;color:#404040; font-family:Consolas; font-size:9pt&quot;&gt;$ vim /etc/nginx/conf.d/jumpserver.conf
+&lt;/span&gt;
+</code></pre>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas"># &lt;/span>&lt;span style="font-family:宋体">注意注释&lt;/span>&lt;span style="font-family:Consolas"> nginx.conf &lt;/span>&lt;span style="font-family:宋体">里面的&lt;/span>&lt;span style="font-family:Consolas"> server {} &lt;/span>&lt;span style="font-family:宋体">内容&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;span style="font-family:宋体">，&lt;/span>&lt;span style="font-family:Consolas">CentOS 6 &lt;/span>&lt;span style="font-family:宋体">需要修改文件&lt;/span>&lt;span style="font-family:Consolas"> /etc/nginx/cond.f/default.conf
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">server {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">    listen 80;  # &lt;/span>&lt;span style="font-family:宋体">代理端口，以后将通过此端口进行访问，不再通过&lt;/span>&lt;span style="font-family:Consolas">8080&lt;/span>&lt;span style="font-family:宋体">端口&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">    server_name demo.jumpserver.org;  # &lt;/span>&lt;span style="font-family:宋体">修改成你的域名&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">    client_max_body_size 100m;  # &lt;/span>&lt;span style="font-family:宋体">录像及文件上传大小限制&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /luna/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        try_files $uri / /index.html;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        alias /opt/luna/;  # luna &lt;/span>&lt;span style="font-family:宋体">路径，如果修改安装目录，此处需要修改&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /media/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        add_header Content-Encoding gzip;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        root /opt/jumpserver/data/;  # &lt;/span>&lt;span style="font-family:宋体">录像位置，如果修改安装目录，此处需要修改&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /static/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        root /opt/jumpserver/data/;  # &lt;/span>&lt;span style="font-family:宋体">静态资源，如果修改安装目录，此处需要修改&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /socket.io/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        proxy_pass       http://localhost:5000/socket.io/;  # &lt;/span>&lt;span style="font-family:宋体">如果&lt;/span>&lt;span style="font-family:Consolas">coco&lt;/span>&lt;span style="font-family:宋体">安装在别的服务器，请填写它的&lt;/span>&lt;span style="font-family:Consolas">ip
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_buffering off;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_http_version 1.1;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Upgrade $http_upgrade;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Connection "upgrade";
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Real-IP $remote_addr;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Host $host;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        access_log off;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /coco/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        proxy_pass       http://localhost:5000/coco/;  # &lt;/span>&lt;span style="font-family:宋体">如果&lt;/span>&lt;span style="font-family:Consolas">coco&lt;/span>&lt;span style="font-family:宋体">安装在别的服务器，请填写它的&lt;/span>&lt;span style="font-family:Consolas">ip
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Real-IP $remote_addr;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Host $host;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        access_log off;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location /guacamole/ {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        proxy_pass       http://localhost:8081/;  # &lt;/span>&lt;span style="font-family:宋体">如果&lt;/span>&lt;span style="font-family:Consolas">guacamole&lt;/span>&lt;span style="font-family:宋体">安装在别的服务器，请填写它的&lt;/span>&lt;span style="font-family:Consolas">ip
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_buffering off;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_http_version 1.1;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Upgrade $http_upgrade;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Connection $http_connection;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Real-IP $remote_addr;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Host $host;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        access_log off;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+   
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    location / {
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas">        proxy_pass http://localhost:8080;  # &lt;/span>&lt;span style="font-family:宋体">如果&lt;/span>&lt;span style="font-family:Consolas">jumpserver&lt;/span>&lt;span style="font-family:宋体">安装在别的服务器，请填写它的&lt;/span>&lt;span style="font-family:Consolas">ip
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Real-IP $remote_addr;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header Host $host;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">    }
+&lt;/span></code></pre>
+</p>
+<p style="background: #92d050">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">}
+&lt;/span></code></pre>
+</p>
+<pre><code>&lt;span style=&quot;color:#404040; font-size:9pt&quot;&gt;&lt;span style=&quot;font-family:宋体&quot;&gt;注意域名的更改&lt;/span&gt;&lt;span style=&quot;font-family:Consolas&quot;&gt;
+							&lt;/span&gt;&lt;/span&gt;
+</code></pre>
+<p>运行nginx</p>
+<p> </p>
+<p style="background: #fcfcfc">
+  <span style="color:#404040; font-size:12pt"><span style="font-family:宋体"><strong>测试连接</strong></span><span style="font-family:Arial"><br /> </span></span>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:宋体">如果登录客户端是&lt;/span>&lt;span style="font-family:Consolas"> macOS &lt;/span>&lt;span style="font-family:宋体">或&lt;/span>&lt;span style="font-family:Consolas"> Linux &lt;/span>&lt;span style="font-family:宋体">，登录语法如下&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">$ ssh -p2222 admin@192.168.244.144
+&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">$ sftp -P2222 admin@192.168.244.144
+&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:宋体">密码&lt;/span>&lt;span style="font-family:Consolas">: admin
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+   
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:宋体">如果登录客户端是&lt;/span>&lt;span style="font-family:Consolas"> Windows &lt;/span>&lt;span style="font-family:宋体">，&lt;/span>&lt;span style="font-family:Consolas">Xshell Terminal &lt;/span>&lt;span style="font-family:宋体">登录语法如下&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">$ ssh admin@192.168.244.144 2222
+&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-family:Consolas; font-size:9pt">$ sftp admin@192.168.244.144 2222
+&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:宋体">密码&lt;/span>&lt;span style="font-family:Consolas">: admin
+&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:宋体">如果能登陆代表部署成功&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+   
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas"># sftp&lt;/span>&lt;span style="font-family:宋体">默认上传的位置在资产的&lt;/span>&lt;span style="font-family:Consolas"> /tmp &lt;/span>&lt;span style="font-family:宋体">目录下&lt;/span>&lt;span style="font-family:Consolas">
+							&lt;/span>&lt;/span></code></pre>
+</p>
+<p style="background: #eeffcc">
+  <pre><code>&lt;span style="color:#404040; font-size:9pt">&lt;span style="font-family:Consolas"># windows&lt;/span>&lt;span style="font-family:宋体">拖拽上传的位置在资产的&lt;/span>&lt;span style="font-family:Consolas"> Guacamole RDP&lt;/span>&lt;span style="font-family:宋体">上的&lt;/span>&lt;span style="font-family:Consolas"> G &lt;/span>&lt;span style="font-family:宋体">目录下&lt;/span>&lt;/span></code></pre>
+</p>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-03-30-jumpserver部署文档官方版.md"
+        var oid_likes = "likes_posts\/2020-03-30-jumpserver部署文档官方版.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/2055.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Sublime Text自动设置文件头部注释</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-30T02:13:34&#43;08:00">30 March 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/2060.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >解决windows系统无法对docker容器进行端口映射的问题</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-30T07:35:19&#43;08:00">30 March 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

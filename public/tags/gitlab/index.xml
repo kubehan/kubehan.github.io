@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gitlab on Blowfish</title>
+    <link>http://127.0.0.1/tags/gitlab/</link>
+    <description>Recent content in Gitlab on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Mon, 09 Mar 2020 08:49:52 +0800</lastBuildDate><atom:link href="http://127.0.0.1/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>密码保护：丑照</title>
+      <link>http://127.0.0.1/785.html</link>
+      <pubDate>Mon, 09 Mar 2020 08:49:52 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/785.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>CentOS 7.5安装 GitLab</title>
+      <link>http://127.0.0.1/509.html</link>
+      <pubDate>Thu, 05 Mar 2020 02:39:42 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/509.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>如何把SVN迁移到Gitlab</title>
+      <link>http://127.0.0.1/502.html</link>
+      <pubDate>Wed, 04 Mar 2020 10:25:25 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/502.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gitlab备份、迁移、恢复和升级</title>
+      <link>http://127.0.0.1/490.html</link>
+      <pubDate>Wed, 04 Mar 2020 09:51:15 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/490.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gitlab配置</title>
+      <link>http://127.0.0.1/481.html</link>
+      <pubDate>Wed, 04 Mar 2020 07:06:03 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/481.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gitlab优化</title>
+      <link>http://127.0.0.1/479.html</link>
+      <pubDate>Wed, 04 Mar 2020 07:03:07 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/479.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

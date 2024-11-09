@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="en" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>编译安装openssh新版本编译安装openssh新版本 &middot; Blowfish</title>
+  <meta name="title" content="编译安装openssh新版本编译安装openssh新版本 &middot; Blowfish" />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="http://127.0.0.1/1901.html" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.4e2716d77ddb668a7c0d68157cff2048cbdf59d43ac1a9de02fd1a04ed3047a1829f54a8b18c01b94597aac05a30d1933f930e6c59382c3e25501049c92fc230.css"
+    integrity="sha512-TicW133bZop8DWgVfP8gSMvfWdQ6waneAv0aBO0wR6GCn1SosYwBuUWXqsBaMNGTP5MObFk4LD4lUBBJyS/CMA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.c178288131a2f1ad46910438db47ac5f7e1c48cf949e49f6dc3310c8ec9660e23fe505805eba4e2e73711335808500360d773a2b64322feb35df52856edca286.js"
+    integrity="sha512-wXgogTGi8a1GkQQ420esX34cSM&#43;Unkn23DMQyOyWYOI/5QWAXrpOLnNxEzWAhQA2DXc6K2QyL&#43;s131KFbtyihg==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S&#43;Yti0U7QtuZvQ=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://127.0.0.1/1901.html">
+  <meta property="og:site_name" content="Blowfish">
+  <meta property="og:title" content="编译安装openssh新版本编译安装openssh新版本">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-25T10:00:06+08:00">
+    <meta property="article:modified_time" content="2020-03-25T10:00:06+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="编译安装openssh新版本编译安装openssh新版本">
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Posts",
+    "name": "编译安装openssh新版本编译安装openssh新版本",
+    "headline": "编译安装openssh新版本编译安装openssh新版本",
+    
+    
+    "inLanguage": "en",
+    "url" : "http:\/\/127.0.0.1\/1901.html",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-03-25T10:00:06\u002b08:00",
+    "datePublished": "2020-03-25T10:00:06\u002b08:00",
+    
+    "dateModified": "2020-03-25T10:00:06\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "504"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900">Blowfish</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class="ltr:mr-14 rtl:ml-14 flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center space-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400" style="margin-right:5px">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 -mr-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      编译安装openssh新版本编译安装openssh新版本
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-03-25T10:00:06&#43;08:00">25 March 2020</time><span class="px-2 text-primary-500">&middot;</span><span>504 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          <p>reference1: <a href="https://blog.csdn.net/qq_33684555/article/details/81872110" target="_blank">https://blog.csdn.net/qq_33684555/article/details/81872110</a></p>
+<p>reference2: <a href="http://www.cnblogs.com/xiaochina/p/7486073.html" target="_blank">http://www.cnblogs.com/xiaochina/p/7486073.html</a></p>
+<p>reference3: <a href="https://blog.csdn.net/bytxl/article/details/46639073" target="_blank">https://blog.csdn.net/bytxl/article/details/46639073</a></p>
+<p>reference4: <a href="https://www.cnblogs.com/xshrim/p/6472679.html" target="_blank">https://www.cnblogs.com/xshrim/p/6472679.html</a> -&gt; 含有zlib编译</p>
+<p>reference5: <a href="https://www.linuxidc.com/Linux/2011-10/45739p2.htm" target="_blank">https://www.linuxidc.com/Linux/2011-10/45739p2.htm</a> -&gt; 定义了sshd_config文件中的配置</p>
+<p>OpenSSH（OpenBSD Secure Shell）是OpenBSD计划组所维护的一套用于安全访问远程计算机的连接工具。该工具是SSH协议的开源实现，支持对所有的传输进行加密，可有效阻止窃听、连接劫持以及其他网络级的攻击。<br>
+OpenSSH中的scp client实用程序存在安全漏洞，该漏洞源于程序错误的验证了对象名称。攻击者可利用该漏洞覆盖文件。<br>
+最近公司发现OPENSSH有防护漏洞, 需要给7.9版本的openssh安装补丁, 故网上收集资料, 融合自己的理解, 写出此文, 有任何问题请指正.</p>
+<p><strong>注意: 编译安装openssh新版本之前, 最好先安装telnet服务, 万一sshd服务被你操作挂了, 还有替代的telnet服务可以提供远程连接, 笔者就是在安装过程中遇到过此问题, 最后拖了两天时间, 各种找领导, 然后登录堡垒机直接操作Centos虚拟机, 才解决问题!!!</strong></p>
+<pre><code class="shell">yum -y install telnet telnet-server
+systemctl start telnet.socket
+# 注: 使用telnet命令可直接远程连接服务器, 但是telnet不允许root用户登录!
+</code></pre>
+
+
+<h2 class="relative group">1. 基础环境准备 
+    <div id="1-%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>首先去openssh官网下载openssh.tar.gz最新版本</p>
+<pre><code class="shell">wget https://openbsd.hk/pub/OpenBSD/OpenSSH/portable/openssh-8.0p1.tar.gz
+</code></pre>
+<p><strong>注意要下载p1版本, 此版为编译安装包!!</strong></p>
+<p>在安装之前先记下sshd.pid路径, 因为在启动文件sshd中要更改此路径</p>
+<p>将安装包先传入服务器中</p>
+<p>卸载现有版本openssh: <code>rpm -e --nodeps $(rpm -qa | grep openssh)</code></p>
+<p>删除/etc/ssh/下所有文件, 在卸载完openssh后此路径下文件不会删除, 需手动删除</p>
+<p>安装依赖：zlib-devel、openssl-devel、gcc、gcc-c++、make等, 可直接<code>yum groupinstall &quot;Development Tools&quot;</code>, 出现&quot;No packages in any requested group available to install or update&quot;报错时:</p>
+<pre><code class="shell">yum -y install openssl-devel
+yum -y groupinstall "Development Tools"  
+    --setopt=group_package_types=mandatory,default,optional
+
+# 报错原因详见Redhat官网:
+# https://access.redhat.com/solutions/1310043
+</code></pre>
+<p>, 唯一需要注意的是openssl-devel这个包必须安装</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 700px; max-height: 277px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;900&quot; data-height=&quot;277&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-156fc98aae35b5191d6944b55afacce9.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本.png
+  </div>
+</div>
+
+
+<h2 class="relative group">2. 编译安装openssh 
+    <div id="2-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85openssh" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85openssh" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<pre><code class="shell"># 先设置selinux为permissive
+vi /etc/sysconfig/selinux
+
+./configure --prefix=/usr/             
+             --sysconfdir=/etc/ssh/        
+             --with-ssl-dir=/usr/local/ssl 
+             --with-md5-passwords          
+             --mandir=/usr/share/man/
+
+make && make install
+
+# 删除/etc/ssh/下的密钥对, (只删除密钥对即可, 在重启的时候会重新生成), 此步省略!!!
+rm -f /etc/ssh/ssh_host_*  
+
+# 复制启动文件至/etc/init.d/
+cp -a contrib/redhat/sshd.init /etc/init.d/sshd
+
+# 编辑/etc/init.d/sshd文件, 将PID_FILE改为之前记下的sshd.pid路径
+vi /etc/init.d/sshd
+
+# 设置开机启动sshd
+chkconfig sshd on
+chkconfig --list sshd
+
+# 编辑/etc/ssh/sshd_config, 设置一些常用参数
+vi /etc/ssh/sshd_config
+PermitRootLogin yes
+PubkeyAuthentication yes
+PasswordAuthentication yes
+AllowTcpForwarding yes
+X11Forwarding yes
+PidFile /run/sshd.pid
+
+# 编辑/usr/lib/systemd/system/sshd.service, 添加以下内容
+vi /usr/lib/systemd/system/sshd.service
+[Unit]
+Description=OpenSSH server daemon
+Documentation=man:sshd(8) man:sshd_config(5)
+#After=network.target sshd-keygen.service
+#Wants=sshd-keygen.service
+After=network.target
+
+[Service]
+#Type=notify
+#EnvironmentFile=/etc/sysconfig/sshd
+#ExecStart=/usr/sbin/sshd -D $OPTIONS
+ExecStart=/usr/sbin/sshd
+#ExecReload=/bin/kill -HUP $MAINPID
+#KillMode=process
+#Restart=on-failure
+#RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
+
+# 编辑好这个配置文件之后进行以下操作
+systemctl enable sshd
+systemctl status sshd
+systemctl restart sshd
+systemctl status sshd
+</code></pre>
+<p>&ndash;prefix 安装目录<br>
+&ndash;sysconfdir 配置文件目录<br>
+&ndash;with-ssl-dir 指定 OpenSSL 的安装目录<br>
+&ndash;with-privsep-path 非特权用户的chroot目录<br>
+&ndash;with-privsep-user=sshd 指定非特权用户为sshd<br>
+&ndash;with-zlib 指定zlib库的安装目录<br>
+&ndash;with-md5-passwords 支持读取经过MD5加密的口令<br>
+&ndash;with-ssl-engine 启用OpenSSL的ENGINE支持</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 656px; max-height: 124px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;656&quot; data-height=&quot;124&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-581da694502e31e3d5300edca016bc0d.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本1.png
+  </div>
+</div>
+<p>至此openssh服务升级完成, 将sshd服务添加到开机启动即可</p>
+<p>此版本openssh的配置文件默认是没有开启root登录权限的, 想要开启权限可以修改配置文件/etc/ssh/sshd_config, 配置PermitRootLogin yes, 取消注释 PasswordAuthentication yes, 配置PID_FILE=/run/sshd.pid</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 295px; max-height: 104px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;295&quot; data-height=&quot;104&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-fd5954a53b0123f78fc284d33dabd30d.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本2.png
+  </div>
+</div>
+<p>另外, 安装目录为/usr/, 因为在启动文件中有关于SSHD的路径, 此安装目录默认为redhat启动文件的路径</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 608px; max-height: 72px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;608&quot; data-height=&quot;72&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-fb41a74eef72cba86e2b3ca156d51afe.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本3.png
+  </div>
+</div>
+<p>如果变更了安装路径, 启动文件的此路径也要变更</p>
+
+
+<h2 class="relative group">3. 编译完成后可能遇到的问题 
+    <div id="3-%E7%BC%96%E8%AF%91%E5%AE%8C%E6%88%90%E5%90%8E%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-%E7%BC%96%E8%AF%91%E5%AE%8C%E6%88%90%E5%90%8E%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<p>xshell等连接报错如下: The SSH server rejected your password. Try again.</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 437px; max-height: 396px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;437&quot; data-height=&quot;396&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-ad2e752410ce46fba2993a330ef79c77.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本4.png
+  </div>
+</div>
+<p>或者用journalctl -xn查看后台日志时发现: error: Could not get shadow information for root</p>
+<div class="image-package">
+  <div class="image-container" style="max-width: 700px; max-height: 127px;">
+    <div>
+    </div>
+<pre><code>&lt;div class=&quot;image-view&quot; data-width=&quot;837&quot; data-height=&quot;127&quot;&gt;
+  &lt;img decoding=&quot;async&quot; class=&quot;aligncenter&quot; src=&quot;https://www.kubehan.cn/wp-content/uploads/2020/03/frc-18c01e1abd35a79d7b07d45fd488417f.png&quot; alt=&quot;编译安装openssh新版本编译安装openssh新版本&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+  <div class="image-caption">
+    编译安装openssh最新版本5.png
+  </div>
+</div>
+<p>则是由于服务器上的<strong>selinux</strong>的问题, 需要将selinux改为permissive</p>
+<pre><code class="shell">在开启SSHD服务时报错.
+sshd re-exec requires execution with an absolute path
+用绝对路径启动,也报错如下:
+Could not load host key: /etc/ssh/ssh_host_key
+Could not load host key: /etc/ssh/ssh_host_rsa_key
+Could not load host key: /etc/ssh/ssh_host_dsa_key
+Disabling protocol version 1. Could not load host key
+Disabling protocol version 2. Could not load host key
+sshd: no hostkeys available — exiting
+解决过程:
+#ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+#ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+#/usr/sbin/sshd
+
+如果上述两个文件存在，仍然出现这个错误，那么试试 chmod 600 上述两个文件。之后应该可以解决。
+</code></pre>
+
+
+<h2 class="relative group">4. 将sshd服务添加到开机启动 
+    <div id="4-%E5%B0%86sshd%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4-%E5%B0%86sshd%E6%9C%8D%E5%8A%A1%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
+<pre><code class="shell">vi /usr/lib/systemd/system/sshd.service
+
+[Unit]
+Description=OpenSSH server daemon
+Documentation=man:sshd(8) man:sshd_config(5)
+#After=network.target sshd-keygen.service
+#Wants=sshd-keygen.service
+After=network.target
+
+[Service]
+#Type=notify
+#EnvironmentFile=/etc/sysconfig/sshd
+#ExecStart=/usr/sbin/sshd -D $OPTIONS
+ExecStart=/usr/sbin/sshd
+#ExecReload=/bin/kill -HUP $MAINPID
+#KillMode=process
+#Restart=on-failure
+#RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<pre><code class="shell">vi sshd@.service # 可省略
+
+[Unit]
+Description=OpenSSH per-connection server daemon
+Documentation=man:sshd(8) man:sshd_config(5)
+Wants=sshd-keygen.service
+After=sshd-keygen.service
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/sshd
+ExecStart=-/usr/sbin/sshd -i $OPTIONS
+StandardInput=socket
+</code></pre>
+<pre><code class="shell">vi sshd.socket # 可省略
+
+[Unit]
+Description=OpenSSH Server Socket
+Documentation=man:sshd(8) man:sshd_config(5)
+Conflicts=sshd.service
+
+[Socket]
+ListenStream=22
+Accept=yes
+
+[Install]
+WantedBy=sockets.target
+</code></pre>
+<pre><code class="shell">vi sshd-keygen.service # 可省略
+
+[Unit]
+Description=OpenSSH Server Key Generation
+ConditionFileNotEmpty=|!/etc/ssh/ssh_host_rsa_key
+ConditionFileNotEmpty=|!/etc/ssh/ssh_host_ecdsa_key
+ConditionFileNotEmpty=|!/etc/ssh/ssh_host_ed25519_key
+PartOf=sshd.service sshd.socket
+
+[Service]
+ExecStart=/usr/sbin/sshd-keygen
+Type=oneshot
+RemainAfterExit=yes
+</code></pre>
+<pre><code class="shell">vi /usr/lib/systemd/system/sshd.service # 编辑好这个配置文件之后进行以下操作
+systemctl enable sshd
+systemctl status sshd
+systemctl restart sshd
+systemctl status sshd
+</code></pre>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_posts\/2020-03-25-编译安装openssh新版本编译安装openssh新版本.md"
+        var oid_likes = "likes_posts\/2020-03-25-编译安装openssh新版本编译安装openssh新版本.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/1858.html">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >CentOS8的新特性</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-25T09:58:02&#43;08:00">25 March 2020</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/1909.html">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >MySQL分布式架构</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-03-25T10:01:47&#43;08:00">25 March 2020</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2024
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="http://127.0.0.1/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

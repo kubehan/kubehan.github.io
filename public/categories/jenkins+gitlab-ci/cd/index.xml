@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jenkins&#43;Gitlab CI/CD on Blowfish</title>
+    <link>http://127.0.0.1/categories/jenkins&#43;gitlab-ci/cd/</link>
+    <description>Recent content in Jenkins&#43;Gitlab CI/CD on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Mon, 02 Nov 2020 01:40:11 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/jenkins+gitlab-ci/cd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jenkins密码忘记重置方法</title>
+      <link>http://127.0.0.1/3067.html</link>
+      <pubDate>Mon, 02 Nov 2020 01:40:11 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3067.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Jenkins 相关配置笔记记录</title>
+      <link>http://127.0.0.1/3068.html</link>
+      <pubDate>Fri, 02 Oct 2020 01:51:05 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3068.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>安装jenkins</title>
+      <link>http://127.0.0.1/1023.html</link>
+      <pubDate>Tue, 17 Mar 2020 05:07:37 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/1023.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

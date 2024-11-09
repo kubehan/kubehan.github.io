@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on Blowfish</title>
+    <link>http://127.0.0.1/categories/nginx/</link>
+    <description>Recent content in Nginx on Blowfish</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2024 </copyright>
+    <lastBuildDate>Thu, 02 Dec 2021 01:24:13 +0800</lastBuildDate><atom:link href="http://127.0.0.1/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx版-HTTP响应头安全策略</title>
+      <link>http://127.0.0.1/3215.html</link>
+      <pubDate>Thu, 02 Dec 2021 01:24:13 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3215.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Nginx安全配置之请求头配置</title>
+      <link>http://127.0.0.1/3214.html</link>
+      <pubDate>Wed, 01 Dec 2021 10:12:36 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3214.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>shtml格式的网页打开乱码，排版错误---Nginx配置ssi</title>
+      <link>http://127.0.0.1/3065.html</link>
+      <pubDate>Fri, 30 Oct 2020 04:00:35 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/3065.html</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>logrotate日志切割压缩Nginx Tomcat Redis</title>
+      <link>http://127.0.0.1/2574.html</link>
+      <pubDate>Thu, 14 May 2020 02:53:06 +0800</pubDate>
+      
+      <guid>http://127.0.0.1/2574.html</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>
