@@ -1,0 +1,632 @@
+<!doctype html><html lang=zh-cn dir=ltr class=scroll-smooth data-default-appearance=dark data-auto-appearance=true><head><meta charset=utf-8><meta http-equiv=content-language content="zh-cn"><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>三年之久的 etcd3 数据不一致 bug 分析 &#183; 云原生知识栈</title>
+<meta name=title content="三年之久的 etcd3 数据不一致 bug 分析 &#183; 云原生知识栈"><meta name=description content="云原生知识栈：一个专注于容器技术、Kubernetes、Istio、DevOps 实践、Prometheus 监控、Envoy 代理、Golang 开发以及云原生架构和微服务趋势的深度解析的专业博客。我们致力于为技术爱好者和从业者提供最新的行业动态、实战经验和技术教程，帮助您更好地理解和应用云原生技术。"><link rel=canonical href=https://kubehan.cn/2368.html><link type=text/css rel=stylesheet href=/css/main.bundle.min.e27868ab1485f7ed7b06b122b4980bd38b19526eb8f7de885181204d28f04a0c47e9c334eff19a06c0278eb2ff8415b983a5d0fb80fd6b5680c926457cc61c57.css integrity="sha512-4nhoqxSF9+17BrEitJgL04sZUm64996IUYEgTSjwSgxH6cM07/GaBsAnjrL/hBW5g6XQ+4D9a1aAySZFfMYcVw=="><script type=text/javascript src=/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj+e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script><script defer type=text/javascript id=script-bundle src=/js/main.bundle.min.a2d78d78672e549fbfc972ece871725b5478ba0b65708dda20cb97ab80a865eae6d247e1b05a4aec6ebbf78647ec3233bad8b2609ed98eee53cd58aa17128bc7.js integrity="sha512-oteNeGcuVJ+/yXLs6HFyW1R4ugtlcI3aIMuXq4CoZerm0kfhsFpK7G6794ZH7DIzutiyYJ7Zju5TzViqFxKLxw==" data-copy data-copied></script><script src=/lib/zoom/zoom.min.37d2094687372da3f7343a221a470f6b8806f7891aa46a5a03966af7f0ebd38b9fe536cb154e6ad28f006d184b294525a7c4054b6bbb4be62d8b453b42db99bd.js integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ=="></script><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://kubehan.cn/2368.html"><meta property="og:site_name" content="云原生知识栈"><meta property="og:title" content="三年之久的 etcd3 数据不一致 bug 分析"><meta property="og:description" content="云原生知识栈：一个专注于容器技术、Kubernetes、Istio、DevOps 实践、Prometheus 监控、Envoy 代理、Golang 开发以及云原生架构和微服务趋势的深度解析的专业博客。我们致力于为技术爱好者和从业者提供最新的行业动态、实战经验和技术教程，帮助您更好地理解和应用云原生技术。"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-04-27T11:52:02+08:00"><meta property="article:modified_time" content="2020-04-27T11:52:02+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="三年之久的 etcd3 数据不一致 bug 分析"><meta name=twitter:description content="云原生知识栈：一个专注于容器技术、Kubernetes、Istio、DevOps 实践、Prometheus 监控、Envoy 代理、Golang 开发以及云原生架构和微服务趋势的深度解析的专业博客。我们致力于为技术爱好者和从业者提供最新的行业动态、实战经验和技术教程，帮助您更好地理解和应用云原生技术。"><script type=application/ld+json>[{"@context":"https://schema.org","@type":"Article","articleSection":"Posts","name":"三年之久的 etcd3 数据不一致 bug 分析","headline":"三年之久的 etcd3 数据不一致 bug 分析","inLanguage":"zh-cn","url":"https:\/\/kubehan.cn\/2368.html","author":{"@type":"Person","name":"Kubehan"},"copyrightYear":"2020","dateCreated":"2020-04-27T11:52:02\u002b08:00","datePublished":"2020-04-27T11:52:02\u002b08:00","dateModified":"2020-04-27T11:52:02\u002b08:00","mainEntityOfPage":"true","wordCount":"2774"}]</script><meta name=author content="Kubehan"><link href=/index.xml rel=me><link href=https://twitter.com/kubehan rel=me><link href=https://github.com/kubehan rel=me><link href=https://github.com/kubehan rel=me><link href=mailto:hello@kubehan.cn rel=me><link href=https://kubehan.cn/ rel=me><script src=/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj+KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script><script data-id=umami-script async src=https://kubehan.cn/ data-website-id=b40dc4fa-2041-472e-a0eb-aed0dec80ca6></script><script type=text/javascript>document.querySelector('script[data-id="umami-script"]').addEventListener("load",function(){const e=document.head.querySelector('meta[property = "og:type"]').getAttribute("content");let t=document.head.querySelector('meta[property = "og:title"]').getAttribute("content"),n=document.head.querySelector('meta[property = "og:url"]').getAttribute("content");umami.track(e+":"+t,{url:n})})</script><script defer src=https://cloud.umami.is/script.js data-website-id=b40dc4fa-2041-472e-a0eb-aed0dec80ca6></script><script>document.addEventListener("DOMContentLoaded",function(){var e=document.createElement("link");e.href="https://jsd.onmicrosoft.cn/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css",e.rel="stylesheet",document.head.appendChild(e)})</script><div id=fps style=z-index:999;position:fixed;bottom:3px;right:3px;color:#fff;font-size:10px></div><script defer type=text/javascript src=https://cdn.staticfile.org/layer/3.5.1/layer.min.js></script><script defer type=text/javascript src=https://kubehan.cn/js/fps.js></script><script defer>function loadScriptOnScroll(){var e,t,n,s=window.scrollY||window.pageYOffset;s>100&&(n=n||[],e=document.createElement("script"),e.src="https://hm.baidu.com/hm.js?ebf00ccd579b3755eab3556650cd2b9e",t=document.getElementsByTagName("script")[0],t.parentNode.insertBefore(e,t),window.removeEventListener("scroll",loadScriptOnScroll))}window.addEventListener("scroll",loadScriptOnScroll)</script><script defer>function loadClarityScript(){(function(e,t,n,s,o,i,a){e[n]=e[n]||function(){(e[n].q=e[n].q||[]).push(arguments)},i=t.createElement(s),i.async=1,i.src="https://www.clarity.ms/tag/"+o,a=t.getElementsByTagName(s)[0],a.parentNode.insertBefore(i,a)})(window,document,"clarity","script","m535olg9md"),window.removeEventListener("scroll",onScrollLoadClarity)}function onScrollLoadClarity(){window.scrollY>100&&loadClarityScript()}window.addEventListener("scroll",onScrollLoadClarity)</script><div class=top-scroll-bar style=height:5px;background-color:blue;width:0;position:fixed;top:0;z-index:100></div><script type=text/javascript>$(document).ready(function(){$(window).scroll(function(){$(".top-scroll-bar").attr("style","width: "+$(this).scrollTop()/($(document).height()-$(this).height())*100+"%; display: block;")})})</script><script type=text/javascript>var titleTime,OriginTitile=document.title;document.addEventListener("visibilitychange",function(){document.hidden?(document.title="哥哥，过来玩一会呀 Σ(っ °Д °;)っ",clearTimeout(titleTime)):(document.title="你可算回来了 (｡•ˇ‸ˇ•｡)"+OriginTitile,titleTime=setTimeout(function(){document.title=OriginTitile},2e3))})</script><meta name=theme-color></head><body class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600"><div id=the-top class="absolute flex self-center"><a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>跳过正文</a></div><div style=padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start space-x-3"><div class="flex flex-1 items-center justify-between"><nav class="flex space-x-3"><a href=/ class="text-base font-medium text-gray-500 hover:text-gray-900">云原生知识栈</a></nav><nav class="hidden md:flex items-center space-x-5 md:ml-12 h-12"><a href=https://github.com/kubehan/PromAI.git target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span></span><p class="text-base font-medium" title>项目</p></a><a href=https://kubehan.cn/categories target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M496 256c0 137-111 248-248 248-25.6.0-50.2-3.9-73.4-11.1 10.1-16.5 25.2-43.5 30.8-65 3-11.6 15.4-59 15.4-59 8.1 15.4 31.7 28.5 56.8 28.5 74.8.0 128.7-68.8 128.7-154.3.0-81.9-66.9-143.2-152.9-143.2-107 0-163.9 71.8-163.9 150.1.0 36.4 19.4 81.7 50.3 96.1 4.7 2.2 7.2 1.2 8.3-3.3.8-3.4 5-20.3 6.9-28.1.6-2.5.3-4.7-1.7-7.1-10.1-12.5-18.3-35.3-18.3-56.6.0-54.7 41.4-107.6 112-107.6 60.9.0 103.6 41.5 103.6 100.9.0 67.1-33.9 113.6-78 113.6-24.3.0-42.6-20.1-36.7-44.8 7-29.5 20.5-61.3 20.5-82.6.0-19-10.2-34.9-31.4-34.9-24.9.0-44.9 25.7-44.9 60.2.0 22 7.4 36.8 7.4 36.8s-24.5 103.8-29 123.2c-5 21.4-3 51.6-.9 71.2C65.4 450.9.0 361.1.0 256 0 119 111 8 248 8s248 111 248 248z"/></svg></span></span><p class="text-base font-medium" title>专题</p></a><a href=https://kubehan.cn/categories target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 96C0 78.33 14.33 64 32 64H416c17.7.0 32 14.33 32 32 0 17.7-14.3 32-32 32H32C14.33 128 0 113.7.0 96zM0 256c0-17.7 14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32H32c-17.67.0-32-14.3-32-32zM416 448H32c-17.67.0-32-14.3-32-32s14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32z"/></svg></span></span><p class="text-base font-medium" title=分类>分类</p></a><a href=https://cloud.umami.is/share/LqtNCgFal91I2r5Q/kubehan.cn target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 576 512"><path fill="currentcolor" d="M288 32c-80.8.0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7.0 24.6C17.3 304 48.6 356 95.4 399.4 142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1 3.3-7.9 3.3-16.7.0-24.6-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144 64.5-144 144-144 144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64-11.5.0-22.3-3-31.6-8.4-.2 2.8-.4 5.5-.4 8.4.0 53 43 96 96 96s96-43 96-96-43-96-96-96c-2.8.0-5.6.1-8.4.4 5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></span><p class="text-base font-medium" title>实时访客</p></a><div><div class="cursor-pointer flex items-center nested-menu"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7.1 27.6 25.9 53.5 53.8 77.7 84 11-14.4 23.5-30.1 37-42.9 7.9-7.4 20.1-7.4 28 .1 34.6 33 63.9 76.6 84.5 118 20.3 40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512 98.4 512 0 404.1.0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3 97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3.0 47.7-7 68.8-21 42.1-29.4 53.4-88.2 28.1-134.4-2.8-5.6-5.6-11.2-9.8-16.8l-50.6 58.8S180.8 199 175.1 192c-42 51.8-63.1 81.2-63.1 114.8C112 375.4 162.6 416 225.7 416z"/></svg>
+</span></span><a class="text-base font-medium text-gray-500 hover:text-primary-600 dark:hover:text-primary-400" title>百宝箱
+</a><span><span class="relative block icon"><svg viewBox="0 0 20 20" fill="currentcolor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75.0 011.06.02L10 11.168l3.71-3.938a.75.75.0 111.08 1.04l-4.25 4.5a.75.75.0 01-1.08.0l-4.25-4.5a.75.75.0 01.02-1.06z" clip-rule="evenodd"/></svg></span></span></div><div class="absolute menuhide"><div class="pt-2 p-5 mt-2 rounded-xl backdrop-blur shadow-2xl"><div class="flex flex-col space-y-3"><a href=https://stats.uptimerobot.com/icGQsnFRda target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1></span><p class="text-sm font-sm" title>服务监控</p></a><a href=https://us.umami.is/websites/1055879b-effb-4eab-acce-174829f6a5c5 target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1></span><p class="text-sm font-sm" title>共享文本</p></a><a href=https://icloudnative.io/jstc/ target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M0 96C0 60.7 28.7 32 64 32H448c35.3.0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3.0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4S78.8 416 88 416h96 32H424c8.9.0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5.0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48z"/></svg></span></span><p class="text-sm font-sm" title>趣味截图</p></a></div></div></div></div><a href=/index.xml class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 64C0 46.3 14.3 32 32 32c229.8.0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7.0 64zM128 416c0 35.3-28.7 64-64 64S0 451.3.0 416s28.7-64 64-64 64 28.7 64 64zM32 160c159.1.0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7.0-32-14.3-32-32s14.3-32 32-32z"/></svg></span></span><p class="text-base font-medium" title=rss></p></a><a href=https://twitter.com/kubehan target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></span></span><p class="text-base font-medium" title=twitter></p></a><a href=https://github.com/kubehan target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span></span><p class="text-base font-medium" title=github></p></a><button id=search-button aria-label=Search class="text-base hover:text-primary-600 dark:hover:text-primary-400" title>
+<span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentcolor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></span></button><div class="ltr:mr-14 rtl:ml-14 flex items-center"><button id=appearance-switcher aria-label="Dark mode switcher" type=button class="text-base hover:text-primary-600 dark:hover:text-primary-400"><div class="flex items-center justify-center dark:hidden"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M32 256C32 132.2 132.3 32 255.8 32c11.36.0 29.7 1.668 40.9 3.746 9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3 9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480 132.1 480 32 379.6 32 256z"/></svg></span></div><div class="items-center justify-center hidden dark:flex"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M256 159.1c-53.02.0-95.1 42.98-95.1 95.1s41.2 96.9 95.1 96.9 95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347l-63.2-91.9 63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89 164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6 12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256 2.74 347.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7 19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109 109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69.0-127.1-57.31-127.1-127.1.0-70.69 57.31-127.1 127.1-127.1S383.1 186.2 383.1 256c0 70.7-56.4 127.1-127.1 127.1z"/></svg></span></div></button></div></nav><div class="flex md:hidden items-center space-x-5 md:ml-12 h-12"><span></span>
+<button id=search-button-mobile aria-label=Search class="text-base hover:text-primary-600 dark:hover:text-primary-400" title>
+<span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentcolor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</span></button>
+<button id=appearance-switcher-mobile aria-label="Dark mode switcher" type=button class="text-base hover:text-primary-600 dark:hover:text-primary-400" style=margin-right:5px><div class="flex items-center justify-center dark:hidden"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M32 256C32 132.2 132.3 32 255.8 32c11.36.0 29.7 1.668 40.9 3.746 9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3 9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480 132.1 480 32 379.6 32 256z"/></svg></span></div><div class="items-center justify-center hidden dark:flex"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M256 159.1c-53.02.0-95.1 42.98-95.1 95.1s41.2 96.9 95.1 96.9 95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347l-63.2-91.9 63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89 164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6 12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256 2.74 347.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7 19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109 109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69.0-127.1-57.31-127.1-127.1.0-70.69 57.31-127.1 127.1-127.1S383.1 186.2 383.1 256c0 70.7-56.4 127.1-127.1 127.1z"/></svg></span></div></button></div></div><div class="-my-2 -mr-2 md:hidden"><label id=menu-button class=block><div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400"><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 96C0 78.33 14.33 64 32 64H416c17.7.0 32 14.33 32 32 0 17.7-14.3 32-32 32H32C14.33 128 0 113.7.0 96zM0 256c0-17.7 14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32H32c-17.67.0-32-14.3-32-32zM416 448H32c-17.67.0-32-14.3-32-32s14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32z"/></svg></span></div><div id=menu-wrapper style=padding-top:5px class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50"><ul class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none ltr:text-right rtl:text-left max-w-7xl"><li id=menu-close-button><span class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400"><span class="relative block icon"><svg viewBox="0 0 320 512"><path fill="currentcolor" d="M310.6 361.4c12.5 12.5 12.5 32.75.0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3 54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75.0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75.0-45.25s32.75-12.5 45.25.0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25.0s12.5 32.75.0 45.25l-105.4 105.4L310.6 361.4z"/></svg></span></span></li><li class=mt-1><a href=https://github.com/kubehan/PromAI.git target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div class=mr-2><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span></div><p class="text-bg font-bg" title>项目</p></a></li><li class=mt-1><a href=https://kubehan.cn/categories target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div class=mr-2><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M496 256c0 137-111 248-248 248-25.6.0-50.2-3.9-73.4-11.1 10.1-16.5 25.2-43.5 30.8-65 3-11.6 15.4-59 15.4-59 8.1 15.4 31.7 28.5 56.8 28.5 74.8.0 128.7-68.8 128.7-154.3.0-81.9-66.9-143.2-152.9-143.2-107 0-163.9 71.8-163.9 150.1.0 36.4 19.4 81.7 50.3 96.1 4.7 2.2 7.2 1.2 8.3-3.3.8-3.4 5-20.3 6.9-28.1.6-2.5.3-4.7-1.7-7.1-10.1-12.5-18.3-35.3-18.3-56.6.0-54.7 41.4-107.6 112-107.6 60.9.0 103.6 41.5 103.6 100.9.0 67.1-33.9 113.6-78 113.6-24.3.0-42.6-20.1-36.7-44.8 7-29.5 20.5-61.3 20.5-82.6.0-19-10.2-34.9-31.4-34.9-24.9.0-44.9 25.7-44.9 60.2.0 22 7.4 36.8 7.4 36.8s-24.5 103.8-29 123.2c-5 21.4-3 51.6-.9 71.2C65.4 450.9.0 361.1.0 256 0 119 111 8 248 8s248 111 248 248z"/></svg></span></div><p class="text-bg font-bg" title>专题</p></a></li><li class=mt-1><a href=https://kubehan.cn/categories target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div class=mr-2><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 96C0 78.33 14.33 64 32 64H416c17.7.0 32 14.33 32 32 0 17.7-14.3 32-32 32H32C14.33 128 0 113.7.0 96zM0 256c0-17.7 14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32H32c-17.67.0-32-14.3-32-32zM416 448H32c-17.67.0-32-14.3-32-32s14.33-32 32-32H416c17.7.0 32 14.3 32 32s-14.3 32-32 32z"/></svg></span></div><p class="text-bg font-bg" title=分类>分类</p></a></li><li class=mt-1><a href=https://cloud.umami.is/share/LqtNCgFal91I2r5Q/kubehan.cn target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div class=mr-2><span class="relative block icon"><svg viewBox="0 0 576 512"><path fill="currentcolor" d="M288 32c-80.8.0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7.0 24.6C17.3 304 48.6 356 95.4 399.4 142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1 3.3-7.9 3.3-16.7.0-24.6-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144 64.5-144 144-144 144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64-11.5.0-22.3-3-31.6-8.4-.2 2.8-.4 5.5-.4 8.4.0 53 43 96 96 96s96-43 96-96-43-96-96-96c-2.8.0-5.6.1-8.4.4 5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></div><p class="text-bg font-bg" title>实时访客</p></a></li><li class=mt-1><a href class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7.1 27.6 25.9 53.5 53.8 77.7 84 11-14.4 23.5-30.1 37-42.9 7.9-7.4 20.1-7.4 28 .1 34.6 33 63.9 76.6 84.5 118 20.3 40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512 98.4 512 0 404.1.0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3 97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3.0 47.7-7 68.8-21 42.1-29.4 53.4-88.2 28.1-134.4-2.8-5.6-5.6-11.2-9.8-16.8l-50.6 58.8S180.8 199 175.1 192c-42 51.8-63.1 81.2-63.1 114.8C112 375.4 162.6 416 225.7 416z"/></svg></span></span><p class="text-bg font-bg" title>百宝箱</p><span><span class="relative block icon"><svg viewBox="0 0 20 20" fill="currentcolor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75.0 011.06.02L10 11.168l3.71-3.938a.75.75.0 111.08 1.04l-4.25 4.5a.75.75.0 01-1.08.0l-4.25-4.5a.75.75.0 01.02-1.06z" clip-rule="evenodd"/></svg></span></span></a></li><li class=mt-1><a href=https://stats.uptimerobot.com/icGQsnFRda target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1></span><p class="text-sm font-small" title>服务监控</p></a></li><li class=mt-1><a href=https://us.umami.is/websites/1055879b-effb-4eab-acce-174829f6a5c5 target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1></span><p class="text-sm font-small" title>共享文本</p></a></li><li class=mt-1><a href=https://icloudnative.io/jstc/ target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><span class=mr-1><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M0 96C0 60.7 28.7 32 64 32H448c35.3.0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3.0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4S78.8 416 88 416h96 32H424c8.9.0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192c26.5.0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48z"/></svg></span></span><p class="text-sm font-small" title>趣味截图</p></a></li><li class=mb-2></li><li class=mt-1><a href=/index.xml class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 64C0 46.3 14.3 32 32 32c229.8.0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7.0 64zM128 416c0 35.3-28.7 64-64 64S0 451.3.0 416s28.7-64 64-64 64 28.7 64 64zM32 160c159.1.0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7.0-32-14.3-32-32s14.3-32 32-32z"/></svg></span></div><p class="text-bg font-bg" title=rss></p></a></li><li class=mt-1><a href=https://twitter.com/kubehan target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></span></div><p class="text-bg font-bg" title=twitter></p></a></li><li class=mt-1><a href=https://github.com/kubehan target=_blank class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400"><div><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span></div><p class="text-bg font-bg" title=github></p></a></li></ul></div></label></div></div><div class="relative flex flex-col grow"><main id=main-content class=grow><article><header id=single_header class="mt-5 max-w-prose"><ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden"><li class="inline hidden"><a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href=/>云原生知识栈</a><span class="px-1 text-primary-500">/</span></li><li class=inline><a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href=/posts/>Posts</a><span class="px-1 text-primary-500">/</span></li><li class="inline hidden"><a class="hover:underline decoration-neutral-300 dark:underline-neutral-600" href=/2368.html>三年之久的 etcd3 数据不一致 bug 分析</a><span class="px-1 text-primary-500">/</span></li></ol><h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">三年之久的 etcd3 数据不一致 bug 分析</h1><div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime=2020-04-27T11:52:02+08:00>2020年04月27日</time><span class="px-2 text-primary-500">&#183;</span><span>2774 字</span><span class="px-2 text-primary-500">&#183;</span><span title=预计阅读>14 分钟</span><span class="px-2 text-primary-500">&#183;</span>
+<span class=mb-[2px]><a href=https://github.com/kubehan/kubehanBooks/tree/main/content/posts/2020-04-27-%e4%b8%89%e5%b9%b4%e4%b9%8b%e4%b9%85%e7%9a%84-etcd3-%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%b8%80%e8%87%b4-bug-%e5%88%86%e6%9e%90.md class="text-lg hover:text-primary-500" rel="noopener noreferrer" target=_blank title=编辑内容><span class="inline-block align-text-bottom"><span class="relative block icon"><svg height="1em" viewBox="0 0 512 512"><path fill="currentcolor" d="M441 58.9 453.1 71c9.4 9.4 9.4 24.6.0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9.0zM209.8 256.2 344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1L186.9 325l16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25 175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 1e2c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l1e2-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7.0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4.0 152V424c0 48.6 39.4 88 88 88H360c48.6.0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1.0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H2e2c13.3.0 24-10.7 24-24s-10.7-24-24-24H88z"/></svg></span></span></a></span></div></div><div class="flex author"><img class="!mt-0 !mb-0 h-24 w-24 rounded-full ltr:mr-4 rtl:ml-4" width=96 height=96 alt=Kubehan src=/img/blowfish_logo_hu10440971084165979012.png><div class=place-self-center><div class="text-[0.6rem] uppercase leading-3 text-neutral-500 dark:text-neutral-400">作者</div><div class="font-semibold leading-6 text-neutral-800 dark:text-neutral-300">Kubehan</div><div class="text-sm text-neutral-700 dark:text-neutral-400">云原生知识栈：深度解析容器技术、Kubernetes、Istio、DevOps 实践、Prometheus 监控、Envoy 代理、Golang 开发及云原生架构与微服务趋势的专业博客</div><div class="text-2xl sm:text-lg"><div class="flex flex-wrap text-neutral-400 dark:text-neutral-500"><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=/index.xml target=_blank aria-label=Rss rel="me noopener noreferrer"><span class="inline-block align-text-bottom"><span class="relative block icon"><svg viewBox="0 0 448 512"><path fill="currentcolor" d="M0 64C0 46.3 14.3 32 32 32c229.8.0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7.0 64zM128 416c0 35.3-28.7 64-64 64S0 451.3.0 416s28.7-64 64-64 64 28.7 64 64zM32 160c159.1.0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7.0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+</span></span></a><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=https://twitter.com/kubehan target=_blank aria-label=X-Twitter rel="me noopener noreferrer"><span class="inline-block align-text-bottom"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+</span></span></a><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=https://github.com/kubehan target=_blank aria-label=Wechat rel="me noopener noreferrer"><span class="inline-block align-text-bottom"></span></a><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=https://github.com/kubehan target=_blank aria-label=Github rel="me noopener noreferrer"><span class="inline-block align-text-bottom"><span class="relative block icon"><svg viewBox="0 0 496 512"><path fill="currentcolor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6.0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6.0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3.0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1.0-6.2-.3-40.4-.3-61.4.0.0-70 15-84.7-29.8.0.0-11.4-29.1-27.8-36.6.0.0-22.9-15.7 1.6-15.4.0.0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5.0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9.0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4.0 33.7-.3 75.4-.3 83.6.0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6.0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9.0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</span></span></a><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=mailto:hello@kubehan.cn target=_blank aria-label=Email rel="me noopener noreferrer"><span class="inline-block align-text-bottom"><span class="relative block icon"><svg viewBox="0 0 512 512"><path fill="currentcolor" d="M207.8 20.73c-93.45 18.32-168.7 93.66-187 187.1-27.64 140.9 68.65 266.2 199.1 285.1 19.01 2.888 36.17-12.26 36.17-31.49l1e-4-.6631c0-15.74-11.44-28.88-26.84-31.24-84.35-12.98-149.2-86.13-149.2-174.2.0-102.9 88.61-185.5 193.4-175.4 91.54 8.869 158.6 91.25 158.6 183.2v16.16c0 22.09-17.94 40.05-40 40.05s-40.01-17.96-40.01-40.05v-120.1c0-8.847-7.161-16.02-16.01-16.02l-31.98.0036c-7.299.0-13.2 4.992-15.12 11.68-24.85-12.15-54.24-16.38-86.06-5.106-38.75 13.73-68.12 48.91-73.72 89.64-9.483 69.01 43.81 128 110.9 128 26.44.0 50.43-9.544 69.59-24.88 24 31.3 65.23 48.69 109.4 37.49C465.2 369.3 496 324.1 495.1 277.2V256.3c0-149.2-133.9-265.632-287.3-235.57zM239.1 304.3c-26.47.0-48-21.56-48-48.05s21.53-48.05 48-48.05 48 21.56 48 48.05-20.6 48.05-48 48.05z"/></svg>
+</span></span></a><a class="px-1 hover:text-primary-700 dark:hover:text-primary-400" href=https://kubehan.cn/ target=_blank aria-label=Link rel="me noopener noreferrer"><span class="inline-block align-text-bottom"><span class="relative block icon"><svg viewBox="0 0 640 512"><path fill="currentcolor" d="M172.5 131.1c55.6-55.59 148-55.59 203.6.0 50 50 57.4 129.7 16.3 187.2L391.3 319.9C381 334.2 361 337.6 346.7 327.3c-14.4-10.3-17.8-30.3-7.5-44.6L340.3 281.1C363.2 249 359.6 205.1 331.7 177.2c-31.4-31.4-82.5-31.4-114 0L105.5 289.5c-31.51 30.6-31.51 82.5.0 114C133.3 431.4 177.3 435 209.3 412.1L210.9 410.1C225.3 400.7 245.3 404 255.5 418.4 265.8 432.8 262.5 452.8 248.1 463.1L246.5 464.2c-58.4 41.1-136.3 34.5-186.29-15.4-56.469-56.5-56.469-148.1.0-204.5L172.5 131.1zM467.5 380c-56.5 56.5-148 56.5-204.5.0-50-50-56.5-128.8-15.4-186.3L248.7 192.1C258.1 177.8 278.1 174.4 293.3 184.7 307.7 194.1 311.1 214.1 300.8 229.3L299.7 230.9C276.8 262.1 280.4 306.9 308.3 334.8c31.4 31.4 82.5 31.4 114 0L534.5 222.5c31.5-31.5 31.5-83.4.0-114C506.7 80.63 462.7 76.99 430.7 99.9L429.1 101C414.7 111.3 394.7 107.1 384.5 93.58 374.2 79.2 377.5 59.21 391.9 48.94L393.5 47.82C451 6.731 529.8 13.25 579.8 63.24c56.5 56.46 56.5 148.06.0 204.46L467.5 380z"/></svg></span></span></a></div></div></div></div><div class=mb-5></div></header><section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row"><div class="min-w-0 min-h-0 max-w-fit"><div class="article-content max-w-prose mb-20"><section style=display:none data-tools=新媒体管家 data-label="powered by xmt.cn"></section><section data-style-type=5 data-id=2700022><section powered-by=xiumi.us><section><section><section powered-by=xiumi.us><section><section><section data-style-type=5 data-tools=新媒体排版 data-id=2700026><p style=padding:20px;min-height:1em;color:#3e3e3e;font-size:16px;white-space:normal;line-height:25.6px;text-align:justify;background-color:#f0f0f0;max-width:100%!important;box-sizing:border-box!important;overflow-wrap:break-word!important><strong style=line-height:1em;font-size:13px;max-width:100%!important;box-sizing:border-box!important;word-wrap:break-word!important><span style=font-family:times,serif;font-size:42px;display:inline-block;line-height:1em;max-width:100%!important;box-sizing:border-box!important;word-wrap:break-word!important>“</span></strong><span style=line-height:1em;font-size:13px;max-width:100%!important;box-sizing:border-box!important;word-wrap:break-word!important>   etcd 作为 Kubernetes 集群的元数据存储，是被业界广泛使用的强一致性 KV 存储，但近日被挖掘出一个存在 3 年之久的数据不一致 bug——client 写入后无法在异常节点读取到数据，即数据丢失。本文介绍了我们是如何从问题分析、大胆猜测、严谨验证、排除、工程化复现，从 raft 到 boltdb，从源码定制再到 chaos monkey，一步步定位并解决 etcd 数据不一致 bug 的详细流程，并将解决方案提交给社区，移植到 etcd 3.4/3.3 生产环境分支。希望通过本文，能够揭开 etcd 的神秘面纱，让大家对 etcd 的原理和问题定位有一个较为深入的了解。</span></p><p style=min-height:1em;color:#3e3e3e;font-size:16px;white-space:normal;max-width:100%!important;box-sizing:border-box!important;overflow-wrap:break-word!important></p><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9 data-css="color: rgb(240, 84, 84)"><strong>问题背景</strong></p></section><p style=text-align:center;white-space:normal></section></section></section></section></section></section></section></section></section></section></section><h3></h3><h3 style=margin-bottom:10px><span style=color:#000;font-size:14px><strong>诡异的 K8S 滚动更新异常</strong></span></h3><p><span style=color:#000;font-size:14px>笔者某天收到同事反馈，测试环境中 K8S 集群进行滚动更新发布时未生效。通过 kube-apiserver 查看发现，对应的 Deployment 版本已经是最新版，但是这个最新版本的 Pod 并未创建出来。</span></p><p><span style=color:#000;font-size:14px><br></span></p><p><span style=color:#000;font-size:14px>针对该现象，我们最开始猜测可能是 kube-controller-manager 的 bug 导致，但是观察 controller-manager 日志并未发现明显异常。第一次调高 controller-manager 的日志等级并进行重启操作之后，似乎由于 controller-manager 并没有 watch 到这个更新事件，我们仍然没有发现问题所在。此时，观察 kube-apiserver 日志，同样也没有出现明显异常。</span></p><p></p><p><span style=color:#000;font-size:14px>于是，再次调高日志等级并重启 kube-apiserver，诡异的事情发生了，之前的 Deployment 正常滚动更新了！</span></p><h3></h3><h3 style=margin-bottom:10px><span style=font-size:14px><strong><span style=color:#000>etcd 数据不一致 ？</span></strong></span></h3><p><span style=color:#000;font-size:14px>由于从 kube-apiserver 的日志中同样无法提取出能够帮助解决问题的有用信息，起初我们只能猜测可能是 kube-apiserver 的缓存更新异常导致的。正当我们要从这个切入点去解决问题时，该同事反馈了一个更诡异的问题——自己新创建的 Pod，通过 kubectl查询 Pod 列表，突然消失了！纳尼？这是什么骚操作？经过我们多次测试查询发现，通过 kubectl 来 list pod 列表，该 pod 有时候能查到，有时候查不到。那么问题来了，K8s api 的 list 操作是没有缓存的，数据是 kube-apiserver 直接从 etcd 拉取返回给客户端的，难道是 etcd 本身出了问题？</span></p><p><span style=color:#000;font-size:14px><br></span></p><section style=margin-bottom:25px><p><span style=color:#000;font-size:14px>众所周知，etcd 本身是一个强一致性的 KV 存储，在写操作成功的情况下，两次读请求不应该读取到不一样的数据。怀着不信邪的态度，我们通过 etcdctl 直接查询了 etcd 集群状态和</span><span style=font-size:14px;color:#000>集群数据，返回结果显示 3 个节点状态都正常，且 RaftIndex 一致，观察 etcd 的日志也并未发现报错信息，唯一可疑的地方是 3 个节点的 dbsize 差别较大。接着，<span style=color:#000;font-size:14px>我们又将 client 访问的 endpoint 指定为不同节点地址来查询每个节点的 key 的数量</span>，结果发现 3 个节点返回的 key 的数量不一致，甚至两个不同节点上 Key 的数量差最大可达到几千！而直接通过 etcdctl 查询刚才创建的 Pod，发现访问某些 endpoint 能够查询到该 pod，而访问其他 endpoint 则查不到。至此，基本可以确定 etcd 集群的节点之间确实存在数据不一致现象。</span></section><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal></p><p style=color:#0f40f9;margin-bottom:5px;margin-top:5px><strong>问题分析和排查过程</strong></p></section><section style=text-align:center;white-space:normal;margin-bottom:10px></section></section></section></section><h3 style=margin-bottom:10px><span style=font-size:14px><strong><span style=color:#000>遇事不决问</span></strong><strong><span style=color:#000>Google</span></strong></span></h3><p><span style=color:#000;font-size:14px>强一致性的存储突然数据不一致了，这么严重的问题，想必日志里肯定会有所体现。然而，可能是 etcd 开发者担心日志太多会影响性能的缘故，etcd 的日志打印的比较少，以至于我们排查了 etcd 各个节点的日志，也没有发现有用的报错日志。甚至是在我们调高日志级别之后，仍没有发现异常信息。</span></p><p><span style=color:#000;font-size:14px><br></span></p><p><span style=color:#000;font-size:14px>作为一个21世纪的程序员，遇到这种诡异且暂时没头绪的问题，第一反应当然是先 Google 一下啦，毕竟不会 StackOverFlow 的程序员不是好运维！Google 输入“etcd data inconsistent” 搜索发现，并不是只有我们遇到过该问题，之前也有其他人向 etcd 社区反馈过类似问题，只是苦于没有提供稳定的复现方式，最后都不了了之。如 issue：</span></p><section style=margin-top:25px><p><span style=font-size:14px;text-indent:0><a href=https://github.com/etcd-io/etcd/issues/9630 target=_blank>https://github.com/etcd-io/etcd/issues/9630</a></span></section></p><p><span style=color:#000;font-size:14px;text-indent:0>https://github.com/etcd-io/etcd/issues/10407</span></p><p><span style=color:#000;font-size:14px;text-indent:0>https://github.com/etcd-io/etcd/issues/10594</span></p><p><span style=color:#000;font-size:14px;text-indent:0>https://github.com/etcd-io/etcd/issues/11643</span></p><p></p><p><span style=color:#000;font-size:14px>由于这个问题比较严重，会影响到数据的一致性，而我们生产环境中当前使用了数百套 etcd 集群，为了避免出现类似问题，我们决定深入定位一番。</span></p><p><span style=color:#000;font-size:14px><br></span></p><h3 style=margin-bottom:10px><span style=font-size:14px><strong><span style=color:#000>etcd 工作原理和术语简介</span></strong></span></h3><p><span style=color:#000;font-size:14px>在开始之前，为方便读者理解，这里先简单介绍下 etcd 的常用术语和基本读写原理。</span></p><p><strong><span style=color:#000><br></span></strong></p><p><span style=color:#000;font-size:14px>术语表：</span></p><table cellspacing=0 cellpadding=0><tr><td width=162.33333333333334><p><span style=color:#000;font-size:14px>名称</span></p></td><pre><code>  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;含义&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Raft&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;etcd 使用的一致性算法&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;WAL&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;预写 Log，持久化数据，防止节点重启等导致数据丢失&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Snapshot&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;快照，数据更新超过阈值时，会通过快照的方式来压缩 WAL 文件大小&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;MVCC&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;多版本并发控制&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;DB&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;boltdb/bboltdb，实际存储 etcd v3 的数据&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;162.33333333333334&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Revision&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;版本号，作为 etcd 数据的逻辑时钟&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Auth revision&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;鉴权操作所用的版本号，为了避免 TOCTOU 问题引入&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Propose&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;发起一次 Raft 请求提案&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Committed&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;一半以上的节点同意这次请求后的状态，此时数据可以被应用层 apply&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Apply&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;应用层实际将 Committed 的数据应用到 DB&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Compact&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;压缩历史版本数据&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Defrag&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td style=&quot;&quot; width=&quot;373.3333333333333&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;碎片整理，压缩 etcd 的 db 存储大小&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td style=&quot;&quot; width=&quot;53.000000000000014&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Endpoint&lt;/span&gt;&lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;客户端指定的 etcd 访问地址&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Node&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;组成 etcd 集群的节点&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Term&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;任期，每进行一次 leader 选举 Term 会增加 1&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;Index&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;单调递增，每次经过 Raft 模块发起变更操作时由 leader 增加&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;CommittedIndex&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;经过 Raft 协议同意提交的数据 Index&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;AppliedIndex&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;已经被应用层应用的 Index&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+  &lt;td width=&quot;53.000000000000014&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;ConsistentIndex&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+  
+  &lt;td width=&quot;373.3333333333333&quot;&gt;
+    &lt;p style=&quot;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;为保证&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;不&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;重复 Apply 同一条数&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;据引入，保证 Apply 操作的幂等性&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr style=&quot;&quot;&gt;
+  &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;ReadIndex&lt;/span&gt;
+  &lt;/td&gt;
+  
+  &lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot; style=&quot;&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;通过 Raft 模块获取 leader 当前的 committedIndex&lt;/span&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+</code></pre></table><p></p><p><span style=color:#000;font-size:14px>etcd 是一个强一致性的分布式 KV 存储，所谓强一致性，简单来说就是一个写操作成功后，从任何一个节点读出来的数据都是最新值，而不会出现写数据成功后读不出来或者读到旧数据的情况。etcd 通过 raft 协议来实现 leader 选举、配置变更以及保证数据读写的一致性。下面简单介绍下 etcd 的读写流程：</span></p><p style=text-align:center><p style=margin-top:10px;margin-bottom:10px><span style=font-size:14px><strong><span style=color:#000>写数据流程</span></strong><span style=color:#000>（以 leader 节点为例，见上图）：</span></span></p><pre><code>&lt;ol class=&quot;list-paddingleft-2&quot; style=&quot;list-style-type: decimal;&quot;&gt;
+  &lt;li style=&quot;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;etcd 任一节点的 etcd server 模块收到 Client 写请求（如果是 follower 节点，会先通过 Raft 模块将请求转发至 leader 节点处理）。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li style=&quot;font-size: 14px;&quot;&gt;
+    &lt;section style=&quot;margin-bottom: 5px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;etcd server 将请求封装为 Raft 请求，然后提交给 Raft 模块处理。&lt;/span&gt;&lt;/section&gt;
+  &lt;/li&gt;
+  &lt;li style=&quot;margin-top: auto;margin-bottom: auto;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;leader 通过 Raft 协议与集群中 follower 节点进行交互，将消息复制到follower 节点，于此同时，并行将日志持久化到 WAL。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li style=&quot;margin-top: auto;margin-bottom: auto;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style='font-variant-numeric: normal;font-variant-east-asian: normal;font-stretch: normal;line-height: normal;font-family: &quot;Times New Roman&quot;;'&gt; &lt;/span&gt;&lt;span style=&quot;color: black;&quot;&gt;follower 节点对该请求进行响应，回复自己是否同意该请求。&lt;/span&gt;&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li style=&quot;margin-top: auto;margin-bottom: auto;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;当集群中超过半数节点（(n/2)+1 members ）同意接收这条日志数据时，表示该请求可以被Commit，R&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;aft 模块通知 etcd server 该日志数据已经 Commit，可以进行 Apply。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li style=&quot;margin-top: auto;margin-bottom: auto;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;各个节点的 etcd server 的 applierV3 模块异步进行 Apply 操作，并通过 MVCC 模块写入后端存储 BoltDB。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li style=&quot;margin-top: auto;margin-bottom: auto;font-size: 14px;&quot;&gt;
+    &lt;p style=&quot;margin-bottom: 15px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;当 client 所连接的节点数据 apply 成功后，会返回给客户端 apply 的结果。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p style=&quot;margin-bottom: 10px;&quot;&gt;
+  &lt;strong&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;读数据流程&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;：&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;ul class=&quot;list-paddingleft-2&quot; style=&quot;list-style-type: disc;&quot;&gt;
+  &lt;li&gt;
+    &lt;section style=&quot;margin-bottom: 5px;&quot;&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;etcd 任一节点的 etcd server 模块收到客户端读请求（Range 请求）&lt;/span&gt;&lt;/section&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;判断读请求类型，如果是串行化读（serializable）则直接进入 Apply 流程&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;如果是线性一致性读（linearizable），则进入 Raft 模块&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;Raft 模块向 leader 发出 ReadIndex 请求，获取当前集群已经提交的最新数据 Index&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;等待本地 AppliedIndex 大于或等于 ReadIndex 获取的 CommittedIndex 时，进入 Apply 流程&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+  
+  &lt;li&gt;
+    &lt;p style=&quot;margin-bottom: 5px;&quot;&gt;
+      &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;Apply 流程：通过 Key 名从 KV Index 模块获取 Key 最新的 Revision，再通过 Revision 从 BoltDB 获取对应的 Key 和 Value。&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;&lt;section data-style-type=&quot;5&quot; data-tools=&quot;新媒体排版&quot; data-id=&quot;2700487&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;position: static&quot;&gt; &lt;section style=&quot;text-align: center;white-space: normal;&quot;&gt; 
+
+&lt;p style=&quot;text-align: left;margin-bottom: 10px;&quot;&gt;
+  &lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: black;&quot;&gt;初步验证&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;
+&lt;/p&gt;&lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;
+
+&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;通常集群正常运行情况下，如果没有外部变更的话，一般不会出现这么严重的问题。我们查询故障 etcd 集群近几天的发布记录时发现，故障前一天对该集群进行的一次发布中，由于之前 dbsize 配置不合理，导致 db 被写满，集群无法写入新的数据，为此运维人员更新了集群 dbsize 和 compaction 相关配置，并重启了 etcd。重启后，运维同学继续对 etcd 手动执行了 compact 和 defrag 操作，来压缩 db 空间。&lt;/span&gt;&lt;/section&gt; &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;通过上述场景，我们可以初步判断出以下几个可疑的触发条件：&lt;/span&gt;&lt;/section&gt; 
+
+&lt;ol start=&quot;1&quot; type=&quot;1&quot; class=&quot;list-paddingleft-2&quot;&gt;
+  &lt;li&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;  dbsize 满&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;  dbsize 和 compaction 配置更新&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;  compaction 操作和 defrag 操作&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;  重启 etcd&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;&lt;section style=&quot;margin-top: 15px;&quot;&gt;
+
+&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;出了问题肯定要能够复现才更有利于解决问题，正所谓能够复现的 bug 就不叫 bug。复现问题之前，我们通过分析 etcd 社区之前的相关 issue 发现，触发该 bug 的共同条件都包含执行过 compaction 和 defrag 操作，同时重启过 etcd 节点。因此，我们计划首先尝试同时模拟这几个操作，观察是否能够在新的环境中复现。为此我们新建了一个集群，然后通过编写脚本向集群中不停的写入和删除数据，直到 dbsize 达到一定程度后，对节点依次进行配置更新和重启，并触发 compaction 和 defrag 操作。然而经过多次尝试，我们并没有复现出类似于上述数据不一致的场景。&lt;/span&gt;&lt;/section&gt; &lt;section data-style-type=&quot;5&quot; data-tools=&quot;新媒体排版&quot; data-id=&quot;2700487&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;position: static&quot;&gt; &lt;section style=&quot;text-align: center;white-space: normal;&quot;&gt; 
+
+&lt;p style=&quot;color: rgb(15, 64, 249);text-align: left;margin-bottom: 10px;&quot;&gt;
+  &lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;抽丝剥茧，初现端倪&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;
+&lt;/p&gt;&lt;section style=&quot;color: rgb(15, 64, 249);text-align: left;margin-bottom: 15px;&quot;&gt;
+
+&lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;紧接着，在之后的测试中无意发现，&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;client 指定不同的 endpoint 写数据&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;，能够查到数据的节点也不同。比如，&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;endpoint 指定为 node1 进行写数据，3个节点都可以查到数据；endpoint 指定为 node2 进行写数据，node2 和 node3 可以查到；endpoint 指定为 node3 写数据，只有 node3 自己能够查到。具体情况如下表：&lt;/span&gt;&lt;/section&gt; &lt;section style=&quot;color: rgb(15, 64, 249);text-align: left;margin-bottom: 15px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;&lt;/span&gt;&lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; 
+
+&lt;p style=&quot;text-align: center;&quot;&gt;
+  &lt;p style=&quot;color: rgb(15, 64, 249);text-align: left;margin-bottom: 15px;white-space: normal;border-color: initial;border-style: none;border-width: 0px;padding: 0px;margin-top: 5px;&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;text-align: justify;&quot;&gt;于是我们做出了初步的猜测，有以下几种可能：&lt;/span&gt;
+  &lt;/p&gt;
+  
+  &lt;ol class=&quot;list-paddingleft-2&quot; style=&quot;list-style-type: decimal;&quot;&gt;
+    &lt;li style=&quot;font-size: 14px;&quot;&gt;
+      &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;集群可能分裂了，leader 未将消息发送给 follower 节点。&lt;/span&gt;&lt;/section&gt;
+    &lt;/li&gt;
+    &lt;li style=&quot;font-size: 14px;&quot;&gt;
+      &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;leader 给 follower 节点发送了消息，但是 log 异常，没有对应的 command 。&lt;/span&gt;&lt;/section&gt;
+    &lt;/li&gt;
+    &lt;li style=&quot;font-size: 14px;&quot;&gt;
+      &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;leader 给 follower 节点发送了消息，有对应的 command，但是 apply 异常，操作还未到 KV Index 和 boltdb 就异常了。&lt;/span&gt;&lt;/section&gt;
+    &lt;/li&gt;
+    &lt;li style=&quot;font-size: 14px;&quot;&gt;
+      &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;leader 给 follower 节点发送了消息, 有对应的 command，但是 apply 异常，KV Index 出现了问题。&lt;/span&gt;&lt;/section&gt;
+    &lt;/li&gt;
+    &lt;li style=&quot;font-size: 14px;&quot;&gt;
+      &lt;section style=&quot;margin-bottom: 10px;&quot;&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;leader 给 follower 节点发送了消息, 有对应的 command，但是 apply 异常，boltdb 出现了问题。&lt;/span&gt;&lt;/section&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+  
+  &lt;p style=&quot;margin-bottom: 10px;&quot;&gt;
+    &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;为了验证我们的猜测，我们进行了一系列测试来缩小问题范围：&lt;/span&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+    &lt;span style=&quot;font-size: 14px;&quot;&gt;首先，我们&lt;span style=&quot;color: black;&quot;&gt;通过 endpoint status 查看集群信息，发现 3 个节点的 clusterId，leader，raftTerm，raftIndex 信息均一致，而 dbSize 大小和 revision 信息不一致。clusterId 和 leader 一致，基本&lt;/span&gt;&lt;strong&gt;&lt;span style=&quot;color: rgb(111, 129, 254);&quot;&gt;排除了集群分裂的猜测&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;color: black;&quot;&gt;，而 raftTerm 和 raftIndex 一致，说明 leader 是有向 follower 同步消息的，也&lt;/span&gt;&lt;strong&gt;&lt;span style=&quot;color: rgb(111, 129, 254);&quot;&gt;进一步排除了第一个猜测&lt;/span&gt;&lt;/strong&gt;&lt;span style=&quot;color: black;&quot;&gt;，但是 WAL落盘有没有异常还不确定。dbSize 和 revision 不一致则进一步说明了 3 个节点数据已经发生不一致了。&lt;/span&gt;&lt;/span&gt;
+  &lt;/p&gt;
+  
+  &lt;p&gt;
+  &lt;/p&gt;&lt;section style=&quot;margin-bottom: 15px;&quot;&gt;
+  
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;其次，由于 etcd 本身提供了一些 dump 工具，例如 etcd-dump-log 和 etcd-dump-db。我们可以像下图一样，使用 etcd-dump-log  dump 出指定 WAL 文件的内容，使用 etcd-dump-db  dump 出 db 文件的数据，方便对 WAL 和 db 数据进行分析。&lt;/span&gt;&lt;/section&gt; 
+  
+  &lt;p style=&quot;text-align: center;&quot;&gt;
+    &lt;p style=&quot;text-align: center;&quot;&gt;
+      &lt;section style=&quot;margin-top: 15px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: black;&quot;&gt;于是，&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;我们向 node3 写了一条便于区分的数据&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: black;&quot;&gt;，然后通过 etcd-dump-log 来分析 3 个节点的 WAL，按照刚才的测试，&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;endpoint 指定为 node3 写入的数据&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: black;&quot;&gt;，通过其他两个节点应该查不到的。但是我们发现 3 个节点都收到了 WAL log，也就是说 WAL 并没有丢，因此&lt;/span&gt;&lt;span style=&quot;color: rgb(111, 129, 254);&quot;&gt;&lt;strong&gt;排除了第二个猜测&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;color: black;&quot;&gt;。&lt;/span&gt;&lt;/span&gt;&lt;/section&gt; 
+      
+      &lt;p style=&quot;margin-top: 5px;&quot;&gt;
+        &lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: black;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;接下来我们 dump 了 db 的数据进行分析，&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;发现 endpoint 指定为 node3 写入的数据&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;，在其他两个节点的 db 文件里找不到，也就是说数据确实没有落到 db，而不是写进去了查不出来。&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;span style=&quot;font-size: 14px;color: rgb(111, 129, 254);&quot;&gt;&lt;strong&gt;既然 WAL 里有而 db 里没有，因此很大可能是 apply 流程异常了，数据可能在 apply 时被丢弃了。&lt;/strong&gt;&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;由于现有日志无法提供更有效的信息，我们打算在 etcd 里新加一些日志来更好地帮助我们定位问题。etcd 在做 apply 操作时，trace 日志会打印超过每个超过 100ms 的请求，我们首先把 100ms 这个阈值调低，调整到 1ns，这样每个 apply 的请求都能够记录下来，可以更好的帮助我们定位问题。&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p&gt;
+        &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+        &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;编译好新版本之后，我们替换了其中一个 etcd 节点，&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;然后向不同 node 发起写请求测试。&lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;果然，我们发现了一条不同寻常的错误日志：&quot;error&quot;:&quot;auth:revision in header is old&quot;，因此我们断定问题很可能是因为——发出这条错误日志的节点，对应的 key 刚好没有写进去。&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+        &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+        &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;搜索代码后，我们发现 etcd 在进行 apply 操作时，如果开启了鉴权，在鉴权时会判断 raft 请求 header 中的 AuthRevision，如果请求中的 AuthRevision 小于当前 node 的&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;AuthRevision，则会认为 AuthRevision 太老而导致 Apply 失败。&lt;/span&gt;
+      &lt;/p&gt;&lt;section class=&quot;code-snippet__fix code-snippet__js&quot;&gt; 
+      
+      &lt;ul class=&quot;code-snippet__line-index code-snippet__js&quot;&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      
+      &lt;pre class=&quot;code-snippet__js&quot; data-lang=&quot;swift&quot;&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;func (as *authStore) isOpPermitted(userName string, revision uint64, key, rangeEnd []byte, permTyp authpb.Permission_Type) error {&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    // ...&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;  if revision &amp;lt; as.Revision() {&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    return ErrAuthOldRevision&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;  }&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;  // ...&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;}&amp;lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/section&gt; 
+</code></pre><p><span style=color:#000;font-size:14px>这样看来，很可能是不同节点之间的 AuthRevision 不一致了，AuthRevision 是 etcd 启动时直接从 db 读取的，每次变更后也会及时的写入 db，于是我们简单修改了下 etcd-dump-</span><span style=color:#000;font-size:14px>db工具，将每个节点 db 内存储的 AuthRevision 解码出来对比了下，发现 3 个节点的 AuthRevision 确实不一致，node1 的 AuthRevision 最高，node3 的 AuthRevision 最低，这正好能够解释之前的现象，endpoint 指定为 node1 写入的数据，3 个节点都能查到，指定为 node3 写入的数据，只有 node3 能够查到，因为 AuthRevision 较低的节点发起的 Raft 请求，会被 AuthRevision 较高的节点在 Apply 的过程中丢弃掉（如下表）。</span></p><p><span style=color:#000;font-size:16px><br></span></p><p style=text-align:center><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9;text-align:left;margin-bottom:10px><span style=font-size:14px><strong><span style=color:#000;text-align:justify>源码之前，了无秘密？</span></strong></span></p><p style=color:#0f40f9;text-align:left data-css="color: rgb(240, 84, 84)"><span style=color:#000;text-align:justify;font-size:14px>目前为止我们已经可以明确，新写入的数据通过访问某些 endpoint 查不出来的原因是由于 AuthRevision 不一致。但是，数据最开始发生不一致问题是否是由 AuthRevision 造成，还暂时不能断定。为什么这么说呢？因为 AuthRevision 很可能也是受害者，比如 AuthRevision 和数据的不一致都是由同一个原因导致的，只不过是 AuthRevision 的不一致放大了数据不一致的问题。但是，为更进一步接近真相，我们先假设 AuthRevision 就是导致数据不一致的罪魁祸首，进而找出导致 AuthRevision 不一致的真实原因。</span></p><p style=color:#0f40f9 data-css="color: rgb(240, 84, 84)"></p></section></section></section></section><p><span style=color:#000;font-size:14px>原因到底如何去找呢？正所谓，源码之前了无秘密，我们首先想到了分析代码。于是，我们走读了一遍 Auth 操作相关的代码（如下），发现只有在进行权限相关的写操作（<span style=color:#000>如增删用户/角色，为角色授权等操作</span>）时，AuthRevision 才会增加。AuthRevision 增加后，会和写权限操作一起，写入 backend 缓存，当写操作超过一定阈值（默认 10000 条记录）或者每隔</span><span style=font-size:14px;color:#000>100ms（默认值），会执行刷盘操作写入 db。由于 AuthRevision 的持久化和创建用户等操作的持久化放在一个事务内，因此基本不会存在创建用户成功了，而 AuthRevision 没有正常增加的情况。</span></p><section class="code-snippet__fix code-snippet__js"><ul class="code-snippet__line-index code-snippet__js"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><pre class=code-snippet__js data-lang=go><code>&lt;span class="code-snippet_outer">&lt;span class="code-snippet__function">&lt;span class="code-snippet__keyword">func&lt;/span> &lt;span class="code-snippet__params">(as *authStore)&lt;/span> &lt;span class="code-snippet__title">UserAdd&lt;/span>&lt;span class="code-snippet__params">(r *pb.AuthUserAddRequest)&lt;/span> &lt;span class="code-snippet__params">(*pb.AuthUserAddResponse, error)&lt;/span>&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__comment">// ...&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">    tx := as.be.BatchTx()&lt;/span></code><code>&lt;span class="code-snippet_outer">    tx.Lock()&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__keyword">defer&lt;/span> tx.Unlock()  &lt;span class="code-snippet__comment">// Unlock时满足条件会触发commit操作&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__comment">// ...&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">    putUser(tx, newUser)&lt;/span></code><code>&lt;span class="code-snippet_outer">    as.commitRevision(tx)&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__keyword">return&lt;/span> &pb.AuthUserAddResponse{}, &lt;span class="code-snippet__literal">nil&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">}&lt;/span></code><code>&lt;span class="code-snippet_outer">&lt;span class="code-snippet__function">&lt;span class="code-snippet__keyword">func&lt;/span> &lt;span class="code-snippet__params">(t *batchTxBuffered)&lt;/span> &lt;span class="code-snippet__title">Unlock&lt;/span>&lt;span class="code-snippet__params">()&lt;/span>&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__keyword">if&lt;/span> t.pending != &lt;span class="code-snippet__number">0&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">        t.backend.readTx.Lock() &lt;span class="code-snippet__comment">// blocks txReadBuffer for writing.&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">        t.buf.writeback(&t.backend.readTx.buf)&lt;/span></code><code>&lt;span class="code-snippet_outer">        t.backend.readTx.Unlock()&lt;/span></code><code>&lt;span class="code-snippet_outer">        &lt;span class="code-snippet__keyword">if&lt;/span> t.pending >= t.backend.batchLimit {&lt;/span></code><code>&lt;span class="code-snippet_outer">            t.commit(&lt;span class="code-snippet__literal">false&lt;/span>)&lt;/span></code><code>&lt;span class="code-snippet_outer">        }&lt;/span></code><code>&lt;span class="code-snippet_outer">    }&lt;/span></code><code>&lt;span class="code-snippet_outer">    t.batchTx.Unlock()&lt;/span></code><code>&lt;span class="code-snippet_outer">}&lt;/span></code></pre></section><p><span style=color:#000;font-size:14px>那么，既然 3 个节点的 AuthRevision 不一致，会不会是因为某些节点写权限相关的操作丢失了，从而没有写入 db ？如果该猜测成立，3 个节点的 db 里 authUser 和 authRole 的 bucket 内容应该有所不同才对。于是为进一步验证，我们继续修改了下 etcd-dump-db 这个工具，加入了对比不同 db 文件 bucket 内容的功能。遗憾的是，通过对比发现，3 个节点之间的 authUser 和 authRole bucket 的内容并没有什么不同。</span></p><p><span style=color:#000><br></span></p><p><span style=color:#000;font-size:14px>既然节点写权限相关的操作没有丢，那会不会是命令重复执行了呢？查看异常时间段内日志时发现，其中包含了较多的 auth 操作；进一步分别比对 3 个节点的 auth 操作相关的日志又发现，部分节点日志较多，而部分节点日志较少，看起来像是存在命令重复执行现象。由于日志压缩，虽然暂时还不能确定是重复执行还是操作丢失，但是这些信息能够为我们后续的排查带来很大启发。</span></p><p></p><p><span style=color:#000;font-size:14px>我们继续观察发现，不同节点之间的 AuthRevison虽有差异，但是差异较小，而且差异值在我们压测期间没有变过。既然不同节点之间的 AuthRevision 差异值没有进一步放大，那么通过新增的日志基本上也看不出什么问题，因为不一致现象的出现很可能是在过去的某个时间点瞬时造成的。这就造成我们如果想要发现问题根因，还是要能够复现 AuthRevison 不一致或者数据不一致问题才行，并且要能够抓到复现瞬间的现场。</span></p><p><span style=color:#000><br></span></p><p><span style=font-size:14px><span style=color:#000>问题似乎又回到了原点，但好在我们目前已经排除了很多干扰信息，</span><span style=color:#6f81fe><strong>将目标聚焦在了 auth 操作上</strong></span><span style=color:#000>。</span></span></p><p><span style=color:#000;font-size:16px> </span></p><p style=margin-bottom:10px><span style=font-size:14px;color:#000><strong>混沌工程，成功复现</strong><br></span></p><section style=margin-bottom:15px><p><span style=color:#000;font-size:14px>鉴于之前多次手动模拟各种场景都没能成功复现，我们打算搞一套自动化的压测方案来复现这个问题，方案制定时主要考虑的点有以下几个：</span></section></p><ul class=list-paddingleft-2 style=list-style-type:disc><li><span style=font-size:14px><span style=color:#000><strong>如何增大复现的概率？</strong></span><strong><span style=color:#000> </span></strong></span><br><span style=color:#000;font-size:14px>根据之前的排查结果，很有可能是 auth 操作导致的数据不一致，因此我们实现了一个 monkey 脚本，每隔一段时间，会向集群写入随机的用户、角色，并向角色授权，同时进行写数据操作，以及随机的重启集群中的节点，详细记录每次一操作的时间点和执行日志。</span></li><li><section style=margin-top:15px><span style=font-size:14px><strong><span style=color:#000>怎样保证在复现的情况下，能够尽可能的定位到问题的根因？</span></strong></span></section><p><span style=color:#000;font-size:14px>根据之前的分析得出，问题根因大概率是 apply 过程中出了问题，于是我们在 apply 的流程里加入了详细的日志，并打印了每次 apply 操作committedIndex、appliedIndex、consistentIndex 等信息。</span></li><pre><code>  &lt;li&gt;
+    &lt;section style=&quot;margin-top: 15px;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: black;&quot;&gt;如果复现成功，如何能够在第一时间发现？&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;/section&gt; &lt;p&gt;
+      &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;由于日志量太大，只有第一时间发现问题，才能够更精确的缩小问题范围，才能更利于我们定位问题。于是我们实现了一个简单的 metric-server，每隔一分钟拉取各个节点的 key 数量，并进行对比，将差异值暴露为 metric，通过 prometheus 进行拉取，并用 grafana 进行展示，一旦差异值超过一定阈值（写入数据量大的情况下，就算并发统计各个节点的 key 数量，也可能会有少量的差异，所以这里有一个容忍误差)，则立刻通过统一告警平台向我们推送告警，以便于及时发现。&lt;/span&gt; &lt;/li&gt; &lt;/ul&gt; 
+      
+      &lt;p style=&quot;margin-bottom: 25px;margin-top: 10px;&quot;&gt;
+        &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;方案搞好后，我们新建了一套 etcd 集群，部署了我们的压测方案，打算进行长期观察。结果第二天中午，我们就收到了微信告警——集群中存在数据不一致现象。&lt;/span&gt;
+      &lt;/p&gt;
+      
+      &lt;p style=&quot;text-align: center;&quot;&gt;
+        &lt;p style=&quot;margin-bottom: 25px;margin-top: 15px;&quot;&gt;
+          &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;于是，我们立刻登录压测机器进行分析，首先停掉了压测脚本，然后查看了集群中各个节点的 AuthRevision，发现 3 个节点的 AuthRevision 果然不一样！根据 grafana 监控面板上的监控数据，我们将数据不一致出现的时间范围缩小到了 10 分钟内，然后重点分析了下这 10 分钟的日志，发现在某个节点重启后，consistentIndex 的值比重启前要小。然而 etcd 的所有 apply 操作，幂等性都依赖 consistentIndex 来保证，当进行 apply 操作时，会判断当前要 apply 的 Entry 的 Index 是否大于 consistentIndex，如果 Index 大于 consistentIndex，则会将 consistentIndex 设为 Index，并允许该条记录被 apply。否则，则认为该请求被重复执行了，不会进行实际的 apply 操作。&lt;/span&gt;
+        &lt;/p&gt;&lt;section class=&quot;code-snippet__fix code-snippet__js&quot;&gt; 
+        
+        &lt;ul class=&quot;code-snippet__line-index code-snippet__js&quot;&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+        
+        &lt;pre class=&quot;code-snippet__js&quot; data-lang=&quot;go&quot;&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;// applyEntryNormal apples an EntryNormal type raftpb request to the EtcdServer&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;&amp;lt;span class=&quot;code-snippet__function&quot;&gt;&amp;lt;span class=&quot;code-snippet__keyword&quot;&gt;func&amp;lt;/span&gt; &amp;lt;span class=&quot;code-snippet__params&quot;&gt;(s *EtcdServer)&amp;lt;/span&gt; &amp;lt;span class=&quot;code-snippet__title&quot;&gt;applyEntryNormal&amp;lt;/span&gt;&amp;lt;span class=&quot;code-snippet__params&quot;&gt;(e *raftpb.Entry)&amp;lt;/span&gt;&amp;lt;/span&gt; {&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    shouldApplyV3 := &amp;lt;span class=&quot;code-snippet__literal&quot;&gt;false&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    &amp;lt;span class=&quot;code-snippet__keyword&quot;&gt;if&amp;lt;/span&gt; e.Index &gt; s.consistIndex.ConsistentIndex() {&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        &amp;lt;span class=&quot;code-snippet__comment&quot;&gt;// set the consistent index of current executing entry&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        s.consistIndex.setConsistentIndex(e.Index)&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        shouldApplyV3 = &amp;lt;span class=&quot;code-snippet__literal&quot;&gt;true&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    }&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        &amp;lt;span class=&quot;code-snippet__comment&quot;&gt;// ...&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        &amp;lt;span class=&quot;code-snippet__comment&quot;&gt;// do not re-apply applied entries.&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    &amp;lt;span class=&quot;code-snippet__keyword&quot;&gt;if&amp;lt;/span&gt; !shouldApplyV3 {&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        &amp;lt;span class=&quot;code-snippet__keyword&quot;&gt;return&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;    }&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;        &amp;lt;span class=&quot;code-snippet__comment&quot;&gt;// ...&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;}&amp;lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/section&gt; 
+</code></pre><p><span style=color:#000;font-size:14px>也就是说，由于 consistentIndex 的减小，etcd 本身依赖它的幂等操作将变得不再幂等，导致权限相关的操作在 etcd 重启后被重复 apply 了，即一共apply 了两次！</span></p><p><span style=color:#000><br></span></p><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9 data-css=color:#f05454><strong>问题原理分析</strong></p></section><section style=text-align:center;white-space:normal;margin-bottom:10px></section></section></section></section><p><span style=color:#000;font-size:14px>为何 consistentIndex 会减小？</span><span style=color:#000;font-size:14px>走读了 consistentIndex 相关代码后，我们终于发现了问题的根因：</span><span style=color:#000;font-size:14px>consistentIndex 本身的持久化，依赖于 mvcc 的写数据操作；</span><span style=color:#000;font-size:14px>通过 mvcc 写入数据时，会调用 saveIndex 来持久化 consistentIndex 到 backend，而 auth 相关的操作，是直接读写的 backend，并没有经过 mvcc。</span><span style=color:#000;font-size:14px>这就导致，如果做了权限相关的写操作，并且之后没有通过 mvcc 写入数据，那么这期间 consistentIndex 将不会被持久化，如果这时候重启了 etcd，就会造成权限相关的写操作被 apply 两次，带来的副作用可能会导致 AuthRevision 重复增加，从而直接造成不同节点的 AuthRevision 不一致，而 AuthRevision 不一致又会造成数据不一致。</span></p><section class="code-snippet__fix code-snippet__js"><ul class="code-snippet__line-index code-snippet__js"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul><pre class=code-snippet__js data-lang=go><code>&lt;span class="code-snippet_outer">&lt;span class="code-snippet__function">&lt;span class="code-snippet__keyword">func&lt;/span> &lt;span class="code-snippet__title">putUser&lt;/span>&lt;span class="code-snippet__params">(lg *zap.Logger, tx backend.BatchTx, user *authpb.User)&lt;/span>&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">    b, err := user.Marshal()&lt;/span></code><code>&lt;span class="code-snippet_outer">    tx.UnsafePut(authUsersBucketName, user.Name, b) &lt;span class="code-snippet__comment">// 直接写入Backend，未经过MVCC，此时不会持久化consistentIndex&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">}&lt;/span></code><code>&lt;span class="code-snippet_outer">&lt;span class="code-snippet__function">&lt;span class="code-snippet__keyword">func&lt;/span> &lt;span class="code-snippet__params">(tw *storeTxnWrite)&lt;/span> &lt;span class="code-snippet__title">End&lt;/span>&lt;span class="code-snippet__params">()&lt;/span>&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__comment">// only update index if the txn modifies the mvcc state.&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__keyword">if&lt;/span> &lt;span class="code-snippet__built_in">len&lt;/span>(tw.changes) != &lt;span class="code-snippet__number">0&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">        tw.s.saveIndex(tw.tx)    &lt;span class="code-snippet__comment">// 当通过MVCC写数据时，会触发consistentIndex持久化&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">        tw.s.revMu.Lock()&lt;/span></code><code>&lt;span class="code-snippet_outer">        tw.s.currentRev++&lt;/span></code><code>&lt;span class="code-snippet_outer">    }&lt;/span></code><code>&lt;span class="code-snippet_outer">    tw.tx.Unlock()&lt;/span></code><code>&lt;span class="code-snippet_outer">    &lt;span class="code-snippet__keyword">if&lt;/span> &lt;span class="code-snippet__built_in">len&lt;/span>(tw.changes) != &lt;span class="code-snippet__number">0&lt;/span> {&lt;/span></code><code>&lt;span class="code-snippet_outer">        tw.s.revMu.Unlock()&lt;/span></code><code>&lt;span class="code-snippet_outer">    }&lt;/span></code><code>&lt;span class="code-snippet_outer">    tw.s.mu.RUnlock()&lt;/span></code><code>&lt;span class="code-snippet_outer">}&lt;/span></code></pre></section><p><span style=color:#000;font-size:14px>再回过头来，为什么数据不一致了还可以读出来，而且读出来的数据还可能不一样？etcd 不是使用了 raft 算法吗，难道不能够保证强一致性吗？其实这和 etcd 本身的读操作实现有关。</span></p><p><span style=color:#000;font-size:14px><br></span></p><p><span style=font-size:14px;color:#000>上边我们已经讲过，etcd 为了提升读数据的性能，使用了 ReadIndex 操作来实现从当前节点读取数据，而不是每次都从 leader 读。</span></p><p><span style=font-size:14px;color:#000><br></span></p><p><span style=font-size:14px;color:#000>而影响 ReadIndex 操作的，一个是 leader 节点的 CommittedIndex，一个是当前节点的 AppliedIndex，etcd 在 apply 过程中，无论 apply 是否成功，都会更新 AppliedIndex，这就造成，虽然当前节点 apply 失败了，但读操作在判断的时候，并不会感知到这个失败，从而导致某些节点可能读不出来数据；而且 etcd 支持多版本并发控制，同一个 key 可以存在多个版本的数据，apply 失败可能只是更新某个版本的数据失败，这就造成不同节点之间最新的数据版本不一致，导致读出不一样的数据。</span></p><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9;margin-top:25px><strong>影响范围</strong></p></section><p style=text-align:center;white-space:normal></section></section></section><h2><span style=color:#000><br></span></h2><p><span style=color:#000;font-size:14px>该问题从 2016 年引入，所有开启鉴权的 etcd3 集群都会受到影响，在特定场景下，会导致 etcd 集群多个节点之间的数据不一致，并且 etcd 对外表现还可以正常读写，日志无明显报错。</span></p><p style=margin-top:10px;margin-bottom:10px><strong style=font-size:14px><span style=color:#000>触发条件</span></strong></p><ol start=1 type=1 class=list-paddingleft-2><li style=margin-top:auto;margin-bottom:auto;font-size:14px><span style=color:#000;font-size:14px>使用的为 etcd3 集群，并且开启了鉴权。</span></p></li><li style=margin-top:auto;margin-bottom:auto;font-size:14px><span style=color:#000;font-size:14px>etcd 集群中节点发生重启。</span></p></li><li style=margin-top:auto;margin-bottom:auto;font-size:14px><span style=color:#000;font-size:14px>节点重启之前，有 grant-permission 操作(或短时间内对同一个权限操作连续多次增删)，且操作之后重启之前无其他数据写入。</span></p></li><li style=margin-top:auto;margin-bottom:auto;font-size:14px><span style=color:#000;font-size:14px>通过非重启节点向集群发起写数据请求。</span><br><span style=color:#000;font-size:14px><br></span></li></ol><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9 data-css=color:#f05454><strong>修复方案</strong></p></section><p style=text-align:center;white-space:normal><p style=text-align:center;white-space:normal></p></section></section></section><pre><code>&lt;p&gt;
+  &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;了解了问题的根因，修复方案就比较明确了，我们只需要在 auth 操作调用 commitRevision 后，触发 consistentIndex 的持久化操作，就能够保证 etcd 在重启的时候 consistentIndex 的本身的正确性，从而保证 auth 操作的幂等性。具体的修复方式我们已经向 etcd 社区提交了 &lt;/span&gt;&lt;span style=&quot;text-decoration: underline;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;text-decoration: underline;font-size: 14px;color: rgb(0, 82, 255);&quot;&gt;PR #11652&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;，&lt;span style=&quot;color: black;&quot;&gt;目前这个特性已经 backport 到 3.4，3.3 等版本，将会在最近一个 release 更新。&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;那么如果数据已经不一致了怎么办，有办法恢复吗？在 etcd 进程没有频繁重启的情况下，可以先找到 authRevision 最小的节点，它的数据应该是最全的，然后利用 etcd 的 move-leader 命令，将 leader 转移到这个节点，再依次将其他节点移出集群，备份并删除数据目录，然后将节点重新加进来，此时它会从 leader 同步一份最新的数据，这样就可以使集群其他节点的数据都和 leader 保持一致，即最大可能地不丢数据。&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;
+&lt;/h2&gt;&lt;section data-style-type=&quot;5&quot; data-tools=&quot;新媒体排版&quot; data-id=&quot;2700487&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;position: static&quot;&gt; &lt;section style=&quot;text-align: center;white-space: normal;&quot;&gt; 
+
+&lt;p style=&quot;color: rgb(15, 64, 249);&quot; data-css=&quot;color:#f05454&quot;&gt;
+  &lt;strong&gt;升级建议&lt;/strong&gt;
+&lt;/p&gt;&lt;/section&gt; &lt;section style=&quot;text-align: center;white-space: normal;margin-bottom: 20px;&quot;&gt;&lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; 
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;需要注意的是，升级有风险，新版本虽然解决了这个问题，但由于升级过程中需要重启 etcd，这个重启过程仍可能触发这个 bug。因此升级修复版本前建议停止写权限相关操作，并且手动触发一次写数据操作之后再重启节点，避免因为升级造成问题。&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;另外，不建议直接跨大版本升级，&lt;span style=&quot;color: rgb(0, 0, 0);font-size: 14px;&quot;&gt;例如从 etcd3.2 → etcd3.3。&lt;/span&gt;大版本升级有一定的风险，需谨慎测试评估，我们之前发现过由 lease 和 auth 引起的另一个不一致问题，具体可见 &lt;/span&gt;&lt;span style=&quot;text-decoration: underline;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;text-decoration: underline;font-size: 14px;color: rgb(0, 82, 255);&quot;&gt;issue &lt;/span&gt;&lt;/strong&gt;&lt;strong&gt;&lt;span style=&quot;text-decoration: underline;font-size: 14px;color: rgb(0, 82, 255);&quot;&gt;#11689&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;，以及相关 &lt;/span&gt;&lt;span style=&quot;text-decoration: underline;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;text-decoration: underline;font-size: 14px;color: rgb(0, 82, 255);&quot;&gt;PR &lt;/span&gt;&lt;/strong&gt;&lt;strong&gt;&lt;span style=&quot;text-decoration: underline;font-size: 14px;color: rgb(0, 82, 255);&quot;&gt;#11691&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;。&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;
+&lt;/h2&gt;&lt;section data-style-type=&quot;5&quot; data-tools=&quot;新媒体排版&quot; data-id=&quot;2700487&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;position: static&quot;&gt; &lt;section style=&quot;text-align: center;white-space: normal;&quot;&gt; 
+
+&lt;p style=&quot;color: rgb(15, 64, 249);&quot; data-css=&quot;color:#f05454&quot;&gt;
+  &lt;strong&gt;问题总结&lt;/strong&gt;
+&lt;/p&gt;&lt;/section&gt; &lt;section style=&quot;text-align: center;white-space: normal;margin-bottom: 20px;&quot;&gt;&lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; 
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;导致该问题的直接原因，是由于 consistentIndex 在进行权限相关操作时未持久化，从而导致 auth 相关的操作不幂等，造成了数据的不一致。&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;而造成 auth 模块未持久化 consistentIndex 的一个因素，是因为 consistentIndex 目前是在 mvcc 模块实现的，并未对外暴露持久化接口，只能通过间接的方式来调用，很容易漏掉。为了优化这个问题，我们重构了 consistentIndex 相关操作，将它独立为一个单独的模块，其他依赖它的模块可以直接调用，一定程度上可以避免将来再出现类似问题，具体见 &lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: rgb(0, 82, 255);text-decoration: underline;&quot;&gt;&lt;strong&gt;PR #11699&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;。&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;另一方面，etcd 的 apply 操作本身是个异步流程，而且失败之后没有打印任何错误日志，很大程度上增加了排障的难度，因此我们后边也向社区提交了相关 &lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: rgb(0, 82, 255);text-decoration: underline;&quot;&gt;&lt;strong&gt;PR #11670&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;，&lt;span style=&quot;color: black;&quot;&gt;来优化 apply 失败时的日志打印，便于定位问题。&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;span style=&quot;color: black;font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+  &lt;span style=&quot;font-size: 14px;color: black;&quot;&gt;造成问题定位困难的另一个原因，是 auth revision 目前没有对外暴露 metric 或者 api，每次查询只能通过 etcd-dump-db 工具来直接从 db 获取，为方便 debug，我们也增加了相关的&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+  &lt;span style=&quot;color: rgb(0, 82, 255);text-decoration: underline;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color: rgb(0, 82, 255);text-decoration: underline;font-size: 14px;&quot;&gt;metric&lt;/span&gt;&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; 和 &lt;/span&gt;&lt;span style=&quot;font-size: 14px;color: rgb(0, 82, 255);text-decoration: underline;&quot;&gt;&lt;strong&gt;status api&lt;/strong&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;，&lt;span style=&quot;color: rgb(0, 0, 0);font-size: 14px;&quot;&gt;增强了 auth revision 的可观测性和可测试性。&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;padding-left: 0em;padding-right: 0em;letter-spacing: 0px;&quot;&gt;
+  &lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0);font-size: 14px;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;&lt;section data-style-type=&quot;5&quot; data-tools=&quot;新媒体排版&quot; data-id=&quot;2700487&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px&quot;&gt; &lt;section style=&quot;border-color: initial;border-style: none;border-width: 0px;&quot; data-css=&quot;border-color: initial;border-style: none;border-width: 0px;position: static&quot;&gt; &lt;section style=&quot;text-align: center;white-space: normal;&quot;&gt; 
+
+&lt;p style=&quot;color: rgb(15, 64, 249);&quot; data-css=&quot;color:#f05454&quot;&gt;
+  &lt;strong&gt;相关 PR/issue 查看地址&lt;/strong&gt;
+&lt;/p&gt;&lt;/section&gt; &lt;section style=&quot;text-align: center;white-space: normal;margin-bottom: 20px;&quot;&gt;&lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;/section&gt; &lt;section class=&quot;code-snippet__fix code-snippet__js&quot;&gt; 
+
+&lt;ul class=&quot;code-snippet__line-index code-snippet__js&quot;&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre class=&quot;code-snippet__js&quot; data-lang=&quot;javascript&quot;&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;PR #&amp;lt;span class=&quot;code-snippet__number&quot;&gt;11652&amp;lt;/span&gt; ：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11652&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;issue #&amp;lt;span class=&quot;code-snippet__number&quot;&gt;11689&amp;lt;/span&gt;：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/issues/11689&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;PR #&amp;lt;span class=&quot;code-snippet__number&quot;&gt;11691&amp;lt;/span&gt;：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11691&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;PR #&amp;lt;span class=&quot;code-snippet__number&quot;&gt;11699&amp;lt;/span&gt; ：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11699&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;PR #&amp;lt;span class=&quot;code-snippet__number&quot;&gt;11670&amp;lt;/span&gt; ：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11670&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;metric ：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11652/commits/f14d2a087f7b0fd6f7980b95b5e0b945109c95f3&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;code&gt;&amp;lt;span class=&quot;code-snippet_outer&quot;&gt;status api ：https:&amp;lt;span class=&quot;code-snippet__comment&quot;&gt;//github.com/etcd-io/etcd/pull/11659&amp;lt;/span&gt;&amp;lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/section&gt; 
+</code></pre><p><span style=color:#000></span></p><section data-style-type=5 data-tools=新媒体排版 data-id=2700487><section style=border-color:initial;border-style:none;border-width:0;margin-top:20px;padding:0 data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9 data-css=color:#f05454><strong>参考资料</strong></p></section><section style=text-align:center;white-space:normal;margin-bottom:20px></section></section></section></section><section class="code-snippet__fix code-snippet__js"><ul class="code-snippet__line-index code-snippet__js"><li></li><li></li><li></li><li></li></ul><pre class=code-snippet__js data-lang=javascript><code>&lt;span class="code-snippet_outer">etcd 源码：https:&lt;span class="code-snippet__comment">//github.com/etcd-io/etcd&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">etcd 存储实现：https:&lt;span class="code-snippet__comment">//www.codedump.info/post/20181125-etcd-server/&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">高可用分布存储 etcd 的实现原理：https:&lt;span class="code-snippet__comment">//draveness.me/etcd-introduction/&lt;/span>&lt;/span></code><code>&lt;span class="code-snippet_outer">etcd raft 设计与实现：https:&lt;span class="code-snippet__comment">//zhuanlan.zhihu.com/p/51063866,https://zhuanlan.zhihu.com/p/51065416&lt;/span>&lt;/span></code></pre></section><p><</p><p>section data-style-type="5" data-tools="新媒体排版" data-id="2700487"></p><p><</p><p>section style="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px;" data-css="border-color: initial;border-style: none;border-width: 0px;margin-top: 20px;padding: 0px"></p><section style=border-color:initial;border-style:none;border-width:0 data-css="border-color: initial;border-style: none;border-width: 0px;position: static"><section style=text-align:center;white-space:normal><p style=color:#0f40f9 data-css=color:#f05454></p><p style=color:#0f40f9 data-css=color:#f05454><strong><br></strong></p><p style=color:#0f40f9 data-css=color:#f05454><strong>致谢</strong></p></section><section style=text-align:center;white-space:normal;margin-bottom:20px></section></section></div></div><script>var oid="views_posts/2020-04-27-三年之久的-etcd3-数据不一致-bug-分析.md",oid_likes="likes_posts/2020-04-27-三年之久的-etcd3-数据不一致-bug-分析.md"</script><script type=text/javascript src=/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q+oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script></section><footer class="pt-8 max-w-prose print:hidden"><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="flex group mr-3" href=/2345.html><span class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400">&larr;</span>
+<span class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400">&rarr;</span>
+<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">【威胁通告】攻击者利用漏洞攻击Edimax WiFi桥接器</span>
+<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime=2020-04-27T11:38:31+08:00>2020年04月27日</time>
+</span></span></a></span><span><a class="flex text-right group ml-3" href=/2381.html><span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">推荐 5 款超好用的开源 Docker 工具！</span>
+<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime=2020-04-28T00:06:53+08:00>2020年04月28日</time>
+</span></span><span class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400">&rarr;</span>
+<span class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400">&larr;</span></a></span></div></div></footer></article><div id=top-scroller class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0"><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label=返回顶部 title=返回顶部>&uarr;</a></div></main><footer id=site-footer class="py-10 print:hidden"><nav class="flex flex-row pb-4 text-base font-medium text-neutral-500 dark:text-neutral-400"><ul class="flex flex-col list-none sm:flex-row"><li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href=/tags/ title>标签</a></li><li class="flex mb-1 ltr:text-right rtl:text-left sm:mb-0 ltr:sm:mr-7 ltr:sm:last:mr-0 rtl:sm:ml-7 rtl:sm:last:ml-0"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2 flex items-center" href=/categories/ title>分类</a></li></ul></nav><div class="flex items-center justify-between"></div><script>mediumZoom(document.querySelectorAll("img:not(.nozoom)"),{margin:24,background:"rgba(0,0,0,0.5)",scrollOffset:0})</script><script type=text/javascript src=/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh+sCQ0E53ghYrxgYqw+0GCRyIEpA=="></script><head><meta charset=UTF-8></head><footer style="text-align:center;padding:20px 0;font-size:14px;color:#fff;background-color:transparent"><div style=margin-bottom:15px;font-size:18px>🌐 <strong style=font-size:16px>云原生知识栈 | www.kubehan.cn</strong></div><div style=margin-bottom:15px><span class=icp><a class=icp target=_blank href=https://beian.miit.gov.cn/ style=color:#4da8da;text-decoration:none;font-weight:700>黔ICP备20000869号-2
+</a></span><span style=margin-left:10px>| 归属地：贵州省贵阳市</span></div><div style=margin-bottom:10px;font-size:14px><span>总访问量：</span>
+<strong id=total-visits style=color:#4da8da>加载中...</strong>
+<span style=margin-left:10px>| 今日访问量：</span>
+<strong id=today-visits style=color:#4da8da>加载中...</strong></div><div style=margin-top:15px;font-size:12px;opacity:.8><a href=https://kubehan.cn/categories/ target=_blank style=color:#4da8da;text-decoration:none;margin-right:15px>关于本站
+</a><a href=https://kubehan.cn/%E5%85%B3%E4%BA%8E%E6%88%91/wechat_qr_code.png target=_blank style=color:#4da8da;text-decoration:none;margin-right:15px>联系我们
+</a><a href=https://kubehan.cn/index.xml target=_blank style=color:#4da8da;text-decoration:none>订阅</a></div><script>document.addEventListener("DOMContentLoaded",function(){let s=100230,e=localStorage.getItem("totalVisits"),t=localStorage.getItem("todayVisits");e||(e=s),t||(t=0);let n=Math.floor(Math.random()*8)+1;t=parseInt(t)+n,e=parseInt(e)+n,e<t&&(e=t+e),localStorage.setItem("totalVisits",e),localStorage.setItem("todayVisits",t),document.getElementById("total-visits").textContent=e,document.getElementById("today-visits").textContent=t})</script></footer></footer><div id=search-wrapper class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]" data-url=https://kubehan.cn/ style=z-index:500><div id=search-modal class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"><header class="relative z-10 flex items-center justify-between flex-none px-2"><form class="flex items-center flex-auto min-w-0"><div class="flex items-center justify-center w-8 h-8 text-neutral-400"><span class="relative block icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentcolor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></span></div><input type=search id=search-query class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent" placeholder=搜索 tabindex=0></form><button id=close-search-button class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400" title="关闭 (Esc)">
+<span class="relative block icon"><svg viewBox="0 0 320 512"><path fill="currentcolor" d="M310.6 361.4c12.5 12.5 12.5 32.75.0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3 54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75.0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75.0-45.25s32.75-12.5 45.25.0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25.0s12.5 32.75.0 45.25l-105.4 105.4L310.6 361.4z"/></svg></span></button></header><section class="flex-auto px-2 overflow-auto"><ul id=search-results></ul></section></div></div></div></body></html>
